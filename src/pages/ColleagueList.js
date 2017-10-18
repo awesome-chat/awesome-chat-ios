@@ -8,7 +8,7 @@ import {
 
 export default class ColleagueList extends Component {
   static navigationOptions = {
-    title: 'ColleagueList'
+    title: '通讯录'
   };
   render() {
     return (

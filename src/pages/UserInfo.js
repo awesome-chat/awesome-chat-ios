@@ -8,7 +8,7 @@ import {
 
 export default class UserInfo extends Component {
   static navigationOptions = {
-    title: 'UserInfo'
+    title: '我'
   };
   render() {
     return (

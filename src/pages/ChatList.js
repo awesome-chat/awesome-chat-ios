@@ -8,7 +8,7 @@ import {
 
 export default class ChatList extends Component {
   static navigationOptions = {
-    title: 'ChatList'
+    title: '消息'
   };
   render() {
     return (
