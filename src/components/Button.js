@@ -3,19 +3,28 @@ import {
   StyleSheet,
   View,
   Button,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity,
+  Text
 } from 'react-native';
 
-export default (props) => <TouchableHighlight>
-  <Button
-    style={styles.button}
-    {...props}
-  />
-</TouchableHighlight>
+export default (props) =><TouchableOpacity
+  {...props}
+  style={styles.button}
+  underlayColor='#fff'>
+  <Text style={styles.text}>{props.title}</Text>
+</TouchableOpacity>
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: 'blue',
-    color: 'green'
-  }
+  button:{
+    width:'80%',
+    paddingTop:10,
+    paddingBottom:10,
+    backgroundColor:'#2B8CF4',
+    borderRadius:10
+  },
+  text:{
+    color:'#fff',
+    textAlign:'center'
+  },
 });
