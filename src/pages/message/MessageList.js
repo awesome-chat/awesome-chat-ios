@@ -6,6 +6,7 @@ import {
   Image,
   FlatList
 } from 'react-native';
+import MessageItem from './MessageItem';
 
 export default class MessageList extends Component {
   static navigationOptions = {
@@ -31,7 +32,7 @@ export default class MessageList extends Component {
             {key: 'Jimmy'},
             {key: 'Julie'},
           ]}
-          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+          renderItem={({item}) => <MessageItem/>}
         />
       </View>
     );

@@ -9,7 +9,7 @@ import {
 import Button from '../components/Button';
 import Input from '../components/Input';
 
-export default class Login extends Component<{}> {
+export default class Login extends Component {
   static navigationOptions = {
     title: 'Login'
   };
