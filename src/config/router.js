@@ -2,13 +2,13 @@
 import React from 'react'
 import {StackNavigator, TabNavigator} from 'react-navigation'
 import Login from '../pages/Login';
-import ChatList from '../pages/ChatList';
-import ColleagueList from '../pages/ColleagueList';
+import MessageList from '../pages/message/MessageList';
+import FriendList from '../pages/friend/FriendList';
 import UserInfo from '../pages/UserInfo';
 
 const tab = TabNavigator({
-  ChatList: {screen: ChatList},
-  ColleagueList: {screen: ColleagueList},
+  MessageList: {screen: MessageList},
+  FriendList: {screen: FriendList},
   UserInfo: {screen: UserInfo}
 })
 

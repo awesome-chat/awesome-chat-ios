@@ -3,12 +3,19 @@ import {
   StyleSheet,
   View,
   Text,
+  Image,  
   FlatList
 } from 'react-native';
 
 export default class UserInfo extends Component {
   static navigationOptions = {
-    title: '我'
+    tabBarLabel: '我',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('../asset/用户.png')}
+        style={{width: 25, height: 25}}
+      />
+    )
   };
   render() {
     return (
