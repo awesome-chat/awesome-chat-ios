@@ -10,6 +10,7 @@ import MessageItem from './MessageItem';
 
 export default class MessageList extends Component {
   static navigationOptions = {
+    title: '消息',
     tabBarLabel: '消息',
     tabBarIcon: ({ tintColor }) => (
       <Image
@@ -32,7 +33,7 @@ export default class MessageList extends Component {
             {key: 'Jimmy'},
             {key: 'Julie'},
           ]}
-          renderItem={({item}) => <MessageItem/>}
+          renderItem={({item}) => <MessageItem navigation={this.props.navigation}/>}
         />
       </View>
     );
@@ -42,7 +43,6 @@ export default class MessageList extends Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-   paddingTop: 22
   },
   item: {
     padding: 10,

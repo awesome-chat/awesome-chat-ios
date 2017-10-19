@@ -23,7 +23,7 @@ export default class Login extends Component {
           placeholder="密码"
         />
         <Button
-          onPress={() => this.props.navigation.navigate('MessageList')}
+          onPress={() => this.props.navigation.navigate('Message')}
           title="登录"
         />
       </View>

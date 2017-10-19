@@ -66502,25 +66502,40 @@ var _MessageList = require(559                           ); // 559 = ../pages/me
 
 var _MessageList2 = _interopRequireDefault(_MessageList);
 
-var _FriendList = require(561                         ); // 561 = ../pages/friend/FriendList
+var _Chat = require(562                    ); // 562 = ../pages/message/Chat
+
+var _Chat2 = _interopRequireDefault(_Chat);
+
+var _FriendList = require(563                         ); // 563 = ../pages/friend/FriendList
 
 var _FriendList2 = _interopRequireDefault(_FriendList);
 
-var _UserInfo = require(563                ); // 563 = ../pages/UserInfo
+var _UserInfo = require(565                ); // 565 = ../pages/UserInfo
 
 var _UserInfo2 = _interopRequireDefault(_UserInfo);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var message = (0, _reactNavigation.StackNavigator)({
+  MessageList: { screen: _MessageList2.default }
+}, {
+  initialRouteName: 'MessageList'
+});
+
 var tab = (0, _reactNavigation.TabNavigator)({
-  MessageList: { screen: _MessageList2.default },
+  Message: { screen: message },
   FriendList: { screen: _FriendList2.default },
   UserInfo: { screen: _UserInfo2.default }
 });
 
+var chat = (0, _reactNavigation.StackNavigator)({
+  Chat: { screen: _Chat2.default }
+});
+
 exports.default = (0, _reactNavigation.StackNavigator)({
   Login: { screen: _Login2.default },
-  Tab: { screen: tab }
+  Tab: { screen: tab },
+  Chat: { screen: chat }
 }, {
   headerMode: 'none'
 });
@@ -66617,7 +66632,7 @@ var Login = _wrapComponent('Login')((_temp = _class = function (_Component) {
         }),
         _react3.default.createElement(_Button2.default, {
           onPress: function onPress() {
-            return _this2.props.navigation.navigate('MessageList');
+            return _this2.props.navigation.navigate('Message');
           },
           title: '\u767B\u5F55',
           __source: {
@@ -66766,7 +66781,7 @@ var _class,
 
 var _reactNative = require(12            ); // 12 = react-native
 
-var _MessageItem = require(565            ); // 565 = ./MessageItem
+var _MessageItem = require(560            ); // 560 = ./MessageItem
 
 var _MessageItem2 = _interopRequireDefault(_MessageItem);
 
@@ -66809,27 +66824,28 @@ var MessageList = _wrapComponent('MessageList')((_temp = _class = function (_Com
   _createClass(MessageList, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react3.default.createElement(
         _reactNative.View,
         { style: styles.container, __source: {
             fileName: _jsxFileName,
-            lineNumber: 23
+            lineNumber: 24
           }
         },
         _react3.default.createElement(_reactNative.FlatList, {
           data: [{ key: 'Devin' }, { key: 'Jackson' }, { key: 'James' }, { key: 'Joel' }, { key: 'John' }, { key: 'Jillian' }, { key: 'Jimmy' }, { key: 'Julie' }],
           renderItem: function renderItem(_ref) {
             var item = _ref.item;
-            return _react3.default.createElement(_MessageItem2.default, {
-              __source: {
+            return _react3.default.createElement(_MessageItem2.default, { navigation: _this2.props.navigation, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 35
+                lineNumber: 36
               }
             });
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 24
+            lineNumber: 25
           }
         })
       );
@@ -66838,15 +66854,16 @@ var MessageList = _wrapComponent('MessageList')((_temp = _class = function (_Com
 
   return MessageList;
 }(_react2.Component), _class.navigationOptions = {
+  title: '消息',
   tabBarLabel: '消息',
   tabBarIcon: function tabBarIcon(_ref2) {
     var tintColor = _ref2.tintColor;
     return _react3.default.createElement(_reactNative.Image, {
-      source: require(560                 ), // 560 = ../../asset/消息.png
+      source: require(561                 ), // 561 = ../../asset/消息.png
       style: { width: 25, height: 25 },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 15
+        lineNumber: 16
       }
     });
   }
@@ -66857,8 +66874,7 @@ exports.default = MessageList;
 
 var styles = _reactNative.StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: 22
+    flex: 1
   },
   item: {
     padding: 10,
@@ -66924,98 +66940,113 @@ var MessageItem = _wrapComponent('MessageItem')(function (_Component) {
   _createClass(MessageItem, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react3.default.createElement(
-        _reactNative.View,
-        { style: styles.item, __source: {
+        _reactNative.TouchableHighlight,
+        {
+          onPress: function onPress() {
+            _this2.props.navigation.navigate('Chat');
+          },
+          underlayColor: '#fff',
+          __source: {
             fileName: _jsxFileName,
-            lineNumber: 12
+            lineNumber: 13
           }
         },
         _react3.default.createElement(
           _reactNative.View,
-          { style: styles.itemLeft, __source: {
+          { style: styles.item, __source: {
               fileName: _jsxFileName,
-              lineNumber: 13
-            }
-          },
-          _react3.default.createElement(_reactNative.View, {
-            style: {
-              width: 60,
-              height: 60,
-              backgroundColor: '#fff',
-              borderRadius: 30
-            },
-            __source: {
-              fileName: _jsxFileName,
-              lineNumber: 14
-            }
-          })
-        ),
-        _react3.default.createElement(
-          _reactNative.View,
-          { style: styles.itemRight, __source: {
-              fileName: _jsxFileName,
-              lineNumber: 23
+              lineNumber: 17
             }
           },
           _react3.default.createElement(
             _reactNative.View,
-            { style: styles.itemRightPart, __source: {
+            { style: styles.itemLeft, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 24
+                lineNumber: 18
               }
             },
-            _react3.default.createElement(
-              _reactNative.Text,
-              { style: {
-                  flex: 1
-                }, __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 25
-                }
+            _react3.default.createElement(_reactNative.View, {
+              style: {
+                width: 60,
+                height: 60,
+                backgroundColor: '#fff',
+                borderRadius: 30
               },
-              'name'
-            ),
-            _react3.default.createElement(
-              _reactNative.Text,
-              { style: {
-                  width: 40
-                }, __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 28
-                }
-              },
-              '15:29'
-            )
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 19
+              }
+            })
           ),
           _react3.default.createElement(
             _reactNative.View,
-            { style: styles.itemRightPart, __source: {
+            { style: styles.itemRight, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 32
+                lineNumber: 28
               }
             },
             _react3.default.createElement(
-              _reactNative.Text,
-              { style: {
-                  flex: 1
-                }, __source: {
+              _reactNative.View,
+              { style: styles.itemRightPart, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 33
+                  lineNumber: 29
                 }
               },
-              'message'
+              _react3.default.createElement(
+                _reactNative.Text,
+                { style: {
+                    flex: 1
+                  }, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 30
+                  }
+                },
+                'name'
+              ),
+              _react3.default.createElement(
+                _reactNative.Text,
+                { style: {
+                    width: 40
+                  }, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 33
+                  }
+                },
+                '15:29'
+              )
             ),
             _react3.default.createElement(
-              _reactNative.Text,
-              { style: {
-                  width: 40
-                }, __source: {
+              _reactNative.View,
+              { style: styles.itemRightPart, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 36
+                  lineNumber: 37
                 }
               },
-              'tips'
+              _react3.default.createElement(
+                _reactNative.Text,
+                { style: {
+                    flex: 1
+                  }, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 38
+                  }
+                },
+                'message'
+              ),
+              _react3.default.createElement(
+                _reactNative.Text,
+                { style: {
+                    width: 40
+                  }, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 41
+                  }
+                },
+                'tips'
+              )
             )
           )
         )
@@ -67040,7 +67071,7 @@ var styles = _reactNative.StyleSheet.create({
     borderBottomWidth: 1
   },
   itemLeft: {
-    width: 110,
+    width: 100,
     height: 79,
     justifyContent: 'center',
     alignItems: 'center'
@@ -67054,9 +67085,128 @@ var styles = _reactNative.StyleSheet.create({
     marginTop: 10
   }
 });
-}, 565, null, "AwesomeChat/src/pages/message/MessageItem.js");
+}, 560, null, "AwesomeChat/src/pages/message/MessageItem.js");
 __d(/* AwesomeChat/src/asset/消息.png */function(global, require, module, exports) {module.exports=require(324                                         ).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/src/asset","width":200,"height":200,"scales":[1],"hash":"58d40f4e0878d4bbce76d05dffc2c3f1","name":"消息","type":"png"}); // 324 = react-native/Libraries/Image/AssetRegistry
-}, 560, null, "AwesomeChat/src/asset/消息.png");
+}, 561, null, "AwesomeChat/src/asset/消息.png");
+__d(/* AwesomeChat/src/pages/message/Chat.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react2 = require(36     ); // 36 = react
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require(160                                                       ); // 160 = ./../../../node_modules/react-transform-hmr/lib/index.js
+
+var _index2 = _interopRequireDefault(_index);
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _class,
+    _temp,
+    _jsxFileName = '/Users/wengrunyu/wengwengweng/AwesomeChat/src/pages/message/Chat.js';
+
+var _reactNative = require(12            ); // 12 = react-native
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+  Chat: {
+    displayName: 'Chat'
+  }
+};
+
+var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+  filename: '/Users/wengrunyu/wengwengweng/AwesomeChat/src/pages/message/Chat.js',
+  components: _components,
+  locals: [module],
+  imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+  return function (Component) {
+    return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+  };
+}
+
+var Chat = _wrapComponent('Chat')((_temp = _class = function (_Component) {
+  _inherits(Chat, _Component);
+
+  function Chat() {
+    _classCallCheck(this, Chat);
+
+    return _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).apply(this, arguments));
+  }
+
+  _createClass(Chat, [{
+    key: 'render',
+    value: function render() {
+      return _react3.default.createElement(
+        _reactNative.ScrollView,
+        {
+          scrollview的keyboardShouldPersistTaps: true,
+          style: styles.container,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 18
+          }
+        },
+        _react3.default.createElement(_reactNative.View, { style: {
+            flex: 1,
+            backgroundColor: 'grey'
+          }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 22
+          }
+        }),
+        _react3.default.createElement(
+          _reactNative.View,
+          { style: {
+              height: 50,
+              paddingLeft: 10,
+              paddingRight: 10,
+              backgroundColor: 'red'
+            }, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 26
+            }
+          },
+          _react3.default.createElement(_reactNative.TextInput, {
+            style: {
+              width: '100%',
+              height: 30
+            },
+            editable: true,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 34
+            }
+          })
+        )
+      );
+    }
+  }]);
+
+  return Chat;
+}(_react2.Component), _class.navigationOptions = {
+  title: 'Name'
+}, _temp));
+
+exports.default = Chat;
+
+
+var styles = _reactNative.StyleSheet.create({
+  container: {
+    height: 500
+  }
+});
+}, 562, null, "AwesomeChat/src/pages/message/Chat.js");
 __d(/* AwesomeChat/src/pages/friend/FriendList.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -67152,7 +67302,7 @@ var FriendList = _wrapComponent('FriendList')((_temp = _class = function (_Compo
   tabBarIcon: function tabBarIcon(_ref2) {
     var tintColor = _ref2.tintColor;
     return _react3.default.createElement(_reactNative.Image, {
-      source: require(562                  ), // 562 = ../../asset/联系人.png
+      source: require(564                  ), // 564 = ../../asset/联系人.png
       style: { width: 25, height: 25 },
       __source: {
         fileName: _jsxFileName,
@@ -67167,8 +67317,7 @@ exports.default = FriendList;
 
 var styles = _reactNative.StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: 22
+    flex: 1
   },
   item: {
     padding: 10,
@@ -67176,9 +67325,9 @@ var styles = _reactNative.StyleSheet.create({
     height: 44
   }
 });
-}, 561, null, "AwesomeChat/src/pages/friend/FriendList.js");
+}, 563, null, "AwesomeChat/src/pages/friend/FriendList.js");
 __d(/* AwesomeChat/src/asset/联系人.png */function(global, require, module, exports) {module.exports=require(324                                         ).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/src/asset","width":200,"height":200,"scales":[1],"hash":"4ac755db00439a9ecc5894929797b758","name":"联系人","type":"png"}); // 324 = react-native/Libraries/Image/AssetRegistry
-}, 562, null, "AwesomeChat/src/asset/联系人.png");
+}, 564, null, "AwesomeChat/src/asset/联系人.png");
 __d(/* AwesomeChat/src/pages/UserInfo.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -67274,7 +67423,7 @@ var UserInfo = _wrapComponent('UserInfo')((_temp = _class = function (_Component
   tabBarIcon: function tabBarIcon(_ref2) {
     var tintColor = _ref2.tintColor;
     return _react3.default.createElement(_reactNative.Image, {
-      source: require(564              ), // 564 = ../asset/用户.png
+      source: require(566              ), // 566 = ../asset/用户.png
       style: { width: 25, height: 25 },
       __source: {
         fileName: _jsxFileName,
@@ -67298,9 +67447,9 @@ var styles = _reactNative.StyleSheet.create({
     height: 44
   }
 });
-}, 563, null, "AwesomeChat/src/pages/UserInfo.js");
+}, 565, null, "AwesomeChat/src/pages/UserInfo.js");
 __d(/* AwesomeChat/src/asset/用户.png */function(global, require, module, exports) {module.exports=require(324                                         ).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/src/asset","width":200,"height":200,"scales":[1],"hash":"7e4cc8efa36ddaa00eea25474a394dfc","name":"用户","type":"png"}); // 324 = react-native/Libraries/Image/AssetRegistry
-}, 564, null, "AwesomeChat/src/asset/用户.png");
+}, 566, null, "AwesomeChat/src/asset/用户.png");
 ;require(55);
 ;require(0);
 //# sourceMappingURL=index.map

@@ -3,42 +3,48 @@ import {
   StyleSheet,
   View,
   Text,
-  Image
+  Image,
+  TouchableHighlight
 } from 'react-native';
 
 export default class MessageItem extends Component {
   render() {
     return (
-      <View style={styles.item}>
-        <View style={styles.itemLeft}>
-          <View
-            style={{
-              width:60,
-              height:60,
-              backgroundColor:'#fff',
-              borderRadius:30,
-            }}
-          />
-        </View>
-        <View style={styles.itemRight}>
-          <View style={styles.itemRightPart}>
-            <Text style={{
-              flex:1
-            }}>name</Text>
-            <Text style={{
-              width:40
-            }}>15:29</Text>
+      <TouchableHighlight
+        onPress={()=>{this.props.navigation.navigate('Chat')}}
+        underlayColor='#fff'
+      >
+        <View style={styles.item}>
+          <View style={styles.itemLeft}>
+            <View
+              style={{
+                width:60,
+                height:60,
+                backgroundColor:'#fff',
+                borderRadius:30,
+              }}
+            />
           </View>
-          <View style={styles.itemRightPart}>
-            <Text style={{
-              flex:1
-            }}>message</Text>
-            <Text style={{
-              width:40
-            }}>tips</Text>
+          <View style={styles.itemRight}>
+            <View style={styles.itemRightPart}>
+              <Text style={{
+                flex:1
+              }}>name</Text>
+              <Text style={{
+                width:40
+              }}>15:29</Text>
+            </View>
+            <View style={styles.itemRightPart}>
+              <Text style={{
+                flex:1
+              }}>message</Text>
+              <Text style={{
+                width:40
+              }}>tips</Text>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableHighlight>
     );
   }
 }
