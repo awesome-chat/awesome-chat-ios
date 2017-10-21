@@ -51,7 +51,7 @@ export default class MessageItem extends Component {
 
 const styles = StyleSheet.create({
   item: {
-    paddingLeft: 10,
+    paddingLeft: 0,
     paddingRight: 10,
     flex: 1,
     flexDirection: 'row',
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   itemLeft: {
-    width: 100,
+    width: 90,
     height: 79,
     justifyContent: 'center',
     alignItems: 'center',

@@ -5,7 +5,8 @@
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"dev": "react-native run-ios --simulator 'iPhone 8'",
-		"test": "jest"
+		"test": "jest",
+		"build": "react-native bundle --entry-file index.js --platform ios --dev false --bundle-output release_ios/main.jsbundle --assets-dest release_ios/"
 	},
 	"dependencies": {
 		"react": "16.0.0-beta.5",
