@@ -1,12 +1,10 @@
 # OSX
 #
 .DS_Store
-npm-debug.log
 
 # Xcode
 #
 build/
-release_ios/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
