@@ -14,7 +14,7 @@ export default class MessageList extends Component {
     tabBarLabel: '消息',
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={require('../../asset/消息.png')}
+        source={require('../../asset/message.png')}
         style={{width: 25, height: 25}}
       />
     ),

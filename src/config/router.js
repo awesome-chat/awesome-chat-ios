@@ -7,15 +7,23 @@ import Chat from '../pages/message/Chat';
 import FriendList from '../pages/friend/FriendList';
 import UserInfo from '../pages/UserInfo';
 
+// 消息
 const message = StackNavigator({
   MessageList: {screen: MessageList},
 },{
   initialRouteName: 'MessageList'
 });
 
+// 通讯录
+const friend = StackNavigator({
+  FriendList: {screen: FriendList},
+},{
+  initialRouteName: 'FriendList'
+});
+
 const tab = TabNavigator({
   Message: {screen: message},
-  FriendList: {screen: FriendList},
+  Friend: {screen: friend},
   UserInfo: {screen: UserInfo},
 })
 

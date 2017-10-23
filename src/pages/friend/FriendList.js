@@ -7,8 +7,35 @@ import {
   FlatList
 } from 'react-native';
 
+import {
+  FriendItem,
+  DepartmentItem
+} from './FriendItem';
+
+// [
+//   {
+//     type: 1,
+//     name: 'xxx'
+//   },
+//   {
+//     type: 2,
+//     name: 'xxx',
+//     child: [
+//       {
+//         type: 1,
+//         name: 'xxx'
+//       }
+//     ]
+//   },
+//   {
+//     type: 2,
+//     name: 'xxx'
+//   }
+// ]
+
 export default class FriendList extends Component {
   static navigationOptions = {
+    title: '通讯录',
     tabBarLabel: '通讯录',
     tabBarIcon: ({ tintColor }) => (
       <Image
@@ -17,12 +44,29 @@ export default class FriendList extends Component {
       />
     )
   };
+
+  // transform = (data) => {
+  //   data.map(d => {
+  //     if(d.type === 1){
+  //       return <FriendItem />
+  //     }else if(d.type === 2){
+  //       return <DepartmentItem>
+  //         {d.child.map(d => this.transform(d.child))}
+  //       </DepartmentItem>
+  //     }
+  //   })
+  // }
+
   render() {
     return (
       <View style={styles.container}>
+        <DepartmentItem>
+          <Text>123</Text>
+        </DepartmentItem>
         <FlatList
           data={[
             {key: 'Devin'}, 
+            {key: '111'}, 
           ]}
           renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
         />
