@@ -11,6 +11,7 @@ import {
 export class FriendItem extends Component {
   handlePress = () => {
     console.log('on press')
+    this.props.navigation.navigate('FriendDetail',  { id: '0001' })
   }
   render() {
     return (
@@ -32,26 +33,43 @@ export class FriendItem extends Component {
 }
 
 export class DepartmentItem extends Component {
+  handlePress = () => {
+    console.log('on press')
+    this.props.navigation.navigate('DepartmentList',  { id: '0001' })
+  }
   render() {
-    console.log(this.props)
     return (
-      <View style={styles.container}>
-        {this.props.children}
-      </View>
-    )
+      <TouchableOpacity style={{
+        height: 50,
+        marginBottom: 2,    
+        backgroundColor: '#fff'
+      }} onPress={this.handlePress}>
+        <View style={styles.container}>
+          <View style={styles.head}>
+          </View>
+          <View style={styles.body}>
+            <Text>department</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: 50,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    height: 40,
     flex: 1,
     backgroundColor: '#fff',
     flexDirection:'row'
   },
   head: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 40,
     backgroundColor: '#333'
   },
@@ -59,6 +77,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 50,
+    height: 40,
   }
 })

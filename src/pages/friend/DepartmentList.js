@@ -14,8 +14,8 @@ import {
 
 export default class DepartmentList extends Component {
   static navigationOptions = {
-    title: '通讯录',
-    tabBarLabel: '通讯录',
+    title: '部门名称',
+    tabBarLabel: '部门名称',
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../asset/联系人.png')}
@@ -25,17 +25,11 @@ export default class DepartmentList extends Component {
   };
 
   render() {
+    console.log(this.props)
     return (
       <View style={styles.container}>
-        <FriendItem />
-        <FriendItem />
-        {/*<FlatList
-          data={[
-            {key: 'Devin'}, 
-            {key: '111'}, 
-          ]}
-          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-        />*/}
+        <FriendItem navigation={this.props.navigation}/>
+        <FriendItem navigation={this.props.navigation}/>
       </View>
     );
   }

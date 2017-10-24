@@ -27,8 +27,9 @@ export default class FriendList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FriendItem />
-        <FriendItem />
+        <DepartmentItem navigation={this.props.navigation}/>
+        <FriendItem navigation={this.props.navigation}/>
+        <FriendItem navigation={this.props.navigation}/>
         {/*<FlatList
           data={[
             {key: 'Devin'}, 
