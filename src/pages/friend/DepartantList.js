@@ -12,7 +12,7 @@ import {
   DepartmentItem
 } from './FriendItem';
 
-export default class FriendList extends Component {
+export default class DepartmentList extends Component {
   static navigationOptions = {
     title: '通讯录',
     tabBarLabel: '通讯录',
