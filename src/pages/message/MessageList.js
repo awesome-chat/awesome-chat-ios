@@ -12,6 +12,8 @@ export default class MessageList extends Component {
   static navigationOptions = {
     title: '消息',
     tabBarLabel: '消息',
+    headerLeft: null,
+    headerBackTitle: '返回',
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../asset/message.png')}

@@ -11,7 +11,8 @@ import Input from '../components/Input';
 
 export default class Login extends Component {
   static navigationOptions = {
-    title: 'Login'
+    title: 'Login',
+    header: null,
   };
   render() {
     return (
@@ -23,7 +24,7 @@ export default class Login extends Component {
           placeholder="密码"
         />
         <Button
-          onPress={() => this.props.navigation.navigate('Message')}
+          onPress={() => this.props.navigation.navigate('MessageList')}
           title="登录"
         />
       </View>

@@ -4,7 +4,8 @@ import {
   View,
   Text,
   Image,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 
 export default class FriendDetail extends Component {
@@ -40,12 +41,12 @@ export default class FriendDetail extends Component {
           backgroundColor:'#5B93FC',
           flexDirection:'row',
         }}>
-          <View style={styles.button} onPress={this.handleCall}>
+          <TouchableOpacity style={styles.button} onPress={this.handleCall}>
             <Text style={styles.buttonText}>btn1</Text>
-          </View>
-          <View style={styles.button} onPress={this.handleChat}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={this.handleChat}>
             <Text style={styles.buttonText}>btn1</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );

@@ -16,6 +16,8 @@ export default class FriendList extends Component {
   static navigationOptions = {
     title: '通讯录',
     tabBarLabel: '通讯录',
+    headerBackTitle: '返回',    
+    headerLeft: null,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../asset/联系人.png')}

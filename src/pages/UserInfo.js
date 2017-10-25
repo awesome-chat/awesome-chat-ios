@@ -10,6 +10,7 @@ import {
 export default class UserInfo extends Component {
   static navigationOptions = {
     tabBarLabel: '我',
+    headerLeft: null,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../asset/用户.png')}
