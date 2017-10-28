@@ -18,12 +18,15 @@ export default class FriendList extends Component {
     tabBarLabel: '通讯录',
     headerBackTitle: '返回',    
     headerLeft: null,
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../../asset/联系人.png')}
-        style={{width: 25, height: 25}}
-      />
-    )
+    tabBarIcon: ({ focused }) => {
+      return focused ? <Image
+        source={require('../../asset/friend_fill.png')}
+        style={{width: 30, height: 30}}
+      /> : <Image
+        source={require('../../asset/friend.png')}
+        style={{width: 30, height: 30}}
+      /> 
+    },
   };
 
   render() {

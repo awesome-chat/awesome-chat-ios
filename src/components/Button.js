@@ -17,13 +17,14 @@ export default (props) =><TouchableOpacity
 
 const styles = StyleSheet.create({
   button:{
-    width:'80%',
-    paddingTop:10,
-    paddingBottom:10,
-    backgroundColor:'#2B8CF4',
-    borderRadius:10
+    width: '80%',
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: '#2B8CF4',
+    borderRadius: 5
   },
   text:{
+    fontSize: 16,    
     color:'#fff',
     textAlign:'center'
   },

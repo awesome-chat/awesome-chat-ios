@@ -13,13 +13,15 @@ export default class MessageList extends Component {
     title: '消息',
     tabBarLabel: '消息',
     headerLeft: null,
-    headerBackTitle: '返回',
-    tabBarIcon: ({ tintColor }) => (
-      <Image
+    tabBarIcon: ({ focused }) => {
+      return focused ? <Image
+        source={require('../../asset/message_fill.png')}
+        style={{width: 30, height: 30}}
+      /> : <Image
         source={require('../../asset/message.png')}
-        style={{width: 25, height: 25}}
-      />
-    ),
+        style={{width: 30, height: 30}}
+      /> 
+    },
   };
   render() {
     return (

@@ -15,10 +15,6 @@ export default class ChatInput extends Component {
     return (
       <View style={[{flex: 1, flexDirection: 'row'}]}>
         <View>
-          <Image
-            source={require('../../asset/联系人.png')}
-            style={{width: 25, height: 25}}
-          />
         </View>
         <View>
           <TextInput

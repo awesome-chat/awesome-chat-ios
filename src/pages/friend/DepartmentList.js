@@ -16,13 +16,7 @@ export default class DepartmentList extends Component {
   static navigationOptions = {
     title: '部门名称',
     tabBarLabel: '部门名称',
-    headerBackTitle: '返回',    
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../../asset/联系人.png')}
-        style={{width: 25, height: 25}}
-      />
-    )
+    headerBackTitle: '返回',
   };
 
   render() {

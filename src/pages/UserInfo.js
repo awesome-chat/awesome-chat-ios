@@ -11,12 +11,15 @@ export default class UserInfo extends Component {
   static navigationOptions = {
     tabBarLabel: '我',
     headerLeft: null,
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../asset/用户.png')}
-        style={{width: 25, height: 25}}
-      />
-    )
+    tabBarIcon: ({ focused }) => {
+      return focused ? <Image
+        source={require('../asset/people_fill.png')}
+        style={{width: 30, height: 30}}
+      /> : <Image
+        source={require('../asset/people.png')}
+        style={{width: 30, height: 30}}
+      /> 
+    },
   };
   render() {
     return (
