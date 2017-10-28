@@ -5,7 +5,7 @@ import {
   Text,
   Image,
   FlatList,
-  TouchableOpacity
+  TouchableHighlight
 } from 'react-native';
 
 export class FriendItem extends Component {
@@ -15,19 +15,15 @@ export class FriendItem extends Component {
   }
   render() {
     return (
-      <TouchableOpacity style={{
-        height: 50,
-        marginBottom: 2,    
-        backgroundColor: '#fff'
-      }} onPress={this.handlePress}>
+      <TouchableHighlight underlayColor='#fff' style={styles.touch} onPress={this.handlePress}>
         <View style={styles.container}>
           <View style={styles.head}>
           </View>
           <View style={styles.body}>
-            <Text>sss</Text>
+            <Text style={styles.word}>sss</Text>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     );
   }
 }
@@ -39,24 +35,26 @@ export class DepartmentItem extends Component {
   }
   render() {
     return (
-      <TouchableOpacity style={{
-        height: 50,
-        marginBottom: 2,    
-        backgroundColor: '#fff'
-      }} onPress={this.handlePress}>
+      <TouchableHighlight underlayColor='#fff' style={styles.touch} onPress={this.handlePress}>
         <View style={styles.container}>
           <View style={styles.head}>
           </View>
           <View style={styles.body}>
-            <Text>department</Text>
+            <Text style={styles.word}>department</Text>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  touch: {
+    height: 50,
+    borderBottomColor: '#ddd',
+    borderBottomWidth: 0.5,   
+    backgroundColor: '#fff'
+  },
   container: {
     paddingTop: 5,
     paddingBottom: 5,
@@ -71,12 +69,16 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 40,
-    backgroundColor: '#333'
+    backgroundColor: '#eee'
   },
   body:{
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     height: 40,
+  },
+  word: {
+    width: '100%',
+    marginLeft: 20,
   }
 })
