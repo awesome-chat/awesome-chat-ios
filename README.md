@@ -37,5 +37,4 @@
 - #DBDCE0
 
 ## 截图
-- 登录
-![](/img/login.png){:height="333px" width="187px"}
+![](/img/login.png =187x333)
