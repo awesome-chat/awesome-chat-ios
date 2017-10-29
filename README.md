@@ -6,7 +6,7 @@
 数据管理及存储： react-native-storage
 
 ## 目录结构
-
+```
 |
 |---- android 安卓相关
 |
@@ -27,7 +27,7 @@
 |            |---- pages 业务组件
 |
 ...
-
+```
 ## UI
 颜色：
 - #3E8AEF 深蓝
@@ -38,4 +38,4 @@
 
 ## 截图
 - 登录
-![]('./img/login.png'){:height="333px" width="187px"}
+![](/img/login.png){:height="333px" width="187px"}
