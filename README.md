@@ -2,7 +2,7 @@
 内部聊天应用（只支持iOS端）
 
 ## 技术方案
-路由： react-navigation
+路由： react-navigation  
 数据管理及存储： react-native-storage
 
 ## 目录结构
@@ -28,6 +28,7 @@
 |
 ...
 ```
+
 ## UI
 颜色：
 - #3E8AEF 深蓝
@@ -37,11 +38,7 @@
 - #DBDCE0
 
 ## 截图
-<img src="img/login.png" height="333" width="187">
-&nbsp;
-<img src="img/message.png" height="333" width="187">
-&nbsp;
-<img src="img/friend.png" height="333" width="187">
-&nbsp;
-<img src="img/user.png" height="333" width="187">
-&nbsp;
+
+| 登录 | 消息列表 | 联系人列表 | 个人宗欣 |
+| ---- | ---- | ---- | ---- |
+| ![image](img/login.png) | ![image](img/message.png) | ![image](img/friend.png) | ![image](img/user.png) |
