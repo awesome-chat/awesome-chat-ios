@@ -37,4 +37,11 @@
 - #DBDCE0
 
 ## 截图
-![](/img/login.png =187x333)
+<img src="img/login.png" height="333" width="187">
+&nbsp;
+<img src="img/message.png" height="333" width="187">
+&nbsp;
+<img src="img/friend.png" height="333" width="187">
+&nbsp;
+<img src="img/user.png" height="333" width="187">
+&nbsp;
