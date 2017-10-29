@@ -4,13 +4,11 @@ import {
   View,
   Text,
   Image,
-  FlatList
+  ScrollView,
 } from 'react-native';
 
-import {
-  FriendItem,
-  DepartmentItem
-} from './FriendItem';
+import Item from './Item';
+import SearchInput from '../../components/SearchInput';
 
 export default class FriendList extends Component {
   static navigationOptions = {
@@ -32,23 +30,12 @@ export default class FriendList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList
-          data={[
-            {key: 'Devin', type:1},
-            {key: 'Jackson'},
-            {key: 'James'},
-          ]}
-          renderItem={({item}) => {
-            return item.type === 1 ? <DepartmentItem navigation={this.props.navigation}/> : <FriendItem navigation={this.props.navigation}/> ;
-          }}
-        />
-        {/*<FlatList
-          data={[
-            {key: 'Devin'}, 
-            {key: '111'}, 
-          ]}
-          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-        />*/}
+        <ScrollView>
+          <SearchInput />
+          <Item type='department' name='组织架构' style={{backgroundColor: '#7C7DBB'}} link={'Department'} navigation={this.props.navigation}/>
+          <Item type='group' name='群组' style={{backgroundColor: '#70CF5B'}} link={'Group'} navigation={this.props.navigation}/>
+          <Item type='service' name='帮助台' style={{backgroundColor: '#66D5F7'}} link={'Service'} navigation={this.props.navigation}/>
+        </ScrollView>
       </View>
     );
   }

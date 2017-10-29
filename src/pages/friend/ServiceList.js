@@ -11,8 +11,8 @@ import Item from './Item';
 
 export default class DepartmentList extends Component {
   static navigationOptions = {
-    title: '部门名称',
-    tabBarLabel: '部门名称',
+    title: '帮助台',
+    tabBarLabel: '帮助台',
     headerBackTitle: '返回',
   };
 

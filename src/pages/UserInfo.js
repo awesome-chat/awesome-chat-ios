@@ -42,7 +42,7 @@ export default class UserInfo extends Component {
       <ScrollView>
         <View style={styles.header}>
           <View style={{width: 80,height: 80, backgroundColor:'#fff', marginTop: 30, borderRadius: 10}}></View>
-          <View style={{marginTop: 15, flexDirection: 'row',}}>
+          <View style={{marginTop: 10, flexDirection: 'row',}}>
             <Text style={{
               color: '#fff',
               fontSize: 20,
@@ -90,8 +90,8 @@ export default class UserInfo extends Component {
 const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
-    height: 200,
-    backgroundColor: '#3E8AEF',
+    height: 160,
+    backgroundColor: '#1D3548',
   },
   item: {
     padding: 10,

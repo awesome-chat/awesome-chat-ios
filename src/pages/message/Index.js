@@ -4,9 +4,10 @@ import {
   View,
   Text,
   Image,
-  FlatList
+  ScrollView
 } from 'react-native';
 import MessageItem from './MessageItem';
+import SearchInput from '../../components/SearchInput';
 
 export default class MessageList extends Component {
   static navigationOptions = {
@@ -26,8 +27,9 @@ export default class MessageList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList
-          data={[
+        <ScrollView>
+          <SearchInput />
+          {[
             {key: 'Devin'},
             {key: 'Jackson'},
             {key: 'James'},
@@ -36,9 +38,8 @@ export default class MessageList extends Component {
             {key: 'Jillian'},
             {key: 'Jimmy'},
             {key: 'Julie'},
-          ]}
-          renderItem={({item}) => <MessageItem navigation={this.props.navigation}/>}
-        />
+          ].map(d => <MessageItem key={d.key} navigation={this.props.navigation}/>)}
+        </ScrollView>
       </View>
     );
   }

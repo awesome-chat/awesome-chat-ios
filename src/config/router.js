@@ -2,11 +2,13 @@
 import React from 'react'
 import {StackNavigator, TabNavigator} from 'react-navigation'
 import Login from '../pages/Login';
-import MessageList from '../pages/message/MessageList';
+import MessageList from '../pages/message/Index.js';
 import Chat from '../pages/message/Chat';
-import FriendList from '../pages/friend/FriendList';
+import FriendList from '../pages/friend/Index.js';
 import FriendDetail from '../pages/friend/FriendDetail';
 import DepartmentList from '../pages/friend/DepartmentList';
+import GroupList from '../pages/friend/GroupList';
+import ServiceList from '../pages/friend/ServiceList';
 import UserInfo from '../pages/UserInfo';
 
 
@@ -24,5 +26,7 @@ export default StackNavigator({
   Tab: {screen: tab},
   Chat: {screen: Chat},
   FriendDetail: {screen: FriendDetail},
-  DepartmentList: {screen: DepartmentList},
+  Department: {screen: DepartmentList},
+  Group: {screen: GroupList},
+  Service: {screen: ServiceList},
 });
