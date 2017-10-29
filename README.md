@@ -35,7 +35,7 @@ $ cd awesome-chat-ios
 $ npm install
 $ npm run dev
 ```
-## UI
+## UI
 颜色：
 - #3E8AEF 深蓝
 - #569FF1
