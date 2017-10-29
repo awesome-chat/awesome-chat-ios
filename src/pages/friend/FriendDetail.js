@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     flexDirection: 'row',
     borderBottomColor: '#ddd',
-    borderTopColor: '#ddd',
     borderBottomWidth: 0.5,
   },
   itemLeft: {

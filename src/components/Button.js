@@ -10,21 +10,22 @@ import {
 
 export default (props) =><TouchableOpacity
   {...props}
-  style={styles.button}
+  style={{
+    width: '80%',
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: '#2B8CF4',
+    borderRadius: 5,
+    ...props.style,
+  }}
   underlayColor='#fff'>
   <Text style={styles.text}>{props.title}</Text>
 </TouchableOpacity>
 
 const styles = StyleSheet.create({
-  button:{
-    width: '80%',
-    paddingTop: 10,
-    paddingBottom: 10,
-    backgroundColor: '#2B8CF4',
-    borderRadius: 5
-  },
   text:{
-    fontSize: 16,    
+    fontSize: 16,
+    fontWeight: 'bold',  
     color:'#fff',
     textAlign:'center'
   },
