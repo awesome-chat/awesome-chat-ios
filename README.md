@@ -28,7 +28,13 @@
 |
 ...
 ```
-
+## 使用
+```
+$ git clone https://github.com/wengwengweng/awesome-chat-ios.git
+$ cd awesome-chat-ios
+$ npm install
+$ npm run dev
+```
 ## UI
 颜色：
 - #3E8AEF 深蓝
@@ -39,6 +45,6 @@
 
 ## 截图
 
-| 登录 | 消息列表 | 联系人列表 | 个人宗欣 |
+| 登录 | 消息列表 | 联系人列表 | 个人中心 |
 | ---- | ---- | ---- | ---- |
 | ![image](img/login.png) | ![image](img/message.png) | ![image](img/friend.png) | ![image](img/user.png) |
