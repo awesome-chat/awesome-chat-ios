@@ -6,7 +6,8 @@ import {
   Image,
   FlatList,
   TextInput,
-  ScrollView
+  ScrollView,
+  TouchableHighlight
 } from 'react-native';
 import KeyboardSpacer from '../../components/KeyboardSpacer';
 import ChatInput from './ChatInput'
@@ -16,7 +17,22 @@ export default class Chat extends Component {
   static navigationOptions = {
     title: 'Name',
   };
+
+  constructor(props){
+    super(props);
+    this.state = {
+      showOther: false,
+    }
+  }
+
+  handleShowOther = () => {
+    this.setState({
+      showOther: !this.state.showOther
+    })
+  }
+
   render() {
+    const state = this.state;
     return (
       <View style={[{flex: 1}]}>
         <ChatBg />
@@ -62,12 +78,29 @@ export default class Chat extends Component {
             justifyContent: 'center',
             alignItems:'center',
           }}>
-            <Image
-              source={require('../../asset/添加.png')}
-              style={{width: 25, height: 25}}
-            />
+            <TouchableHighlight
+              style={{borderRadius: 12.5}}
+              underlayColor="#fff"
+              onPress={this.handleShowOther}
+            >
+              <Image
+                source={require('../../asset/添加.png')}
+                style={{width: 25, height: 25}}
+              />
+            </TouchableHighlight>
           </View>
         </View>
+        {state.showOther ? <View>
+          <View>
+            <View>
+              <Image
+                source={require('../../asset/添加.png')}
+                style={{width: 25, height: 25}}
+              />
+              <Text>图片</Text>
+            </View>
+          </View>
+        </View> : null}
         <KeyboardSpacer/>
       </View>
     );
