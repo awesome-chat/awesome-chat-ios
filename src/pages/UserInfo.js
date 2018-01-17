@@ -7,7 +7,7 @@ import {
   FlatList,
   ScrollView
 } from 'react-native';
-import Button from '../components/Button';
+import { Button } from 'antd-mobile';
 
 export default class UserInfo extends Component {
   static navigationOptions = {
@@ -73,14 +73,13 @@ export default class UserInfo extends Component {
           justifyContent: 'center'
         }}>
           <Button
-            onPress={() => this.props.navigation.navigate('MessageList')}
-            title="退出登录"
             style={{
               marginTop: 20,
-              width: '90%',
-              backgroundColor: 'red',
+              width: '90%'
             }}
-          />
+            onClick={() => this.props.navigation.navigate('MessageList')}
+            type="warning"
+          >退出登录</Button>
         </View>
       </ScrollView>
     );

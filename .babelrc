@@ -3,6 +3,7 @@
     "react-native"
   ],
   "plugins": [
+    ["import", { "libraryName": "antd-mobile" }],
     ["module-alias",[
       { "src": "./src/pages", "expose": "@pages" },
       { "src": "./src/config", "expose": "@config" },

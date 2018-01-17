@@ -8,50 +8,61 @@ import {
   Alert,
   Image
 } from 'react-native';
-import Button from '@components/Button';
+import api from '@model/api';
+import { Button, Modal, Toast } from 'antd-mobile';
 
 export default class Login extends Component {
   static navigationOptions = {
     title: 'Login',
     header: null,
+    showModal: true
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
+      userMisId: '',
       userPwd: '',
     }
   }
 
   handleSubmit = () => {
-    const { userName, userPwd } = this.state;
-    console.log(userName, userPwd)
-    if (userName && userPwd) {
-      console.log(userName, userPwd)
-      this.props.navigation.navigate('MessageList')
+    const { userMisId, userPwd } = this.state;
+    console.log(userMisId, userPwd)
+    if (userMisId && userPwd) {
+      console.log(userMisId, userPwd)
+      api.verifyUser({
+        userMisId,
+        userPwd
+      })
+      .then(res => res.data)
+      .then(data => {
+        console.log(data)
+        if (data && data.code === 0) {
+          this.props.navigation.navigate('MessageList')
+        } else {
+          Toast.info('用户名密码错误', 1);
+        }
+      })
     } else {
-
+      Toast.info('用户名密码错误', 1);
     }
   }
 
-  handleNameChange = (e) => {
-    console.log(e.target)
-    this.setState({
-      userName: String(e.target)
-    })
-  }
-
-  handlePwdChange = (e) => {
-    this.setState({
-      userPwd: String(e.target)
-    })
-  }
-
   render() {
-    const {userName, userPwd} = this.state;
+    const {userMisId, userPwd} = this.state;
     return (
       <View style={styles.container}>
+        <Modal
+          visible={this.state.showModal}
+          transparent
+          maskClosable={false}
+          onClose={() => {this.setState({showModal: false})}}
+          title="输入有误，请重新填写"
+          footer={[{ text: 'OK', onPress: () => {this.setState({showModal: false}); } }]}
+        >
+           <View></View>
+        </Modal>
         <Image  style={styles.img}
           source={require('../asset/bg.jpg')}
           resizeMode='cover'
@@ -66,10 +77,10 @@ export default class Login extends Component {
           <Text style={styles.title}>欢迎您的使用</Text>
         </View>
         <View style={styles.inputCon}>
-          <Text style={styles.label}>用户名</Text>
+          <Text style={styles.label}>Mis号</Text>
           <TextInput
-            onChange={this.handleNameChange}
-            value={userName}
+            onChangeText={(text) => this.setState({userMisId: text})}
+            value={userMisId}
             placeholderTextColor="rgba(255,255,255,0.5)"
             style={styles.input}
             placeholder="请输入用户名"
@@ -78,7 +89,7 @@ export default class Login extends Component {
         <View style={styles.inputCon}>
           <Text style={styles.label}>密码</Text>
           <TextInput
-            onChange={this.handlePwdChange}
+            onChangeText={(text) => this.setState({userPwd: text})}
             value={userPwd}
             secureTextEntry={true}
             placeholderTextColor="rgba(255,255,255,0.5)"
@@ -87,9 +98,14 @@ export default class Login extends Component {
           />
         </View>
         <Button
-          onPress={this.handleSubmit}
-          title="登录"
-        />
+          disabled={!(userPwd && userPwd)}
+          style={{
+            marginTop: 20,
+            width: '80%'
+          }}
+          onClick={this.handleSubmit}
+          type="primary"
+        >登录</Button>
       </View>
     );
   }
@@ -129,7 +145,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'left',
     lineHeight: 50,
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: 'bold',
     backgroundColor: 'rgba(255,255,255,0)',
     marginLeft: 20,
@@ -137,10 +153,10 @@ const styles = StyleSheet.create({
   label: {
     color: '#fff',
     textAlign: 'left',
-    fontSize: 13,
+    fontSize: 20,
     fontWeight: 'bold',
     backgroundColor: 'rgba(255,255,255,0)',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   inputCon: {
     width:'80%',
@@ -148,7 +164,7 @@ const styles = StyleSheet.create({
   },
   input: {
     color: 'rgba(255,255,255,0.8)',
-    fontSize: 15,
+    fontSize: 16,
     marginBottom:10,
     paddingBottom:10,
     borderBottomWidth: 0.5,
