@@ -8,14 +8,48 @@ import {
   Alert,
   Image
 } from 'react-native';
-import Button from '../components/Button';
+import Button from '@components/Button';
 
 export default class Login extends Component {
   static navigationOptions = {
     title: 'Login',
     header: null,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      userName: '',
+      userPwd: '',
+    }
+  }
+
+  handleSubmit = () => {
+    const { userName, userPwd } = this.state;
+    console.log(userName, userPwd)
+    if (userName && userPwd) {
+      console.log(userName, userPwd)
+      this.props.navigation.navigate('MessageList')
+    } else {
+
+    }
+  }
+
+  handleNameChange = (e) => {
+    console.log(e.target)
+    this.setState({
+      userName: String(e.target)
+    })
+  }
+
+  handlePwdChange = (e) => {
+    this.setState({
+      userPwd: String(e.target)
+    })
+  }
+
   render() {
+    const {userName, userPwd} = this.state;
     return (
       <View style={styles.container}>
         <Image  style={styles.img}
@@ -34,6 +68,8 @@ export default class Login extends Component {
         <View style={styles.inputCon}>
           <Text style={styles.label}>用户名</Text>
           <TextInput
+            onChange={this.handleNameChange}
+            value={userName}
             placeholderTextColor="rgba(255,255,255,0.5)"
             style={styles.input}
             placeholder="请输入用户名"
@@ -42,6 +78,8 @@ export default class Login extends Component {
         <View style={styles.inputCon}>
           <Text style={styles.label}>密码</Text>
           <TextInput
+            onChange={this.handlePwdChange}
+            value={userPwd}
             secureTextEntry={true}
             placeholderTextColor="rgba(255,255,255,0.5)"
             style={styles.input}
@@ -49,7 +87,7 @@ export default class Login extends Component {
           />
         </View>
         <Button
-          onPress={() => this.props.navigation.navigate('MessageList')}
+          onPress={this.handleSubmit}
           title="登录"
         />
       </View>
