@@ -10,7 +10,9 @@ import DepartmentList from '../pages/friend/DepartmentList';
 import GroupList from '../pages/friend/GroupList';
 import ServiceList from '../pages/friend/ServiceList';
 import UserInfo from '../pages/UserInfo';
+import createStorage from '../model/storage';
 
+createStorage()
 
 const tab = TabNavigator({
   MessageList: {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Toast } from 'antd-mobile';
 
 const io = axios.create({
   baseURL: 'http://localhost:3000/',
@@ -10,13 +11,40 @@ const io = axios.create({
   },
 })
 
-function handleError(response) {
-  return response;
+// 获取authorization_user默认值
+if(global.storage) {
+  storage.load({
+    key: 'authorization',
+  }).then(ret => {
+    console.log(ret.token);
+    io.defaults.headers.common.authorization_user = ret.token;
+  }).catch(err => {
+    console.warn(err.message);
+    io.defaults.headers.common.authorization_user = '';
+  })
+}
+
+
+function handleError(res) {
+  const { authorization_user = null } = res.headers
+  if (authorization_user) {
+    storage.save({
+      key: 'authorization',
+      data: {
+        token: authorization_user
+      },
+    });
+    io.defaults.headers.common.authorization_user = authorization_user;
+  }
+  if (res.data.code === 2) {
+    Toast.info('没有操作权限', 1);
+  }
+  return res
 }
 
 const api = {
   verifyUser(data = {}) {
-    return io.post('/verify', data).then(handleError);
+    return io.post('/verify/user', data).then(handleError);
   },
 };
 

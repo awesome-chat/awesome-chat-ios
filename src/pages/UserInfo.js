@@ -77,7 +77,12 @@ export default class UserInfo extends Component {
               marginTop: 20,
               width: '90%'
             }}
-            onClick={() => this.props.navigation.navigate('MessageList')}
+            onClick={() => {
+              storage.remove({
+                key: 'authorization'
+              });
+              this.props.navigation.navigate('Login')
+            }}
             type="warning"
           >退出登录</Button>
         </View>

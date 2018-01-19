@@ -23,7 +23,26 @@ export default class Login extends Component {
     this.state = {
       userMisId: '',
       userPwd: '',
+      hasLogin: false,
     }
+  }
+
+  componentDidMount() {
+    storage.load({
+      key: 'authorization',
+    }).then(ret => {
+      if(ret.token) {
+        this.setState({
+          hasLogin: true
+        }, () => {
+          setTimeout(() => {
+            this.props.navigation.navigate('MessageList')
+          }, 1000)
+        })
+      }
+    }).catch(err => {
+      console.log(err.message);
+    })
   }
 
   handleSubmit = () => {
@@ -35,8 +54,7 @@ export default class Login extends Component {
         userMisId,
         userPwd
       })
-      .then(res => res.data)
-      .then(data => {
+      .then(({data}) => {
         console.log(data)
         if (data && data.code === 0) {
           this.props.navigation.navigate('MessageList')
@@ -44,13 +62,11 @@ export default class Login extends Component {
           Toast.info('用户名密码错误', 1);
         }
       })
-    } else {
-      Toast.info('用户名密码错误', 1);
     }
   }
 
   render() {
-    const {userMisId, userPwd} = this.state;
+    const {userMisId, userPwd, hasLogin} = this.state;
     return (
       <View style={styles.container}>
         <Modal
@@ -76,36 +92,40 @@ export default class Login extends Component {
           />
           <Text style={styles.title}>欢迎您的使用</Text>
         </View>
-        <View style={styles.inputCon}>
-          <Text style={styles.label}>Mis号</Text>
-          <TextInput
-            onChangeText={(text) => this.setState({userMisId: text})}
-            value={userMisId}
-            placeholderTextColor="rgba(255,255,255,0.5)"
-            style={styles.input}
-            placeholder="请输入用户名"
-          />
-        </View>
-        <View style={styles.inputCon}>
-          <Text style={styles.label}>密码</Text>
-          <TextInput
-            onChangeText={(text) => this.setState({userPwd: text})}
-            value={userPwd}
-            secureTextEntry={true}
-            placeholderTextColor="rgba(255,255,255,0.5)"
-            style={styles.input}
-            placeholder="请输入密码"
-          />
-        </View>
-        <Button
-          disabled={!(userPwd && userPwd)}
-          style={{
-            marginTop: 20,
-            width: '80%'
-          }}
-          onClick={this.handleSubmit}
-          type="primary"
-        >登录</Button>
+        {hasLogin ? null : (
+          <View style={styles.formCon}>
+            <View style={styles.inputCon}>
+              <Text style={styles.label}>Mis号</Text>
+              <TextInput
+                onChangeText={(text) => this.setState({userMisId: text})}
+                value={userMisId}
+                placeholderTextColor="rgba(255,255,255,0.5)"
+                style={styles.input}
+                placeholder="请输入用户名"
+              />
+            </View>
+            <View style={styles.inputCon}>
+              <Text style={styles.label}>密码</Text>
+              <TextInput
+                onChangeText={(text) => this.setState({userPwd: text})}
+                value={userPwd}
+                secureTextEntry={true}
+                placeholderTextColor="rgba(255,255,255,0.5)"
+                style={styles.input}
+                placeholder="请输入密码"
+              />
+            </View>
+            <Button
+              disabled={!(userPwd && userPwd)}
+              style={{
+                marginTop: 20,
+                width: '80%'
+              }}
+              onClick={this.handleSubmit}
+              type="primary"
+            >登录</Button>
+          </View>
+      )}
       </View>
     );
   }
@@ -157,6 +177,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: 'rgba(255,255,255,0)',
     marginBottom: 15,
+  },
+  formCon: {
+    alignItems: 'center',
+    width: '100%',
   },
   inputCon: {
     width:'80%',
