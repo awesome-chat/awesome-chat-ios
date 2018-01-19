@@ -23,24 +23,23 @@ export default class Login extends Component {
     this.state = {
       userMisId: '',
       userPwd: '',
-      hasLogin: false,
+      hideForm: true,
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     storage.load({
       key: 'authorization',
     }).then(ret => {
       if(ret.token) {
-        this.setState({
-          hasLogin: true
-        }, () => {
-          setTimeout(() => {
-            this.props.navigation.navigate('MessageList')
-          }, 1000)
-        })
+        setTimeout(() => {
+          this.props.navigation.navigate('MessageList')
+        }, 1000)
       }
     }).catch(err => {
+      this.setState({
+        hideForm: false
+      })
       console.log(err.message);
     })
   }
@@ -66,7 +65,7 @@ export default class Login extends Component {
   }
 
   render() {
-    const {userMisId, userPwd, hasLogin} = this.state;
+    const {userMisId, userPwd, hideForm} = this.state;
     return (
       <View style={styles.container}>
         <Modal
@@ -92,7 +91,7 @@ export default class Login extends Component {
           />
           <Text style={styles.title}>欢迎您的使用</Text>
         </View>
-        {hasLogin ? null : (
+        {hideForm ? null : (
           <View style={styles.formCon}>
             <View style={styles.inputCon}>
               <Text style={styles.label}>Mis号</Text>
