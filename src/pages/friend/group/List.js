@@ -7,12 +7,12 @@ import {
   FlatList
 } from 'react-native';
 
-import Item from './Item';
+import Item from '../component/Item';
 
-export default class DepartmentList extends Component {
+export default class GroupList extends Component {
   static navigationOptions = {
-    title: '部门名称',
-    tabBarLabel: '部门名称',
+    title: '群组',
+    tabBarLabel: '群组',
     headerBackTitle: '返回',
   };
 

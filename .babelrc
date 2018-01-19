@@ -3,13 +3,6 @@
     "react-native"
   ],
   "plugins": [
-    ["import", { "libraryName": "antd-mobile" }],
-    ["module-alias",[
-      { "src": "./src/pages", "expose": "@pages" },
-      { "src": "./src/config", "expose": "@config" },
-      { "src": "./src/components", "expose": "@components" },
-      { "src": "./src/model", "expose": "@model" },
-      { "src": "./src/asset", "expose": "@asset" }
-    ]]
+    ["import", { "libraryName": "antd-mobile" }]
   ]
 }

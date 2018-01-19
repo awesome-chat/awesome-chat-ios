@@ -7,11 +7,37 @@ import {
   ScrollView,
   TouchableOpacity
 } from 'react-native';
+import api from '../../model/api';
 
 export default class FriendDetail extends Component {
   static navigationOptions = {
     title: 'name'
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+      params: this.props && this.props.navigation.state.params || {}
+    }
+  }
+
+  componentWillMount() {
+    this.fetchDetail()
+  }
+  
+  fetchDetail = () => {
+    const { params } = this.state
+    api.getUser({
+      userId: params.userId || 1,
+    })
+    .then(({data}) => {
+      this.setState({
+        user: data.data.user || {}
+      })
+      console.log(data)
+    })
+  }
 
   handleCall = () => {
     //do sth
@@ -22,15 +48,16 @@ export default class FriendDetail extends Component {
   }
 
   render() {
+    const { user } = this.state;
     const label = [
-      {id: 1, name: '签名'},
-      {id: 2, name: '部门'},
-      {id: 3, name: 'Id号'},
-      {id: 4, name: '手机'},
-      {id: 5, name: '地点'},
-      {id: 6, name: '分机'},
-      {id: 7, name: '直属上级'},
-      {id: 8, name: 'HRBP'},
+      {id: 'sign', name: '签名'},
+      {id: 'dep', name: '部门'},
+      {id: 'userId', name: 'Id号'},
+      {id: 'userTel', name: '手机'},
+      {id: 'userLoc', name: '地点'},
+      {id: 'userPhone', name: '分机'},
+      {id: 'userLeader', name: '直属上级'},
+      {id: 'userHr', name: 'HRBP'},
     ]
     return (
       <View style={styles.container}>

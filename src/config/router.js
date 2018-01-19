@@ -5,14 +5,11 @@ import Login from '../pages/Login';
 import MessageList from '../pages/message/Index.js';
 import Chat from '../pages/message/Chat';
 import FriendList from '../pages/friend/Index.js';
-import FriendDetail from '../pages/friend/FriendDetail';
-import DepartmentList from '../pages/friend/DepartmentList';
-import GroupList from '../pages/friend/GroupList';
-import ServiceList from '../pages/friend/ServiceList';
+import FriendDetail from '../pages/friend/Detail';
+import DepartmentList from '../pages/friend/dep/List';
+import GroupList from '../pages/friend/group/List';
+import ServiceList from '../pages/friend/service/List';
 import UserInfo from '../pages/UserInfo';
-import createStorage from '../model/storage';
-
-createStorage()
 
 const tab = TabNavigator({
   MessageList: {

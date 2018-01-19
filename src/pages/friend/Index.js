@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 
-import Item from './Item';
+import Item from './component/Item';
 import SearchInput from '../../components/SearchInput';
 
 export default class FriendList extends Component {

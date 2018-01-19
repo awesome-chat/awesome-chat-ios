@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { Toast } from 'antd-mobile';
+import createStorage from './storage';
+
+createStorage()
 
 const io = axios.create({
   baseURL: 'http://localhost:3000/',
@@ -12,6 +15,7 @@ const io = axios.create({
 })
 
 // 获取authorization_user默认值
+console.log('global.storage', global.storage)
 if(global.storage) {
   storage.load({
     key: 'authorization',
@@ -45,6 +49,16 @@ function handleError(res) {
 const api = {
   verifyUser(data = {}) {
     return io.post('/verify/user', data).then(handleError);
+  },
+
+  getUser(data = {}) {
+    const { userId } = data;    
+    return io.get(`/user/${userId}`).then(handleError);
+  },
+
+  getDep(data = {}) {
+    const { depId } = data;
+    return io.get(`/dep/child/${depId}`).then(handleError);
   },
 };
 

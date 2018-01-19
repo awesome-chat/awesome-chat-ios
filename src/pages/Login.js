@@ -8,7 +8,7 @@ import {
   Alert,
   Image
 } from 'react-native';
-import api from '@model/api';
+import api from '../model/api';
 import { Button, Modal, Toast } from 'antd-mobile';
 
 export default class Login extends Component {

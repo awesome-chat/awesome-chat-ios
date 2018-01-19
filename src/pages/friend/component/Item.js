@@ -8,23 +8,32 @@ import {
 } from 'react-native';
 
 export default class Item extends Component {
-  handlePress = () => {
-    this.props.navigation.navigate(...this.props.link)
+
+  switchColor = () => {
+    switch(this.props.type) {
+      case 'user':
+        return '#35a6f2'
+      case 'owner':
+        return '#569FF1'
+      default:
+        return '#204264'
+    }
   }
+
   render() {
     const props = this.props;
     console.log(this.props)
     const typeMapping = {
-      department: require('../../asset/department.png'),
-      group: require('../../asset/group.png'),
-      service: require('../../asset/service.png'),
+      department: require('../../../asset/department.png'),
+      group: require('../../../asset/group.png'),
+      service: require('../../../asset/service.png'),
     };
 
     return (
       <TouchableHighlight
         underlayColor='#fff'
         style={styles.touch}
-        onPress={()=>{this.props.navigation.navigate(props.link)}}
+        onPress={()=>{this.props.navigation.navigate(props.link, props.params || {})}}
       >
         <View style={styles.container}>
           <View style={{
@@ -33,7 +42,7 @@ export default class Item extends Component {
             width: 40,
             height: 40,
             borderRadius: 40,
-            backgroundColor: '#569FF1',
+            backgroundColor: this.switchColor(),
             ...props.style
           }}>
             <Image style={{width: 20, height: 20}} source={typeMapping[props.type]} />

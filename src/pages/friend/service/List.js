@@ -7,7 +7,7 @@ import {
   FlatList
 } from 'react-native';
 
-import Item from './Item';
+import Item from '../component/Item';
 
 export default class DepartmentList extends Component {
   static navigationOptions = {
