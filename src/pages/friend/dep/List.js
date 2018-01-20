@@ -42,7 +42,6 @@ export default class DepartmentList extends Component {
         child: data.data.child || [],
         user: data.data.user || [],
       })
-      console.log(data)
     })
   }
 

@@ -6,8 +6,7 @@ import {
   Image,
   ScrollView
 } from 'react-native';
-import KeyboardSpacer from '../../components/KeyboardSpacer';
-import ChatInput from './ChatInput'
+import KeyboardSpacer from '../../../components/KeyboardSpacer';
 
 export default class ChatBg extends Component {
   render() {

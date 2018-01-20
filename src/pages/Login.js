@@ -40,22 +40,24 @@ export default class Login extends Component {
       this.setState({
         hideForm: false
       })
-      console.log(err.message);
     })
   }
 
   handleSubmit = () => {
     const { userMisId, userPwd } = this.state;
-    console.log(userMisId, userPwd)
     if (userMisId && userPwd) {
-      console.log(userMisId, userPwd)
       api.verifyUser({
         userMisId,
         userPwd
       })
       .then(({data}) => {
-        console.log(data)
         if (data && data.code === 0) {
+          storage.save({
+            key: 'userInfo',
+            data: {
+              data: data.data
+            },
+          });
           this.props.navigation.navigate('MessageList')
         } else {
           Toast.info('用户名密码错误', 1);

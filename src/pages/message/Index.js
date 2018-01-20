@@ -6,8 +6,9 @@ import {
   Image,
   ScrollView
 } from 'react-native';
-import MessageItem from './MessageItem';
+import MessageItem from './Item';
 import SearchInput from '../../components/SearchInput';
+import api from '../../model/api';
 
 export default class MessageList extends Component {
   static navigationOptions = {
@@ -24,6 +25,40 @@ export default class MessageList extends Component {
       /> 
     },
   };
+
+  componentWillMount() {
+    this.getUserInfo(this.fetchMessage)
+  }
+
+  getUserInfo = (cb) => {
+    storage.load({
+      key: 'userInfo',
+    }).then(({data}) => {
+      cb(data.userId)
+      console.log('getUserInfo', data);
+    }).catch(err => {
+      console.warn(err.message);
+    })
+  }
+
+  fetchMessage = (userId) => {
+    api.getMessage({
+      userId
+    })
+    .then(({data}) => {
+      if (data && data.code === 0) {
+        storage.save({
+          key: 'message',
+          data: {
+            data: data.data
+          },
+        });
+      } else {
+        Toast.info('拉取信息失败', 1);
+      }
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>

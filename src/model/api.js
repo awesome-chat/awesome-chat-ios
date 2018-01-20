@@ -15,18 +15,14 @@ const io = axios.create({
 })
 
 // 获取authorization_user默认值
-console.log('global.storage', global.storage)
-if(global.storage) {
-  storage.load({
-    key: 'authorization',
-  }).then(ret => {
-    console.log(ret.token);
-    io.defaults.headers.common.authorization_user = ret.token;
-  }).catch(err => {
-    console.warn(err.message);
-    io.defaults.headers.common.authorization_user = '';
-  })
-}
+storage.load({
+  key: 'authorization',
+}).then(ret => {
+  io.defaults.headers.common.authorization_user = ret.token;
+}).catch(err => {
+  console.warn(err.message);
+  io.defaults.headers.common.authorization_user = '';
+})
 
 
 function handleError(res) {
@@ -59,6 +55,11 @@ const api = {
   getDep(data = {}) {
     const { depId } = data;
     return io.get(`/dep/child/${depId}`).then(handleError);
+  },
+
+  getMessage(data = {}) {
+    const { userId } = data;
+    return io.get(`/message/${userId}`).then(handleError);
   },
 };
 

@@ -9,9 +9,8 @@ import {
   ScrollView,
   TouchableHighlight
 } from 'react-native';
-import KeyboardSpacer from '../../components/KeyboardSpacer';
-import ChatInput from './ChatInput'
-import ChatBg from './ChatBg'
+import KeyboardSpacer from '../../../components/KeyboardSpacer';
+import Background from './Background'
 
 export default class Chat extends Component {
   static navigationOptions = {
@@ -35,7 +34,7 @@ export default class Chat extends Component {
     const state = this.state;
     return (
       <View style={[{flex: 1}]}>
-        <ChatBg />
+        <Background />
         <View style={{
           flexDirection:'row',
           backgroundColor: '#fff',
@@ -47,7 +46,7 @@ export default class Chat extends Component {
             alignItems:'center',
           }}>
             <Image
-              source={require('../../asset/语音.png')}
+              source={require('../../../asset/语音.png')}
               style={{width: 25, height: 25}}
             />
           </View>
@@ -69,7 +68,7 @@ export default class Chat extends Component {
             alignItems:'center',
           }}>
             <Image
-              source={require('../../asset/表情.png')}
+              source={require('../../../asset/表情.png')}
               style={{width: 25, height: 25}}
             />
           </View>
@@ -84,7 +83,7 @@ export default class Chat extends Component {
               onPress={this.handleShowOther}
             >
               <Image
-                source={require('../../asset/添加.png')}
+                source={require('../../../asset/添加.png')}
                 style={{width: 25, height: 25}}
               />
             </TouchableHighlight>
@@ -94,7 +93,7 @@ export default class Chat extends Component {
           <View>
             <View>
               <Image
-                source={require('../../asset/添加.png')}
+                source={require('../../../asset/添加.png')}
                 style={{width: 25, height: 25}}
               />
               <Text>图片</Text>

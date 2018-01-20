@@ -3,7 +3,7 @@ import React from 'react'
 import {StackNavigator, TabNavigator} from 'react-navigation'
 import Login from '../pages/Login';
 import MessageList from '../pages/message/Index.js';
-import Chat from '../pages/message/Chat';
+import Chat from '../pages/message/chat/Index.js';
 import FriendList from '../pages/friend/Index.js';
 import FriendDetail from '../pages/friend/Detail';
 import DepartmentList from '../pages/friend/dep/List';

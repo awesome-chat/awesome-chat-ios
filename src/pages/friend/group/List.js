@@ -17,7 +17,6 @@ export default class GroupList extends Component {
   };
 
   render() {
-    console.log(this.props)
     return (
       <View style={styles.container}>
         <Item navigation={this.props.navigation}/>

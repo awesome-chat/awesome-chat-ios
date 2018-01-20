@@ -18,12 +18,27 @@ export default class FriendDetail extends Component {
     super(props);
     this.state = {
       user: {},
+      userInfo: {},
+      hideBottom: true,
       params: this.props && this.props.navigation.state.params || {}
     }
   }
 
   componentWillMount() {
+    this.getCurrentUser()
     this.fetchDetail()
+  }
+
+  getCurrentUser() {
+    storage.load({
+      key: 'userInfo',
+    }).then(ret => {
+      this.setState({
+        userInfo: ret.data,
+      })
+    }).catch(err => {
+      console.warn(err.message);
+    })
   }
   
   fetchDetail = () => {
@@ -32,10 +47,14 @@ export default class FriendDetail extends Component {
       userId: params.userId || 1,
     })
     .then(({data}) => {
-      this.setState({
-        user: data.data.user || {}
-      })
-      console.log(data)
+      if (data.code === 0) {
+        this.setState({
+          user: data.data || {},
+          hideBottom: this.state.userInfo.userId === data.data.userId
+        })
+      } else {
+        hideBottom: false
+      }
     })
   }
 
@@ -47,17 +66,29 @@ export default class FriendDetail extends Component {
     this.props.navigation.navigate('Chat',  { id: '0001' })
   }
 
+  renderLabelValue = (id, user) => {
+    if(id.indexOf('.') > 0) {
+      const ids = id.split('.')
+      let value;
+      ids.forEach(d => {
+        value = value ? value[d] : user[d]
+      })
+      return value
+    }
+    return user[id]
+  }
+
   render() {
-    const { user } = this.state;
+    const { user, userInfo, hideBottom } = this.state;
+
     const label = [
-      {id: 'sign', name: '签名'},
-      {id: 'dep', name: '部门'},
-      {id: 'userId', name: 'Id号'},
+      {id: 'userSign', name: '签名'},
+      {id: 'dep.depName', name: '部门'},
+      {id: 'userMisId', name: 'MisId'},
       {id: 'userTel', name: '手机'},
-      {id: 'userLoc', name: '地点'},
-      {id: 'userPhone', name: '分机'},
-      {id: 'userLeader', name: '直属上级'},
-      {id: 'userHr', name: 'HRBP'},
+      {id: 'userWorkPlace', name: '地点'},
+      {id: 'userExt', name: '分机'},
+      {id: 'userLeader.userName', name: '直属上级'},
     ]
     return (
       <View style={styles.container}>
@@ -69,35 +100,41 @@ export default class FriendDetail extends Component {
                 color: '#999',
                 fontSize: 20,
                 fontWeight: 'bold',
-                }}>name</Text>
-              <Image style={styles.img} source={require('../../asset/boy.png')} />
-              <Image style={styles.img} source={require('../../asset/girl.png')} />
+                }}>{user.userName}</Text>
+              {user.userSex === 2 ? (
+                <Image style={styles.img} source={require('../../asset/girl.png')} />
+              ) : (
+                <Image style={styles.img} source={require('../../asset/boy.png')} />
+              )}
             </View>
           </View>
           {label.map(d => <View style={styles.listItme} key={d.id}>
             <Text style={styles.itemLeft}>{d.name}</Text>
-            <Text style={styles.itemRight}>{d.id}</Text>
+            <Text style={styles.itemRight}>{this.renderLabelValue(d.id, user)}</Text>
           </View>)}
         </ScrollView>
-        <View style={{
-          height: 40,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor:'#5B93FC',
-          flexDirection:'row',
-          paddingTop: 5,
-          paddingBottom: 5,
-        }}>
-          <TouchableOpacity style={styles.button} onPress={this.handleCall}>
-            <Image style={styles.btnImg} source={require('../../asset/call.png')} />
-            <Text style={styles.buttonText}>语音通话</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button1} onPress={this.handleChat}>
-            <Image style={styles.btnImg} source={require('../../asset/talk.png')} />
-            <Text style={styles.buttonText}>发消息</Text>
-          </TouchableOpacity>
-        </View>
+        {hideBottom? null : (
+          <View style={{
+            height: 40,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor:'#5B93FC',
+            flexDirection:'row',
+            paddingTop: 5,
+            paddingBottom: 5,
+          }}>
+            <TouchableOpacity style={styles.button} onPress={this.handleCall}>
+              <Image style={styles.btnImg} source={require('../../asset/call.png')} />
+              <Text style={styles.buttonText}>语音通话</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button1} onPress={this.handleChat}>
+              <Image style={styles.btnImg} source={require('../../asset/talk.png')} />
+              <Text style={styles.buttonText}>发消息</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
       </View>
     );
   }
@@ -110,7 +147,6 @@ const styles = StyleSheet.create({
   },
   img: {
     marginLeft: 5,
-    marginTop: 5,
     width: 18,
     height: 18,
   },

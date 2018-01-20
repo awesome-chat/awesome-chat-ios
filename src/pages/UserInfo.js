@@ -23,8 +23,28 @@ export default class UserInfo extends Component {
       /> 
     },
   };
-  render() {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: {}
+    }
+  }
+
+  componentWillMount() {
+    storage.load({
+      key: 'userInfo',
+    }).then(ret => {
+      this.setState({
+        user: ret.data
+      })
+    }).catch(err => {
+      console.warn(err.message);
+    })
+  }
+
+  render() {
+    const { user } = this.state
     const group1 = [
       {name:'我的资料',id:1},
       {name:'我的工牌',id:2},
@@ -47,7 +67,7 @@ export default class UserInfo extends Component {
               color: '#fff',
               fontSize: 20,
               fontWeight: 'bold',
-              }}>name</Text>
+              }}>{user.userName}</Text>
           </View>
         </View>
         <View style={styles.group}>

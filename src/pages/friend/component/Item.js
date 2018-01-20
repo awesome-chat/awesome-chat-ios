@@ -12,7 +12,7 @@ export default class Item extends Component {
   switchColor = () => {
     switch(this.props.type) {
       case 'user':
-        return '#35a6f2'
+        return '#868FBF'
       case 'owner':
         return '#569FF1'
       default:
@@ -22,7 +22,6 @@ export default class Item extends Component {
 
   render() {
     const props = this.props;
-    console.log(this.props)
     const typeMapping = {
       department: require('../../../asset/department.png'),
       group: require('../../../asset/group.png'),

@@ -3,7 +3,6 @@ import { AsyncStorage } from 'react-native';
 
 // 初始化storage
 createStorage = () => {
-  console.log('storage', global.storage)
   if(!global.storage) {
     const storage = new Storage({
       size: 1000,
