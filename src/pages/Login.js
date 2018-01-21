@@ -54,9 +54,7 @@ export default class Login extends Component {
         if (data && data.code === 0) {
           storage.save({
             key: 'userInfo',
-            data: {
-              data: data.data
-            },
+            data: data.data,
           });
           this.props.navigation.navigate('MessageList')
         } else {

@@ -2,7 +2,7 @@ import Storage from 'react-native-storage';
 import { AsyncStorage } from 'react-native';
 
 // 初始化storage
-createStorage = () => {
+export function createStorage() {
   if(!global.storage) {
     const storage = new Storage({
       size: 1000,
@@ -13,4 +13,16 @@ createStorage = () => {
     global.storage = storage;
   }
 }
-export default createStorage
+
+export function initStorage() {
+  storage.load({
+    key: 'rooms',
+  }).then(ret => {
+    console.log(ret)
+  }).catch(err => {
+    storage.save({
+      key: 'rooms',
+      data: [],
+    });
+  })
+}

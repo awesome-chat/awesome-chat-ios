@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { Toast } from 'antd-mobile';
-import createStorage from './storage';
+import { initStorage, createStorage } from './storage';
 
 createStorage()
+initStorage()
 
 const io = axios.create({
   baseURL: 'http://localhost:3000/',
@@ -25,7 +26,7 @@ storage.load({
 })
 
 
-function handleError(res) {
+function handleValidate(res) {
   const { authorization_user = null } = res.headers
   if (authorization_user) {
     storage.save({
@@ -44,22 +45,32 @@ function handleError(res) {
 
 const api = {
   verifyUser(data = {}) {
-    return io.post('/verify/user', data).then(handleError);
+    return io.post('/verify/user', data).then(handleValidate);
   },
 
   getUser(data = {}) {
     const { userId } = data;    
-    return io.get(`/user/${userId}`).then(handleError);
+    return io.get(`/user/${userId}`).then(handleValidate);
   },
 
   getDep(data = {}) {
     const { depId } = data;
-    return io.get(`/dep/child/${depId}`).then(handleError);
+    return io.get(`/dep/child/${depId}`).then(handleValidate);
+  },
+
+  getRoomId(data = {}) {
+    const { userId, otherSideId } = data;
+    return io.get(`/room/from/${userId}/to/${otherSideId}`).then(handleValidate);
   },
 
   getMessage(data = {}) {
     const { userId } = data;
-    return io.get(`/message/${userId}`).then(handleError);
+    return io.get(`/message/${userId}`).then(handleValidate);
+  },
+
+  sendMessage(data = {}) {
+    const { userId } = data;
+    return io.get(`/ws/message/${userId}`).then(handleValidate);
   },
 };
 

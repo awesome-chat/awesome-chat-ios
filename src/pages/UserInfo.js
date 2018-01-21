@@ -36,7 +36,7 @@ export default class UserInfo extends Component {
       key: 'userInfo',
     }).then(ret => {
       this.setState({
-        user: ret.data
+        user: ret
       })
     }).catch(err => {
       console.warn(err.message);

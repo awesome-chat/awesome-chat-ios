@@ -34,7 +34,7 @@ export default class FriendDetail extends Component {
       key: 'userInfo',
     }).then(ret => {
       this.setState({
-        userInfo: ret.data,
+        userInfo: ret,
       })
     }).catch(err => {
       console.warn(err.message);
@@ -63,7 +63,16 @@ export default class FriendDetail extends Component {
   }
 
   handleChat =() => {
-    this.props.navigation.navigate('Chat',  { id: '0001' })
+    // get roomId
+    const {user, userInfo} = this.state;
+    api.getRoomId({
+      userId: userInfo.userId,
+      otherSideId: user.userId
+    }).then(data => {
+      if(data.code === 0){
+        this.props.navigation.navigate('Chat',  { roomId: data.roomId })
+      }
+    })
   }
 
   renderLabelValue = (id, user) => {

@@ -33,9 +33,8 @@ export default class MessageList extends Component {
   getUserInfo = (cb) => {
     storage.load({
       key: 'userInfo',
-    }).then(({data}) => {
-      cb(data.userId)
-      console.log('getUserInfo', data);
+    }).then(ret => {
+      cb(ret.userId)
     }).catch(err => {
       console.warn(err.message);
     })
@@ -49,9 +48,7 @@ export default class MessageList extends Component {
       if (data && data.code === 0) {
         storage.save({
           key: 'message',
-          data: {
-            data: data.data
-          },
+          data: data.data,
         });
       } else {
         Toast.info('拉取信息失败', 1);
