@@ -10,9 +10,10 @@ import {
 import api from '../../model/api';
 
 export default class FriendDetail extends Component {
-  static navigationOptions = {
-    title: 'name'
-  };
+  static navigationOptions = ({ navigation, screenProps }) => ({
+    title: 'Name',
+    headerBackTitle: '返回',
+  });
 
   constructor(props) {
     super(props);
@@ -68,9 +69,16 @@ export default class FriendDetail extends Component {
     api.getRoomId({
       userId: userInfo.userId,
       otherSideId: user.userId
-    }).then(data => {
+    }).then(({data}) => {
+      console.log('data', data)
       if(data.code === 0){
-        this.props.navigation.navigate('Chat',  { roomId: data.roomId })
+        this.props.navigation.navigate(
+          'Chat',
+          {
+            roomId: data.roomId,
+            otherSideName: user.userName
+          }
+        )
       }
     })
   }

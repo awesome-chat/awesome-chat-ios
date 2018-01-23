@@ -15,9 +15,10 @@ import Background from './Background'
 import api from '../../../model/api'
 
 export default class Chat extends Component {
-  static navigationOptions = {
-    title: 'Name',
-  };
+  static navigationOptions = ({ navigation, screenProps }) => ({
+    title: navigation.state.params.otherSideName || '',
+    headerBackTitle: '返回',
+  });
 
   constructor(props){
     super(props);
