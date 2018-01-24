@@ -6,9 +6,11 @@ import {
   Image,
   ScrollView
 } from 'react-native';
+import { Toast, Badge } from 'antd-mobile';
 import MessageItem from './Item';
 import SearchInput from '../../components/SearchInput';
 import api from '../../model/api';
+import ep from '../../store'
 
 export default class MessageList extends Component {
   static navigationOptions = {
@@ -16,18 +18,43 @@ export default class MessageList extends Component {
     tabBarLabel: '消息',
     headerLeft: null,
     tabBarIcon: ({ focused }) => {
-      return focused ? <Image
-        source={require('../../asset/message_fill.png')}
-        style={{width: 30, height: 30}}
-      /> : <Image
+      return focused ? <View style={{width: 30, height: 30}}>
+        <Badge text={''}>
+          <Image
+            source={require('../../asset/message_fill.png')}
+            style={{width: 30, height: 30}}
+          />
+        </Badge>
+      </View> : <Image
         source={require('../../asset/message.png')}
         style={{width: 30, height: 30}}
       /> 
     },
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: [],
+      rooms: []
+    }
+  }
+
   componentWillMount() {
+    this.getLocalStorage()
     this.getUserInfo(this.fetchMessage)
+  }
+
+  getLocalStorage = () => {
+    storage.load({
+      key: 'rooms'
+    }).then(ret => {
+      this.setState({
+        rooms: ret
+      })
+    }).catch(err => {
+      console.warn(err.message);
+    })
   }
 
   getUserInfo = (cb) => {
@@ -57,20 +84,20 @@ export default class MessageList extends Component {
   }
 
   render() {
+    const { rooms } = this.state
+    console.log('render', rooms)
     return (
       <View style={styles.container}>
         <ScrollView>
           <SearchInput />
-          {[
-            {key: 'Devin'},
-            {key: 'Jackson'},
-            {key: 'James'},
-            {key: 'Joel'},
-            {key: 'John'},
-            {key: 'Jillian'},
-            {key: 'Jimmy'},
-            {key: 'Julie'},
-          ].map(d => <MessageItem key={d.key} navigation={this.props.navigation}/>)}
+          {rooms.map((d,i) => (
+            <MessageItem
+              key={d.roomId}
+              roomId={d.roomId}
+              otherSideName={d.otherSideName}
+              message={d.messages[d.messages.length - 1]}
+              navigation={this.props.navigation}/>
+          ))}
         </ScrollView>
       </View>
     );

@@ -10,9 +10,11 @@ import {
   TouchableHighlight
 } from 'react-native';
 import { Toast } from 'antd-mobile';
+import _ from 'lodash';
 import KeyboardSpacer from '../../../components/KeyboardSpacer';
 import Background from './Background'
 import api from '../../../model/api'
+import ep from '../../../store'
 
 export default class Chat extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -27,13 +29,29 @@ export default class Chat extends Component {
       textValue: '',
       user: {},
       roomId: '',
+      messageList: [],
+      rooms: [],
       otherSideId: '',
     }
   }
 
   componentWillMount() {
+    // this.fetchDetail()
     this.initRoom()
     this.getLocalStorage()
+  }
+
+  fetchDetail = () => {
+    // api.getUser({
+    //   userId: this.props.navigation.state.otherSideId,
+    // })
+    // .then(({data}) => {
+    //   if (data.code === 0) {
+    //     this.setState({
+    //       user: data.data || {},
+    //     })
+    //   }
+    // })
   }
 
   initRoom = () => {
@@ -41,6 +59,7 @@ export default class Chat extends Component {
     // 必须携带roomId
     this.setState({
       roomId: params.roomId,
+      otherSideName: params.otherSideName,
     })
   }
 
@@ -49,9 +68,16 @@ export default class Chat extends Component {
       { key: 'userInfo' },
       { key: 'rooms' }
     ]).then(results => {
+      let messageList = [];
+      results[1].forEach(d => {
+        if(d.roomId === this.state.roomId) {
+          messageList = d.messages
+        }
+      })
       this.setState({
         userInfo: results[0],
-        rooms: results[1]
+        rooms: results[1],
+        messageList
       })
     }).catch(err => {
       console.warn(err.message);
@@ -70,11 +96,55 @@ export default class Chat extends Component {
     })
   }
 
+  saveToLocal = (messageItem) => {
+    const { roomId, rooms, otherSideName } = this.state;
+    const newRooms = _.cloneDeep(rooms)
+    // 存到本地
+    let isCreate = true
+    newRooms.forEach(d => {
+      if(d.roomId === roomId) {
+        isCreate = false;
+        d.messages.push(messageItem)
+      }
+    })
+    if (isCreate) {
+      newRooms.unshift({
+        roomId,
+        otherSideName,      
+        messages: [messageItem]
+      })
+    }
+    storage.save({
+      key: 'rooms',
+      data: newRooms
+    });
+  }
+
   handleSubmitText = (e) => {
+    console.log('-------------------------')
     // 通过roomId建立ws
-    const { textValue, roomId } = this.state;
+    // ep.emit('updateList')
+    const { textValue, roomId, messageList, rooms, otherSideName } = this.state;
+    const newMessageList =  _.cloneDeep(messageList)
+    const messageItem = {
+      isMine: true,
+      time: '',
+      content: textValue,
+    }
+    // 本地持久化
+    this.saveToLocal(messageItem)
+
+    // 更新视图
+    newMessageList.push(messageItem)
+    this.setState({
+      messageList: newMessageList,
+      textValue: ''
+    })
+
+    // 同步到服务器
     api.sendMessage({
       roomId: roomId,
+      // owner: true,
       messageContent: textValue
     })
     // .then(({data}) => {
@@ -93,7 +163,7 @@ export default class Chat extends Component {
     const state = this.state;
     return (
       <View style={[{flex: 1}]}>
-        <Background />
+        <Background messageList={state.messageList}/>
         <View style={{
           flexDirection:'row',
           backgroundColor: '#fff',

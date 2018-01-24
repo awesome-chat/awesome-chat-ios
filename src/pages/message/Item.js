@@ -9,9 +9,13 @@ import {
 
 export default class MessageItem extends Component {
   render() {
+    const { roomId, otherSideName, message  } = this.props;
     return (
       <TouchableHighlight
-        onPress={()=>{this.props.navigation.navigate('Chat')}}
+        onPress={()=>{this.props.navigation.navigate('Chat',{
+          roomId: roomId,
+          otherSideName: otherSideName
+        })}}
         underlayColor='#fff'
       >
         <View style={styles.item}>
@@ -30,17 +34,17 @@ export default class MessageItem extends Component {
               <Text style={{
                 flex:1,
                 color:'#666'
-              }}>name</Text>
+              }}>{otherSideName}</Text>
               <Text style={{
                 width:40,
                 color:'#666'
-              }}>15:29</Text>
+              }}>{message.time}</Text>
             </View>
             <View style={styles.itemRightPart}>
               <Text style={{
                 flex:1,
                 color:'#666'
-              }}>message</Text>
+              }}>{message.content}</Text>
               <Text style={{
                 width:40,
                 color:'#666'

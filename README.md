@@ -48,3 +48,32 @@ $ npm run dev
 | 登录 | 消息列表 | 联系人列表 | 个人中心 |
 | ---- | ---- | ---- | ---- |
 | ![image](img/login.png) | ![image](img/message.png) | ![image](img/friend.png) | ![image](img/user.png) |
+
+## 本地存储的数据结构
+```
+{
+   // 当前用户信息
+  userInfo: {},
+
+  // 聊天室信息（会话）
+  rooms: [
+    {
+      roomId: '',
+      // 群名字
+      roomName: '',
+      // 对方名称
+      otherSideName: '',
+      // 信息
+      messages: [
+        {
+          //是否是当前用户发出的信息
+          isMine: true,
+          createTime: '',
+          content: '',
+        }
+      ]
+    },
+    ...
+  ]
+}
+```

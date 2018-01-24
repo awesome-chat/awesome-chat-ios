@@ -2,7 +2,7 @@
 import React from 'react'
 import {StackNavigator, TabNavigator} from 'react-navigation'
 import Login from '../pages/Login';
-import MessageList from '../pages/message/Index.js';
+import MessageList from '../pages/message/List.js';
 import Chat from '../pages/message/chat/Index.js';
 import FriendList from '../pages/friend/Index.js';
 import FriendDetail from '../pages/friend/Detail';

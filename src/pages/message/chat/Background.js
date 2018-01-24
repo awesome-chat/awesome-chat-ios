@@ -10,9 +10,25 @@ import KeyboardSpacer from '../../../components/KeyboardSpacer';
 
 export default class ChatBg extends Component {
   render() {
-  return (
+    const {messageList = []} = this.props;
+    return (
       <ScrollView style={{flexDirection:'column', paddingTop: 5}}>
-        <View style={styles.messageRight}>
+        {messageList.map((d, i) => (
+          d.isMine ? (
+            <View style={styles.messageRight} key={i}>
+            <View style={styles.inMessageRight}>
+              <Text style={styles.textRight}>{d.content}</Text>
+            </View>
+          </View>
+          ) : (
+            <View style={styles.messageLeft} key={i}>
+              <View style={styles.inMessageLeft}>
+                <Text style={styles.textLeft}>{d.content}</Text>
+              </View>
+            </View>
+          )
+        ))}
+        {/* <View style={styles.messageRight}>
           <View style={styles.inMessageRight}>
             <Text style={styles.textRight}>我知道啦 qq plzScroll qq plz</Text>
           </View>
@@ -36,8 +52,7 @@ export default class ChatBg extends Component {
           <View style={styles.inMessageRight}>
             <Text style={styles.textRight}>Scroll qq plz</Text>
           </View>
-        </View>
-
+        </View> */}
       </ScrollView>
     );
   }
