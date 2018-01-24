@@ -1,9 +1,16 @@
 import axios from 'axios';
 import { Toast } from 'antd-mobile';
 import { initStorage, createStorage } from './storage';
+import socketIo from 'socket.io-client'
 
 createStorage()
 initStorage()
+
+// 建立socket连接
+const socket = socketIo('http://localhost:3000');
+socket.on('connect', () => {
+  // console.log('connect success')
+})
 
 const io = axios.create({
   baseURL: 'http://localhost:3000/',
@@ -69,8 +76,16 @@ const api = {
   },
 
   sendMessage(data = {}) {
-    const { userId } = data;
-    return io.get(`/ws/message/${userId}`).then(handleValidate);
+    socket.emit('join', 214)
+    socket.on('sys', (msg) => {
+      console.log('get messsage:', msg)
+    })
+    socket.emit('message', {
+      userId: 123,
+      roomId: 214,
+      otherSideId: 111,
+      msg: 'test'
+    })
   },
 };
 

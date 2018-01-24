@@ -51,8 +51,16 @@ export default class DepartmentList extends Component {
       <View style={styles.container}>
         {
           owner && owner.user
-          ? <Item type="owner" navigation={this.props.navigation} name={owner.user.userName} link={'FriendDetail'} params={{userId: owner.user.userId}}/>
-          : null
+          ? (
+            <Item
+              type="owner"
+              navigation={this.props.navigation}
+              name={owner.user.userName}
+              link={'FriendDetail'}
+              params={{
+                userId: owner.user.userId,
+              }}/>
+          ) : null
         }
         {child.map(d => <Item navigation={this.props.navigation} key={d.depId} name={d.depName} link={'Department'} params={{depId: d.depId}}/>)}
         {user.map(d => <Item type="user" navigation={this.props.navigation} key={d.userId} name={d.userName} link={'FriendDetail'} params={{userId: d.userId}}/>)}

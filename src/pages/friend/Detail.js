@@ -11,7 +11,7 @@ import api from '../../model/api';
 
 export default class FriendDetail extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
-    title: 'Name',
+    title: '详细资料',
     headerBackTitle: '返回',
   });
 
@@ -70,7 +70,6 @@ export default class FriendDetail extends Component {
       userId: userInfo.userId,
       otherSideId: user.userId
     }).then(({data}) => {
-      console.log('data', data)
       if(data.code === 0){
         this.props.navigation.navigate(
           'Chat',

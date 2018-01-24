@@ -53,7 +53,6 @@ export default class Chat extends Component {
         userInfo: results[0],
         rooms: results[1]
       })
-      console.log(results)
     }).catch(err => {
       console.warn(err.message);
     })
@@ -78,16 +77,16 @@ export default class Chat extends Component {
       roomId: roomId,
       messageContent: textValue
     })
-    .then(({data}) => {
-      if (data.code === 0) {
-        // 存到storage里
-      } else {
-        Toast.info('请求失败', 1);
-      }
-    })
-    this.setState({
-      textValue: ''
-    })
+    // .then(({data}) => {
+    //   if (data.code === 0) {
+    //     // 存到storage里
+    //   } else {
+    //     Toast.info('请求失败', 1);
+    //   }
+    // })
+    // this.setState({
+    //   textValue: ''
+    // })
   }
 
   render() {
