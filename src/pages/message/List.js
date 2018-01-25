@@ -43,6 +43,10 @@ export default class MessageList extends Component {
   componentWillMount() {
     this.getLocalStorage()
     this.getUserInfo(this.fetchMessage)
+    ep.on('update', this.handleFocusChanged)
+  }
+  handleFocusChanged = () => {
+    this.getLocalStorage()    
   }
 
   getLocalStorage = () => {

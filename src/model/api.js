@@ -80,12 +80,7 @@ const api = {
     socket.on('sys', (msg) => {
       console.log('get messsage:', msg)
     })
-    socket.emit('message', {
-      userId: 123,
-      roomId: 214,
-      otherSideId: 111,
-      msg: 'test'
-    })
+    socket.emit('message', data)
   },
 };
 

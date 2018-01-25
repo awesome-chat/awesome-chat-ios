@@ -6,6 +6,8 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
+import { Badge } from 'antd-mobile';
+import moment from 'moment';
 
 export default class MessageItem extends Component {
   render() {
@@ -36,19 +38,22 @@ export default class MessageItem extends Component {
                 color:'#666'
               }}>{otherSideName}</Text>
               <Text style={{
-                width:40,
+                width:100,
+                textAlign: 'right',
                 color:'#666'
-              }}>{message.time}</Text>
+              }}>{moment(message.time).format('HH:mm:ss')}</Text>
             </View>
             <View style={styles.itemRightPart}>
               <Text style={{
                 flex:1,
                 color:'#666'
               }}>{message.content}</Text>
-              <Text style={{
+              <Badge text={'123'} style={{marginTop: 10, marginRight: 10}}/>
+              {/* <Text style={{
+                textAlign: 'right',
                 width:40,
                 color:'#666'
-              }}>tips</Text>
+              }}>tips</Text> */}
             </View>
           </View>
         </View>

@@ -100,13 +100,19 @@ export default class Chat extends Component {
     const { roomId, rooms, otherSideName } = this.state;
     const newRooms = _.cloneDeep(rooms)
     // 存到本地
-    let isCreate = true
-    newRooms.forEach(d => {
+    let isCreate = true;
+    let room = {};
+    let i;
+    newRooms.forEach((d, index) => {
       if(d.roomId === roomId) {
+        i = index
         isCreate = false;
-        d.messages.push(messageItem)
+        room = d;
+        room.messages.push(messageItem)
       }
     })
+    newRooms.splice(i, 1);
+    newRooms.unshift (room);
     if (isCreate) {
       newRooms.unshift({
         roomId,
@@ -124,11 +130,11 @@ export default class Chat extends Component {
     console.log('-------------------------')
     // 通过roomId建立ws
     // ep.emit('updateList')
-    const { textValue, roomId, messageList, rooms, otherSideName } = this.state;
+    const { userInfo, textValue, user, roomId, messageList, rooms, otherSideName } = this.state;
     const newMessageList =  _.cloneDeep(messageList)
     const messageItem = {
       isMine: true,
-      time: '',
+      time: Date.parse(new Date()),
       content: textValue,
     }
     // 本地持久化
@@ -141,11 +147,14 @@ export default class Chat extends Component {
       textValue: ''
     })
 
+    ep.emit('update')
+
     // 同步到服务器
     api.sendMessage({
       roomId: roomId,
-      // owner: true,
-      messageContent: textValue
+      otherSideId: user.userId,
+      userId: userInfo.userId,
+      ...messageItem
     })
     // .then(({data}) => {
     //   if (data.code === 0) {
