@@ -24,43 +24,20 @@ export default class Chat extends Component {
 
   constructor(props){
     super(props);
+    const {params = {}} = this.props.navigation.state;
     this.state = {
       showOther: false,
       textValue: '',
       user: {},
-      roomId: '',
+      roomId: params.roomId,
       messageList: [],
       rooms: [],
-      otherSideId: '',
+      otherSideId: params.otherSideName,
     }
   }
 
   componentWillMount() {
-    // this.fetchDetail()
-    this.initRoom()
     this.getLocalStorage()
-  }
-
-  fetchDetail = () => {
-    // api.getUser({
-    //   userId: this.props.navigation.state.otherSideId,
-    // })
-    // .then(({data}) => {
-    //   if (data.code === 0) {
-    //     this.setState({
-    //       user: data.data || {},
-    //     })
-    //   }
-    // })
-  }
-
-  initRoom = () => {
-    const {params = {}} = this.props.navigation.state;
-    // 必须携带roomId
-    this.setState({
-      roomId: params.roomId,
-      otherSideName: params.otherSideName,
-    })
   }
 
   getLocalStorage = () => {
@@ -73,6 +50,19 @@ export default class Chat extends Component {
         if(d.roomId === this.state.roomId) {
           messageList = d.messages
         }
+      })
+      const newRooms = results[1].map(d => {
+        if(d.roomId === this.state.roomId) {
+          d.newMessageNum = 0
+        }
+        return d
+      })
+      // 去掉新消息通知
+      storage.save({
+        key: 'rooms',
+        data: newRooms
+      }).then(d => {
+        ep.emit('update')        
       })
       this.setState({
         userInfo: results[0],

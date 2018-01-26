@@ -8,9 +8,6 @@ initStorage()
 
 // 建立socket连接
 const socket = socketIo('http://localhost:3000');
-socket.on('connect', () => {
-  // console.log('connect success')
-})
 
 const io = axios.create({
   baseURL: 'http://localhost:3000/',
@@ -76,8 +73,13 @@ const api = {
     return io.get(`/message/${userId}`).then(handleValidate);
   },
 
+  userOnline(data = {}) {
+    console.log('online', data.userId)
+    socket.emit('online', data.userId)
+  },
+
   sendMessage(data = {}) {
-    socket.emit('join', 214)
+    socket.emit('join', data.roomId, data.userId)
     socket.on('sys', (msg) => {
       console.log('get messsage:', msg)
     })

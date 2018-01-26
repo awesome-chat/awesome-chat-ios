@@ -55,7 +55,7 @@ export default class MessageList extends Component {
       key: 'rooms'
     }).then(ret => {
       this.setState({
-        rooms: ret
+        rooms: ret || []
       })
     }).catch(err => {
       console.warn(err.message);
@@ -73,6 +73,11 @@ export default class MessageList extends Component {
   }
 
   fetchMessage = (userId) => {
+    // 上线
+    api.userOnline({
+      userId
+    })
+    // 拉取消息
     api.getMessage({
       userId
     })
@@ -82,19 +87,16 @@ export default class MessageList extends Component {
         console.log('data', data)
         
         const newData = data.data.filter(d => d.messageFromId !== userId)
-        // const newData = data.data.filter(d => d.messageFromId === userId)
         const remoteRooms = {}
 
-        console.log('newData', newData, newRooms)
+        console.log('newData', newData)
         newData.map((d) => {
-          console.log('d', d)
           let createRoom = true
-          console.log(newRooms)
           newRooms.forEach((e) => {
             if (d.messageToId === e.roomId) {
-              let createRoom = false;
+              createRoom = false;
               e.newMessageNum = (e.newMessageNum || 0) + 1;
-              e.messages.unshift({
+              e.messages.push({
                 content: d.messageContent,
                 time: d.createTime
               })
@@ -134,6 +136,7 @@ export default class MessageList extends Component {
             <MessageItem
               key={d.roomId || i}
               roomId={d.roomId}
+              newMessageNum={d.newMessageNum}
               otherSideName={d.otherSideName}
               message={d.messages ? d.messages[d.messages.length - 1] : []}
               navigation={this.props.navigation}/>

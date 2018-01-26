@@ -11,6 +11,7 @@ import moment from 'moment';
 
 export default class MessageItem extends Component {
   render() {
+    console.log(this.props)
     const { roomId, otherSideName, message, newMessageNum = ''  } = this.props;
     return (
       <TouchableHighlight
@@ -41,14 +42,14 @@ export default class MessageItem extends Component {
                 width:100,
                 textAlign: 'right',
                 color:'#666'
-              }}>{moment(message.time).format('HH:mm:ss')}</Text>
+              }}>{moment(Number(message.time)).format('HH:mm:ss')}</Text>
             </View>
             <View style={styles.itemRightPart}>
               <Text style={{
                 flex:1,
                 color:'#666'
               }}>{message.content}</Text>
-              <Badge text={newMessageNum} style={{marginTop: 10, marginRight: 10}}/>
+              <Badge text={newMessageNum || ''} style={{marginTop: 10, marginRight: 10}}/>
             </View>
           </View>
         </View>
