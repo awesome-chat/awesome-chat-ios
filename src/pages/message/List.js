@@ -7,6 +7,7 @@ import {
   ScrollView
 } from 'react-native';
 import { Toast, Badge } from 'antd-mobile';
+import _ from 'lodash';
 import MessageItem from './Item';
 import SearchInput from '../../components/SearchInput';
 import api from '../../model/api';
@@ -77,10 +78,45 @@ export default class MessageList extends Component {
     })
     .then(({data}) => {
       if (data && data.code === 0) {
+        const newRooms = _.cloneDeep(this.state.rooms)
+        console.log('data', data)
+        
+        const newData = data.data.filter(d => d.messageFromId !== userId)
+        // const newData = data.data.filter(d => d.messageFromId === userId)
+        const remoteRooms = {}
+
+        console.log('newData', newData, newRooms)
+        newData.map((d) => {
+          console.log('d', d)
+          let createRoom = true
+          console.log(newRooms)
+          newRooms.forEach((e) => {
+            if (d.messageToId === e.roomId) {
+              let createRoom = false;
+              e.newMessageNum = (e.newMessageNum || 0) + 1;
+              e.messages.unshift({
+                content: d.messageContent,
+                time: d.createTime
+              })
+            }
+          })
+          if(createRoom) {
+            newRooms.push({
+              roomId: d.messageToId,
+              otherSideName: d.user.userName,
+              newMessageNum: 1,
+              messages: [{
+                content: d.messageContent,
+                time: d.createTime
+              }]
+            })
+          }
+        })
+        console.log('result', newRooms)
         storage.save({
-          key: 'message',
-          data: data.data,
-        });
+          key: 'rooms',
+          data: newRooms,
+        }).then(d => {ep.emit('update')});
       } else {
         Toast.info('拉取信息失败', 1);
       }
@@ -96,10 +132,10 @@ export default class MessageList extends Component {
           <SearchInput />
           {rooms.map((d,i) => (
             <MessageItem
-              key={d.roomId}
+              key={d.roomId || i}
               roomId={d.roomId}
               otherSideName={d.otherSideName}
-              message={d.messages[d.messages.length - 1]}
+              message={d.messages ? d.messages[d.messages.length - 1] : []}
               navigation={this.props.navigation}/>
           ))}
         </ScrollView>

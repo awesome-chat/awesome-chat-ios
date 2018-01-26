@@ -72,6 +72,7 @@ const api = {
 
   getMessage(data = {}) {
     const { userId } = data;
+    console.log('userId', userId)
     return io.get(`/message/${userId}`).then(handleValidate);
   },
 

@@ -63,10 +63,12 @@ $ npm run dev
       roomName: '',
       // 对方名称
       otherSideName: '',
+      // 新消息数量
+      newMessageNum: '',
       // 信息
       messages: [
         {
-          //是否是当前用户发出的信息
+          // 是否是当前用户发出的信息
           isMine: true,
           createTime: '',
           content: '',

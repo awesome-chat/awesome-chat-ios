@@ -11,7 +11,7 @@ import moment from 'moment';
 
 export default class MessageItem extends Component {
   render() {
-    const { roomId, otherSideName, message  } = this.props;
+    const { roomId, otherSideName, message, newMessageNum = ''  } = this.props;
     return (
       <TouchableHighlight
         onPress={()=>{this.props.navigation.navigate('Chat',{
@@ -48,12 +48,7 @@ export default class MessageItem extends Component {
                 flex:1,
                 color:'#666'
               }}>{message.content}</Text>
-              <Badge text={'123'} style={{marginTop: 10, marginRight: 10}}/>
-              {/* <Text style={{
-                textAlign: 'right',
-                width:40,
-                color:'#666'
-              }}>tips</Text> */}
+              <Badge text={newMessageNum} style={{marginTop: 10, marginRight: 10}}/>
             </View>
           </View>
         </View>

@@ -111,14 +111,16 @@ export default class Chat extends Component {
         room.messages.push(messageItem)
       }
     })
-    newRooms.splice(i, 1);
-    newRooms.unshift (room);
+
     if (isCreate) {
       newRooms.unshift({
         roomId,
         otherSideName,      
         messages: [messageItem]
       })
+    } else {
+      newRooms.splice(i, 1);
+      newRooms.unshift(room);
     }
     storage.save({
       key: 'rooms',
@@ -127,7 +129,6 @@ export default class Chat extends Component {
   }
 
   handleSubmitText = (e) => {
-    console.log('-------------------------')
     // 通过roomId建立ws
     // ep.emit('updateList')
     const { userInfo, textValue, user, roomId, messageList, rooms, otherSideName } = this.state;
