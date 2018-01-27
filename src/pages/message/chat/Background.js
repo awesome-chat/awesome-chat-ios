@@ -4,15 +4,23 @@ import {
   View,
   Text,
   Image,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
 import KeyboardSpacer from '../../../components/KeyboardSpacer';
 
 export default class ChatBg extends Component {
+
   render() {
     const {messageList = []} = this.props;
     return (
-      <ScrollView style={{flexDirection:'column', paddingTop: 5}}>
+      <ScrollView
+        onContentSizeChange={(contentWidth, contentHeight)=>{        
+          this._scrollView.scrollToEnd({animated: false});
+        }}
+        ref={component => this._scrollView = component}
+        style={{flexDirection:'column', paddingTop: 5}}
+      >
         {messageList.map((d, i) => (
           d.isMine ? (
             <View style={styles.messageRight} key={i}>
@@ -28,31 +36,6 @@ export default class ChatBg extends Component {
             </View>
           )
         ))}
-        {/* <View style={styles.messageRight}>
-          <View style={styles.inMessageRight}>
-            <Text style={styles.textRight}>我知道啦 qq plzScroll qq plz</Text>
-          </View>
-        </View>
-        <View style={styles.messageLeft}>
-          <View style={styles.inMessageLeft}>
-            <Text style={styles.textLeft}>Scroll qq plz</Text>
-          </View>
-        </View>
-        <View style={styles.messageLeft}>
-          <View style={styles.inMessageLeft}>
-            <Text style={styles.textLeft}>sadvasdvbvasd qq plz</Text>
-          </View>
-        </View>
-        <View style={styles.messageLeft}>
-          <View style={styles.inMessageLeft}>
-            <Text style={styles.textLeft}>Scroll qsavnfdbkdfsbnfdbq plz</Text>
-          </View>
-        </View>
-        <View style={styles.messageRight}>
-          <View style={styles.inMessageRight}>
-            <Text style={styles.textRight}>Scroll qq plz</Text>
-          </View>
-        </View> */}
       </ScrollView>
     );
   }

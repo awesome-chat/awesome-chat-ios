@@ -42,10 +42,52 @@ export default class MessageList extends Component {
   }
 
   componentWillMount() {
+    this.listenMessage()
     this.getLocalStorage()
     this.getUserInfo(this.fetchMessage)
     ep.on('update', this.handleFocusChanged)
   }
+
+  listenMessage = () => {
+    api.listernMessage((data) => {
+      storage.load({
+        key: 'rooms'
+      }).then(ret => {
+        const newRooms = _.cloneDeep(ret);
+        let createRoom = true
+        newRooms.map(d => {
+          if(d.roomId === data.roomId) {
+            createRoom = false
+            d.newMessageNum = (d.newMessageNum || 0) + 1
+            d.messages.push({
+              createTime: data.createTime,
+              content: data.content
+            })
+          }
+        })
+        if (createRoom) {
+          newRooms.unshift({
+            roomId: data.roomId,
+            otherSideName: data.otherSideName,
+            newMessageNum: 1,
+            messages: [
+              {
+                createTime: data.createTime,
+                content: data.content
+              }
+            ]
+          })
+        }
+        storage.save({
+          key: 'rooms',
+          data: newRooms
+        }).then(d => {
+          ep.emit('update')
+        })
+      })
+    })
+  }
+
   handleFocusChanged = () => {
     this.getLocalStorage()    
   }
@@ -83,51 +125,51 @@ export default class MessageList extends Component {
     })
     .then(({data}) => {
       if (data && data.code === 0) {
-        const newRooms = _.cloneDeep(this.state.rooms)
-        console.log('data', data)
-        
-        const newData = data.data.filter(d => d.messageFromId !== userId)
-        const remoteRooms = {}
-
-        console.log('newData', newData)
-        newData.map((d) => {
-          let createRoom = true
-          newRooms.forEach((e) => {
-            if (d.messageToId === e.roomId) {
-              createRoom = false;
-              e.newMessageNum = (e.newMessageNum || 0) + 1;
-              e.messages.push({
-                content: d.messageContent,
-                time: d.createTime
-              })
-            }
-          })
-          if(createRoom) {
-            newRooms.push({
-              roomId: d.messageToId,
-              otherSideName: d.user.userName,
-              newMessageNum: 1,
-              messages: [{
-                content: d.messageContent,
-                time: d.createTime
-              }]
-            })
-          }
-        })
-        console.log('result', newRooms)
-        storage.save({
-          key: 'rooms',
-          data: newRooms,
-        }).then(d => {ep.emit('update')});
+        this.updateList(userId, data)
       } else {
         Toast.info('拉取信息失败', 1);
       }
     })
   }
 
+  updateList = (userId, data) => {
+    const newRooms = _.cloneDeep(this.state.rooms)
+    
+    const newData = data.data.filter(d => d.messageFromId !== userId)
+    const remoteRooms = {}
+
+    newData.map((d) => {
+      let createRoom = true
+      newRooms.forEach((e) => {
+        if (d.messageToId === e.roomId) {
+          createRoom = false;
+          e.newMessageNum = (e.newMessageNum || 0) + 1;
+          e.messages.push({
+            content: d.messageContent,
+            createTime: d.createTime
+          })
+        }
+      })
+      if(createRoom) {
+        newRooms.push({
+          roomId: d.messageToId,
+          otherSideName: d.user.userName,
+          newMessageNum: 1,
+          messages: [{
+            content: d.messageContent,
+            createTime: d.createTime
+          }]
+        })
+      }
+    })
+    storage.save({
+      key: 'rooms',
+      data: newRooms,
+    }).then(d => {ep.emit('update')});
+  }
+
   render() {
     const { rooms } = this.state
-    console.log('render', rooms)
     return (
       <View style={styles.container}>
         <ScrollView>

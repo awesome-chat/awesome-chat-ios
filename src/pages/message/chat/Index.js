@@ -125,7 +125,7 @@ export default class Chat extends Component {
     const newMessageList =  _.cloneDeep(messageList)
     const messageItem = {
       isMine: true,
-      time: Date.parse(new Date()),
+      createTime: Date.parse(new Date()),
       content: textValue,
     }
     // 本地持久化
@@ -145,6 +145,7 @@ export default class Chat extends Component {
       roomId: roomId,
       otherSideId: user.userId,
       userId: userInfo.userId,
+      userName: userInfo.userName,
       ...messageItem
     })
     // .then(({data}) => {

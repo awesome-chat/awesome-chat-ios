@@ -69,20 +69,21 @@ const api = {
 
   getMessage(data = {}) {
     const { userId } = data;
-    console.log('userId', userId)
     return io.get(`/message/${userId}`).then(handleValidate);
   },
 
   userOnline(data = {}) {
-    console.log('online', data.userId)
     socket.emit('online', data.userId)
   },
 
-  sendMessage(data = {}) {
-    socket.emit('join', data.roomId, data.userId)
-    socket.on('sys', (msg) => {
-      console.log('get messsage:', msg)
+  listernMessage(cb) {
+    socket.on('sys', (data) => {
+      cb(data)
     })
+  },
+
+  sendMessage(data = {}) {
+    // socket.emit('join', data.roomId, data.userId)
     socket.emit('message', data)
   },
 };
