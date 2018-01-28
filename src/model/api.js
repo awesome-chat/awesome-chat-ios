@@ -2,15 +2,20 @@ import axios from 'axios';
 import { Toast } from 'antd-mobile';
 import { initStorage, createStorage } from './storage';
 import socketIo from 'socket.io-client'
-
+let config = {}
+if (process.env.NODE_ENV === 'development') {
+  config = require('../config/dev.config')
+} else {
+  config = require('../config/pord.config')
+}
 createStorage()
 initStorage()
 
 // 建立socket连接
-const socket = socketIo('http://localhost:3000');
+const socket = socketIo(config.url);
 
 const io = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: config.url,
   timeout: 10000,
   withCredentials: true,
   responseType: 'json',
@@ -25,7 +30,7 @@ storage.load({
 }).then(ret => {
   io.defaults.headers.common.authorization_user = ret.token;
 }).catch(err => {
-  console.warn(err.message);
+  console.log(err.message);
   io.defaults.headers.common.authorization_user = '';
 })
 
@@ -68,8 +73,8 @@ const api = {
   },
 
   getMessage(data = {}) {
-    const { userId } = data;
-    return io.get(`/message/${userId}`).then(handleValidate);
+    const { userId, lastUpdateTime } = data;
+    return io.get(`/message/${userId}/after/${lastUpdateTime}`).then(handleValidate);
   },
 
   userOnline(data = {}) {

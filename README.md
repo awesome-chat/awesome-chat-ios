@@ -54,7 +54,8 @@ $ npm run dev
 {
    // 当前用户信息
   userInfo: {},
-
+  // 上次拉取消息时间
+  lastUpdateTime: '',
   // 聊天室信息（会话）
   rooms: [
     {

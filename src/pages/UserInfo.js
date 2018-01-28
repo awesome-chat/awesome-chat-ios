@@ -39,7 +39,7 @@ export default class UserInfo extends Component {
         user: ret
       })
     }).catch(err => {
-      console.warn(err.message);
+      console.log(err.message);
     })
   }
 

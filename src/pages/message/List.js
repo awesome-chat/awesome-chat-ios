@@ -4,9 +4,10 @@ import {
   View,
   Text,
   Image,
-  ScrollView
+  ScrollView,
+  TouchableHighlight
 } from 'react-native';
-import { Toast, Badge } from 'antd-mobile';
+import { Toast, Badge, Popover, Icon } from 'antd-mobile';
 import _ from 'lodash';
 import MessageItem from './Item';
 import SearchInput from '../../components/SearchInput';
@@ -14,10 +15,40 @@ import api from '../../model/api';
 import ep from '../../store'
 
 export default class MessageList extends Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation, screenProps }) => ({
     title: '消息',
     tabBarLabel: '消息',
     headerLeft: null,
+    headerRight: (
+      <Popover
+        overlayStyle={{
+          width: 100,
+          top: 40,
+        }}
+        overlay={[
+          (
+            <Popover.Item key="5" value="special">
+              <TouchableHighlight
+                onPress={() => {navigation.navigate('Login')}}
+                underlayColor='#fff'
+              >
+                <Text>创建群</Text>
+              </TouchableHighlight>
+            </Popover.Item>
+          ),
+        ]}
+      >
+        <View style={{
+          marginTop: 10,
+          marginRight: 10,
+          display: 'flex',
+          alignItems: 'center',
+        }}
+        >
+          <Icon type="ellipsis"/>
+        </View>
+      </Popover>
+    ),
     tabBarIcon: ({ focused }) => {
       return focused ? <View style={{width: 30, height: 30}}>
         <Badge text={''}>
@@ -31,7 +62,7 @@ export default class MessageList extends Component {
         style={{width: 30, height: 30}}
       /> 
     },
-  };
+  });
 
   constructor(props) {
     super(props);
@@ -100,28 +131,30 @@ export default class MessageList extends Component {
         rooms: ret || []
       })
     }).catch(err => {
-      console.warn(err.message);
+      console.log(err.message);
     })
   }
 
   getUserInfo = (cb) => {
-    storage.load({
-      key: 'userInfo',
-    }).then(ret => {
-      cb(ret.userId)
+    storage.getBatchData([
+      { key: 'userInfo' },
+      { key: 'lastUpdateTime' }
+    ]).then(results => {
+      cb(results[0].userId, results[1])
     }).catch(err => {
-      console.warn(err.message);
+      console.log(err.message);
     })
   }
 
-  fetchMessage = (userId) => {
+  fetchMessage = (userId, lastUpdateTime) => {
     // 上线
     api.userOnline({
       userId
     })
     // 拉取消息
     api.getMessage({
-      userId
+      userId,
+      lastUpdateTime
     })
     .then(({data}) => {
       if (data && data.code === 0) {
@@ -161,6 +194,11 @@ export default class MessageList extends Component {
           }]
         })
       }
+    })
+    // 存储更新时间
+    storage.save({
+      key: 'lastUpdateTime',
+      data: Date.parse(new Date())
     })
     storage.save({
       key: 'rooms',

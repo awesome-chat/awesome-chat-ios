@@ -38,7 +38,7 @@ export default class FriendDetail extends Component {
         userInfo: ret,
       })
     }).catch(err => {
-      console.warn(err.message);
+      console.log(err.message);
     })
   }
   

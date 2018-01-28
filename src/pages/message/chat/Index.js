@@ -70,7 +70,7 @@ export default class Chat extends Component {
         messageList
       })
     }).catch(err => {
-      console.warn(err.message);
+      console.log(err.message);
     })
   }
 

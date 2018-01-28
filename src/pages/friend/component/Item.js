@@ -12,11 +12,11 @@ export default class Item extends Component {
   switchColor = () => {
     switch(this.props.type) {
       case 'user':
-        return '#868FBF'
+        return '#6cc5fa'
       case 'owner':
-        return '#569FF1'
+        return '#3e9ff8'
       default:
-        return '#204264'
+        return '#2189f7'
     }
   }
 

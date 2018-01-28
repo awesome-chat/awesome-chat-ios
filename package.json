@@ -4,9 +4,9 @@
 	"private": true,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"dev": "react-native run-ios --simulator 'iPhone 8'",
+		"dev": "NODE_ENV=development react-native run-ios --simulator 'iPhone 8'",
 		"test": "jest",
-		"build": "react-native bundle --entry-file ./index.js --bundle-output ./bundle/index.ios.jsbundle --platform ios --assets-dest ./bundle --dev false"
+		"build": "NODE_ENV=production react-native bundle --entry-file ./index.js --bundle-output ./bundle/index.ios.jsbundle --platform ios --assets-dest ./bundle --dev false"
 	},
 	"dependencies": {
 		"antd-mobile": "^2.1.3",
