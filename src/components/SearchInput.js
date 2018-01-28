@@ -8,12 +8,21 @@ import {
 } from 'react-native';
 
 
-export default (props) => <TouchableHighlight underlayColor='#eee' style={styles.con} onPress={()=>{}}>
-  <View style={styles.input}>
-    <Image style={{width: 15, height: 15}} source={require('../asset/search.png')} />
-    <Text style={styles.text}>搜索</Text>
-  </View>
-</TouchableHighlight>
+export default (props) => (
+  <TouchableHighlight
+    underlayColor='#eee'
+    style={styles.con}
+    onPress={()=>{
+      console.log('on press')
+      props.navigation.navigate('Search')
+    }}
+  >
+    <View style={styles.input}>
+      <Image style={{width: 15, height: 15}} source={require('../asset/search.png')} />
+      <Text style={styles.text}>搜索</Text>
+    </View>
+  </TouchableHighlight>
+)
 
 const styles = StyleSheet.create({
   con: {

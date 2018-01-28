@@ -10,6 +10,7 @@ import DepartmentList from '../pages/friend/dep/List';
 import GroupList from '../pages/friend/group/List';
 import ServiceList from '../pages/friend/service/List';
 import UserInfo from '../pages/UserInfo';
+import SearchList from '../pages/search/List';
 
 const tab = TabNavigator({
   MessageList: {
@@ -28,4 +29,5 @@ export default StackNavigator({
   Department: {screen: DepartmentList},
   Group: {screen: GroupList},
   Service: {screen: ServiceList},
+  Search: {screen: SearchList}
 });

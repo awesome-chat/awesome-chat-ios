@@ -31,7 +31,7 @@ export default class FriendList extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <SearchInput />
+          <SearchInput navigation={this.props.navigation}/>
           <Item type='department' name='组织架构' style={{backgroundColor: '#7C7DBB'}} link={'Department'} navigation={this.props.navigation}/>
           <Item type='group' name='群组' style={{backgroundColor: '#70CF5B'}} link={'Group'} navigation={this.props.navigation}/>
           <Item type='service' name='帮助台' style={{backgroundColor: '#66D5F7'}} link={'Service'} navigation={this.props.navigation}/>

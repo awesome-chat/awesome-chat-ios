@@ -77,6 +77,11 @@ const api = {
     return io.get(`/message/${userId}/after/${lastUpdateTime}`).then(handleValidate);
   },
 
+  searchUsers(data = {}) {
+    const { value } = data;
+    return io.get(`/user/search/${value}`).then(handleValidate);
+  },
+
   userOnline(data = {}) {
     socket.emit('online', data.userId)
   },

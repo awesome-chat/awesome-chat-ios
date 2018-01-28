@@ -211,7 +211,7 @@ export default class MessageList extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <SearchInput />
+          <SearchInput navigation={this.props.navigation}/>
           {rooms.map((d,i) => (
             <MessageItem
               key={d.roomId || i}
