@@ -51,6 +51,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>get image from local</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>anticon.ttf</string>

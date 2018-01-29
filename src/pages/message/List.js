@@ -29,7 +29,7 @@ export default class MessageList extends Component {
           (
             <Popover.Item key="5" value="special">
               <TouchableHighlight
-                onPress={() => {navigation.navigate('Login')}}
+                onPress={() => {navigation.navigate('GroupCreate')}}
                 underlayColor='#fff'
               >
                 <Text>创建群</Text>

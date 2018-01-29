@@ -5,8 +5,12 @@ import {
   Text,
   Image,  
   FlatList,
-  ScrollView
+  ScrollView,
+  TouchableHighlight,
+  CameraRoll,
+  TouchableWithoutFeedback
 } from 'react-native';
+import ImagePicker from 'react-native-image-picker'
 import { Button } from 'antd-mobile';
 
 export default class UserInfo extends Component {
@@ -43,10 +47,47 @@ export default class UserInfo extends Component {
     })
   }
 
+  changeImage = () => {
+    var options = {
+      title: 'Select Avatar',
+      customButtons: [
+        {name: 'fb', title: 'Choose Photo from Facebook'},
+      ],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      }
+    };
+    
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+    
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+    
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+    
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
+  }
+
   render() {
     const { user } = this.state
     const group1 = [
-      {name:'我的资料',id:1},
+      {name:'我的资料', id:1, link:'FriendDetail', params: {userId: user.userId}},
       {name:'我的工牌',id:2},
     ]
     const group2 = [
@@ -61,7 +102,13 @@ export default class UserInfo extends Component {
     return (
       <ScrollView>
         <View style={styles.header}>
-          <View style={{width: 80,height: 80, backgroundColor:'#fff', marginTop: 30, borderRadius: 10}}></View>
+          <TouchableWithoutFeedback
+            onPress={()=>{
+              this.changeImage()
+            }}
+          >
+            <View style={{width: 80,height: 80, backgroundColor:'#fff', marginTop: 30, borderRadius: 10}}></View>
+          </TouchableWithoutFeedback>
           <View style={{marginTop: 10, flexDirection: 'row',}}>
             <Text style={{
               color: '#fff',
@@ -71,10 +118,19 @@ export default class UserInfo extends Component {
           </View>
         </View>
         <View style={styles.group}>
-          {group1.map(d => <View style={styles.groupItem} key={d.id}>
-            <Text style={styles.itemWord}>{d.name}</Text>
-            <Image style={styles.itemImage} source={require('../asset/enter.png')} />
-          </View>)}
+          {group1.map(d => <TouchableHighlight
+            key={d.name}
+            underlayColor='#eee'
+            onPress={()=>{
+              console.log('on press')
+              this.props.navigation.navigate(d.link, d.params || {})
+            }}
+          >
+            <View style={styles.groupItem} key={d.id}>
+              <Text style={styles.itemWord}>{d.name}</Text>
+              <Image style={styles.itemImage} source={require('../asset/enter.png')} />
+            </View>
+          </TouchableHighlight>)}
         </View>
         <View style={styles.group}>
           {group2.map(d => <View style={styles.groupItem} key={d.id}>

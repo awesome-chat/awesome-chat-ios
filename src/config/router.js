@@ -8,6 +8,7 @@ import FriendList from '../pages/friend/Index.js';
 import FriendDetail from '../pages/friend/Detail';
 import DepartmentList from '../pages/friend/dep/List';
 import GroupList from '../pages/friend/group/List';
+import GroupCreate from '../pages/friend/group/Create';
 import ServiceList from '../pages/friend/service/List';
 import UserInfo from '../pages/UserInfo';
 import SearchList from '../pages/search/List';
@@ -29,5 +30,6 @@ export default StackNavigator({
   Department: {screen: DepartmentList},
   Group: {screen: GroupList},
   Service: {screen: ServiceList},
-  Search: {screen: SearchList}
+  Search: {screen: SearchList},
+  GroupCreate: {screen: GroupCreate}
 });

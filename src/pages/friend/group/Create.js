@@ -8,8 +8,9 @@ import {
   Alert,
   Image
 } from 'react-native';
-import { List, InputItem, ActivityIndicator } from 'antd-mobile';
-import api from '../../model/api'
+import { List, InputItem, ActivityIndicator, Button, Icon, Toast } from 'antd-mobile';
+import _ from 'lodash'
+import api from '../../../model/api'
 
 export default class GroupCreate extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -20,11 +21,29 @@ export default class GroupCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      memberList: [],
       users: [],
       inputValue: '',
-      loading: false
+      loading: false,
+      userInfo: {}
     }
     this.tmpArr = []
+  }
+
+  componentWillMount() {
+    this.getCurrentUser()
+  }
+
+  getCurrentUser = () => {
+    storage.load({
+      key: 'userInfo',
+    }).then(ret => {
+      this.setState({
+        userInfo: ret,
+      })
+    }).catch(err => {
+      console.log(err.message);
+    })
   }
 
   handleChangeHoc = (e) => {
@@ -39,6 +58,7 @@ export default class GroupCreate extends Component {
       }, 2000)
     }
   }
+
   handleChange = (e) => {
     if(e) {
       api.searchUsers({
@@ -46,7 +66,7 @@ export default class GroupCreate extends Component {
       }).then(({data}) => {
         if(data.code === 0) {
           this.setState({
-            users: data.data
+            users: data.data.filter(d => d.userId !== this.state.userInfo.userId)
           })
         }
         this.setState({
@@ -61,8 +81,40 @@ export default class GroupCreate extends Component {
     this.tmpArr = []
   }
 
+  handleAdd = (data) => {
+    const newMemberList = _.cloneDeep(this.state.memberList)
+    let shouldAdd = true
+    newMemberList.forEach(d => {
+      if(d.userId === data.userId) {
+        shouldAdd = false
+      }
+    })
+    if( shouldAdd ) {
+      newMemberList.push(data)
+      this.setState({
+        memberList: newMemberList
+      })
+    } else {
+      Toast.info('该用户已添加', 1);
+    }
+
+  }
+
+  handleSubmit = () => {
+    api.createGroup({
+      member: this.state.memberList
+    })
+  }
+
+  handleDelete = (data) => {
+    const newMemberList = this.state.memberList.filter(d => d.userId !== data.userId)
+    this.setState({
+      memberList: newMemberList
+    })
+  }
+
   render() {
-    const {users, inputValue, loading} = this.state;
+    const {users, inputValue, loading, memberList} = this.state;
     return (
       <View style={styles.container}>
         <List
@@ -89,13 +141,42 @@ export default class GroupCreate extends Component {
               placeholder="请输入姓名或misId"
             />
           </View>
+          <View style={{flexDirection: 'row', paddingTop: 10, flexWrap: 'wrap' }}>
+            {memberList.map(d => (
+              <Button
+                key={d.userId}
+                size={16}
+                onClick={() => {this.handleDelete(d)}}
+                style={{
+                  marginBottom: 10,
+                  marginLeft: 10,
+                  marginRight: 10,
+                  padding: 4,
+                  width: 100,
+                  flexDirection: 'row',
+                }}
+              >
+                {`${d.userName}   `}
+                <Icon type="cross-circle-o" size={14} color="#666"/>
+              </Button>
+            ))}
+          </View>
+          <View style={{padding: 10}}>
+            <Button
+              disabled={memberList.length < 2}
+              type="primary"
+              size={18}
+              style={{padding: 10}}
+              onClick={this.handleSubmit}
+            >创建群</Button>
+          </View>
           {
             users.length > 0 && !loading ? (
               users.map(d => (
                 <List.Item
+                  disabled
                   key={d.userId}
-                  onClick={() => {this.props.navigation.navigate('FriendDetail',{userId: d.userId})}}
-                  arrow="horizontal"
+                  onClick={() => {this.handleAdd(d)}}
                 >
                   <Text style={{ color: '#666' }}>{`${d.userName}(${d.userMisId})`}</Text>
                 </List.Item>

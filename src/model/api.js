@@ -82,6 +82,11 @@ const api = {
     return io.get(`/user/search/${value}`).then(handleValidate);
   },
 
+  // socket相关
+  createGroup(data = {}) {
+    socket.emit('createGroup', data)
+  },
+
   userOnline(data = {}) {
     socket.emit('online', data.userId)
   },
@@ -93,7 +98,6 @@ const api = {
   },
 
   sendMessage(data = {}) {
-    // socket.emit('join', data.roomId, data.userId)
     socket.emit('message', data)
   },
 };
