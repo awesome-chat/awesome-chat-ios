@@ -17,6 +17,7 @@ const tab = TabNavigator({
   MessageList: {
     screen: MessageList,
     headerLeft: 'none',
+    animationEnabled: false
   },
   FriendList: {screen: FriendList},
   UserInfo: {screen: UserInfo},
@@ -32,4 +33,4 @@ export default StackNavigator({
   Service: {screen: ServiceList},
   Search: {screen: SearchList},
   GroupCreate: {screen: GroupCreate}
-});
+}, {initialRouteName: 'Login'});
