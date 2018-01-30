@@ -32,7 +32,8 @@ export default class Chat extends Component {
       roomId: params.roomId,
       messageList: [],
       rooms: [],
-      otherSideId: params.otherSideName,
+      isGroup: params.isGroup,
+      otherSideName: params.otherSideName,
     }
   }
 
@@ -119,9 +120,7 @@ export default class Chat extends Component {
   }
 
   handleSubmitText = (e) => {
-    // 通过roomId建立ws
-    // ep.emit('updateList')
-    const { userInfo, textValue, user, roomId, messageList, rooms, otherSideName } = this.state;
+    const { userInfo, textValue, user, roomId, messageList, rooms, otherSideName, isGroup } = this.state;
     const newMessageList =  _.cloneDeep(messageList)
     const messageItem = {
       isMine: true,
@@ -138,26 +137,29 @@ export default class Chat extends Component {
       textValue: ''
     })
 
+    // 告诉首页需要更新
     ep.emit('update')
-
+    
     // 同步到服务器
-    api.sendMessage({
-      roomId: roomId,
-      otherSideId: user.userId,
-      userId: userInfo.userId,
-      userName: userInfo.userName,
-      ...messageItem
-    })
-    // .then(({data}) => {
-    //   if (data.code === 0) {
-    //     // 存到storage里
-    //   } else {
-    //     Toast.info('请求失败', 1);
-    //   }
-    // })
-    // this.setState({
-    //   textValue: ''
-    // })
+    if(isGroup) {
+      // 群聊
+      api.sendMessage({
+        isGroup: true,
+        roomId: roomId,
+        userId: userInfo.userId,
+        userName: userInfo.userName,
+        otherSideName: otherSideName,
+        ...messageItem
+      })
+    } else {
+      // 单聊
+      api.sendMessage({
+        roomId: roomId,
+        userId: userInfo.userId,
+        userName: userInfo.userName,
+        ...messageItem
+      })
+    }
   }
 
   render() {

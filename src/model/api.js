@@ -67,9 +67,8 @@ const api = {
     return io.get(`/dep/child/${depId}`).then(handleValidate);
   },
 
-  getRoomId(data = {}) {
-    const { userId, otherSideId } = data;
-    return io.get(`/room/from/${userId}/to/${otherSideId}`).then(handleValidate);
+  createRoom(data = {}) {
+    return io.post(`/room/create`, data).then(handleValidate);
   },
 
   getMessage(data = {}) {

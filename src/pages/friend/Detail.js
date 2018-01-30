@@ -66,9 +66,9 @@ export default class FriendDetail extends Component {
   handleChat =() => {
     // get roomId
     const {user, userInfo} = this.state;
-    api.getRoomId({
+    api.createRoom({
       userId: userInfo.userId,
-      otherSideId: user.userId
+      otherIds: [user.userId]
     }).then(({data}) => {
       if(data.code === 0){
         this.props.navigation.navigate(

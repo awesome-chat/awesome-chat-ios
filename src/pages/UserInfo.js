@@ -7,7 +7,6 @@ import {
   FlatList,
   ScrollView,
   TouchableHighlight,
-  CameraRoll,
   TouchableWithoutFeedback
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker'
@@ -50,9 +49,6 @@ export default class UserInfo extends Component {
   changeImage = () => {
     var options = {
       title: 'Select Avatar',
-      customButtons: [
-        {name: 'fb', title: 'Choose Photo from Facebook'},
-      ],
       storageOptions: {
         skipBackup: true,
         path: 'images'

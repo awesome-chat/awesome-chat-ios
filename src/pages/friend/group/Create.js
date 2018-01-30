@@ -101,8 +101,21 @@ export default class GroupCreate extends Component {
   }
 
   handleSubmit = () => {
-    api.createGroup({
-      member: this.state.memberList
+    const { userInfo, memberList } = this.state;
+    api.createRoom({
+      userId: userInfo.userId,
+      otherIds: memberList.map(d => d.userId)
+    }).then(({data}) => {
+      if(data.code === 0){
+        this.props.navigation.navigate(
+          'Chat',
+          {
+            isGroup: true,
+            roomId: data.roomId,
+            otherSideName: `群聊(${this.state.memberList.length + 1})`
+          }
+        )
+      }
     })
   }
 
