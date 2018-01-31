@@ -84,17 +84,34 @@ export default class UserInfo extends Component {
     const { user } = this.state
     const group1 = [
       {name:'我的资料', id:1, link:'FriendDetail', params: {userId: user.userId}},
-      {name:'我的工牌',id:2},
+      // {name:'我的工牌',id:2},
     ]
     const group2 = [
       {name:'我的请假',id:1},
       {name:'一键打卡',id:2},
     ]
     const group3 = [
-      {name:'修改密码',id:1},
+      {name:'修改密码', id: 1, link: 'ResetPwd'},
       {name:'意见反馈',id:2},
       {name:'设置',id:3},
     ]
+
+    const renderItem = (d) => (
+      <TouchableHighlight
+        key={d.name}
+        underlayColor='#eee'
+        onPress={()=>{
+          console.log('on press')
+          this.props.navigation.navigate(d.link, d.params || {})
+        }}
+      >
+        <View style={styles.groupItem} key={d.id}>
+          <Text style={styles.itemWord}>{d.name}</Text>
+          <Image style={styles.itemImage} source={require('../asset/enter.png')} />
+        </View>
+      </TouchableHighlight>
+    )
+
     return (
       <ScrollView>
         <View style={styles.header}>
@@ -114,31 +131,13 @@ export default class UserInfo extends Component {
           </View>
         </View>
         <View style={styles.group}>
-          {group1.map(d => <TouchableHighlight
-            key={d.name}
-            underlayColor='#eee'
-            onPress={()=>{
-              console.log('on press')
-              this.props.navigation.navigate(d.link, d.params || {})
-            }}
-          >
-            <View style={styles.groupItem} key={d.id}>
-              <Text style={styles.itemWord}>{d.name}</Text>
-              <Image style={styles.itemImage} source={require('../asset/enter.png')} />
-            </View>
-          </TouchableHighlight>)}
+          {group1.map(d => renderItem(d))}
         </View>
         <View style={styles.group}>
-          {group2.map(d => <View style={styles.groupItem} key={d.id}>
-            <Text style={styles.itemWord}>{d.name}</Text>
-            <Image style={styles.itemImage} source={require('../asset/enter.png')} />
-          </View>)}
+          {group2.map(d => renderItem(d))}
         </View>
         <View style={styles.group}>
-          {group3.map(d => <View style={styles.groupItem} key={d.id}>
-            <Text style={styles.itemWord}>{d.name}</Text>
-            <Image style={styles.itemImage} source={require('../asset/enter.png')} />
-          </View>)}
+          {group3.map(d => renderItem(d))}
         </View>
         <View style={{
           alignItems: 'center',

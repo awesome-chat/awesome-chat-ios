@@ -9,7 +9,7 @@ import {
   ScrollView,
   TouchableHighlight
 } from 'react-native';
-import { Toast } from 'antd-mobile';
+import { Toast, Grid } from 'antd-mobile';
 import _ from 'lodash';
 import KeyboardSpacer from '../../../components/KeyboardSpacer';
 import Background from './Background'
@@ -164,6 +164,15 @@ export default class Chat extends Component {
 
   render() {
     const state = this.state;
+
+    const gridData = [{
+      img: <Image source={require('../../../asset/img.png')} style={{width: 30, height: 30}} />
+    }, {
+      img: <Image source={require('../../../asset/photo.png')} style={{width: 30, height: 30}} />
+    }, {
+      img: <Image source={require('../../../asset/cooperation.png')} style={{width: 30, height: 30}} />
+    }];
+
     return (
       <View style={[{flex: 1}]}>
         <Background messageList={state.messageList}/>
@@ -178,7 +187,7 @@ export default class Chat extends Component {
             alignItems:'center',
           }}>
             <Image
-              source={require('../../../asset/语音.png')}
+              source={require('../../../asset/voice.png')}
               style={{width: 25, height: 25}}
             />
           </View>
@@ -203,7 +212,7 @@ export default class Chat extends Component {
             alignItems:'center',
           }}>
             <Image
-              source={require('../../../asset/表情.png')}
+              source={require('../../../asset/expression.png')}
               style={{width: 25, height: 25}}
             />
           </View>
@@ -218,22 +227,25 @@ export default class Chat extends Component {
               onPress={this.handleShowOther}
             >
               <Image
-                source={require('../../../asset/添加.png')}
+                source={require('../../../asset/add.png')}
                 style={{width: 25, height: 25}}
               />
             </TouchableHighlight>
           </View>
         </View>
-        {state.showOther ? <View>
-          <View>
-            <View>
-              <Image
-                source={require('../../../asset/添加.png')}
-                style={{width: 25, height: 25}}
-              />
-              <Text>图片</Text>
-            </View>
-          </View>
+        {state.showOther ? <View style={{backgroundColor: '#f5f5f9'}}>
+          <Grid
+            hasLine={false}
+            data={gridData}
+            columnNum={3}
+            renderItem={d => (
+              <View style={{justifyContent:'center', alignItems:'center', height:'100%'}}>
+                {d.img}
+              </View>
+            )}
+            activeStyle={true}
+            onClick={(d, i) => { Toast.info(i, 1) }}
+          />
         </View> : null}
         <KeyboardSpacer/>
       </View>

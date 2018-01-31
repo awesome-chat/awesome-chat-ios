@@ -80,6 +80,10 @@ const api = {
     const { value } = data;
     return io.get(`/user/search/${value}`).then(handleValidate);
   },
+  
+  resetPwd(data = {}) {
+    return io.post('/user/password/', data).then(handleValidate);
+  },
 
   // socket相关
   createGroup(data = {}) {

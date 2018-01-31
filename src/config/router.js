@@ -12,6 +12,7 @@ import GroupCreate from '../pages/friend/group/Create';
 import ServiceList from '../pages/friend/service/List';
 import UserInfo from '../pages/UserInfo';
 import SearchList from '../pages/search/List';
+import ResetPwd from '../pages/personal/password/Edit'
 
 const tab = TabNavigator({
   MessageList: {
@@ -32,5 +33,6 @@ export default StackNavigator({
   Group: {screen: GroupList},
   Service: {screen: ServiceList},
   Search: {screen: SearchList},
-  GroupCreate: {screen: GroupCreate}
+  GroupCreate: {screen: GroupCreate},
+  ResetPwd: {screen: ResetPwd}
 }, {initialRouteName: 'Login'});
