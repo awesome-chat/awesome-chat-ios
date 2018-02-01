@@ -21,27 +21,51 @@ export default class ChatBg extends Component {
         ref={component => this._scrollView = component}
         style={{flexDirection:'column', paddingTop: 5}}
       >
-        {messageList.map((d, i) => (
-          d.isMine ? (
-            <View style={styles.messageRight} key={i}>
-            <View style={styles.inMessageRight}>
-              <Text style={styles.textRight}>{d.content}</Text>
-            </View>
-          </View>
-          ) : (
+        {messageList.map((d, i) => {
+          if (d.sysMessage) {
+            return (
+              <View style={styles.sysCon} key={i}>
+                <View style={styles.sysMessage}>
+                  <Text style={{textAlign: 'center', color: '#666', fontSize: 12}}>{d.content}</Text>
+                </View>
+              </View>
+            )
+          }
+          if (d.isMine) {
+            return (
+              <View style={styles.messageRight} key={i}>
+                <View style={styles.inMessageRight}>
+                  <Text style={styles.textRight}>{d.content}</Text>
+                </View>
+              </View>
+            )
+          }
+
+          return (
             <View style={styles.messageLeft} key={i}>
               <View style={styles.inMessageLeft}>
                 <Text style={styles.textLeft}>{d.content}</Text>
               </View>
             </View>
           )
-        ))}
+        })}
       </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  sysCon: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  sysMessage: {
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    backgroundColor: 'rgba(200, 200, 200, 0.2)'
+  },
   messageLeft: {
     flex: 1,
     marginLeft: 10,

@@ -59,6 +59,8 @@ $ npm run dev
   // 聊天室信息（会话）
   rooms: [
     {
+      // 是否是群
+      isGroup: true,
       roomId: '',
       // 群名字
       roomName: '',
@@ -69,6 +71,8 @@ $ npm run dev
       // 信息
       messages: [
         {
+          // 是否是系统通知
+          sysMessage: true,
           // 是否是当前用户发出的信息
           isMine: true,
           createTime: '',

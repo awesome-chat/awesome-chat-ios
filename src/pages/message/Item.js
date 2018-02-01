@@ -6,14 +6,56 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
-import { Badge } from 'antd-mobile';
+import { Badge, Modal } from 'antd-mobile';
 import moment from 'moment';
+import ep from '../../store'
 
 export default class MessageItem extends Component {
+  handleDelete = () => {
+    // 长按置顶或删除
+    Modal.operation([
+      { text: '置顶聊天', onPress: () => {
+        storage.load({
+          key: 'rooms'
+        }).then(ret => {
+          let topItem = {}
+          newRooms = ret.filter(d => {
+            if (d.roomId === this.props.roomId) {
+              topItem = d
+            }
+            return d.roomId !== this.props.roomId
+          })
+          newRooms.unshift(topItem)
+          console.log('newRooms', newRooms)
+          storage.save({
+            key: 'rooms',
+            data: newRooms
+          }).then(d => {
+            ep.emit('update')        
+          })
+        })
+      }},
+      { text: '删除会话', onPress: () => {
+        storage.load({
+          key: 'rooms'
+        }).then(ret => {
+          const newRooms = ret.filter(d =>d.roomId !== this.props.roomId)
+          console.log('newRooms', newRooms)
+          storage.save({
+            key: 'rooms',
+            data: newRooms
+          }).then(d => {
+            ep.emit('update')        
+          })
+        })
+      }},
+    ])
+  }
   render() {
-    const { roomId, otherSideName, message, newMessageNum = ''  } = this.props;
+    const { roomId, otherSideName, message, newMessageNum = '' } = this.props;
     return (
       <TouchableHighlight
+        onLongPress={this.handleDelete}
         onPress={()=>{this.props.navigation.navigate('Chat',{
           roomId: roomId,
           otherSideName: otherSideName

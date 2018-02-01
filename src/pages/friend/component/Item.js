@@ -12,11 +12,11 @@ export default class Item extends Component {
   switchColor = () => {
     switch(this.props.type) {
       case 'user':
-        return '#6cc5fa'
+        return '#71b5ca'
       case 'owner':
-        return '#3e9ff8'
+        return '#875646'
       default:
-        return '#2189f7'
+        return '#efd4cf'
     }
   }
 
@@ -26,6 +26,7 @@ export default class Item extends Component {
       department: require('../../../asset/department.png'),
       group: require('../../../asset/group.png'),
       service: require('../../../asset/service.png'),
+      system: require('../../../asset/system.png'),
     };
 
     return (

@@ -19,8 +19,7 @@ export default class DepartmentList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Item navigation={this.props.navigation}/>
-        <Item navigation={this.props.navigation}/>
+        <Item type='system' name='系统通知' style={{backgroundColor: '#ff7d14'}} link='Chat' params={{roomId:'system', otherSideName: '系统通知'}} navigation={this.props.navigation}/>
       </View>
     );
   }
