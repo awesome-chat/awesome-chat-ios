@@ -7,7 +7,8 @@ import {
   FlatList,
   TextInput,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
+  Animated
 } from 'react-native';
 import { Toast, Grid } from 'antd-mobile';
 import _ from 'lodash';
@@ -15,6 +16,7 @@ import KeyboardSpacer from '../../../components/KeyboardSpacer';
 import Background from './Background'
 import api from '../../../model/api'
 import ep from '../../../store'
+import emoji from '../../../constants/emoji'
 
 export default class Chat extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -26,7 +28,8 @@ export default class Chat extends Component {
     super(props);
     const {params = {}} = this.props.navigation.state;
     this.state = {
-      showOther: false,
+      showExpression: new Animated.Value(0),
+      showOther: new Animated.Value(0),
       textValue: '',
       user: {},
       roomId: params.roomId,
@@ -76,9 +79,47 @@ export default class Chat extends Component {
   }
 
   handleShowOther = () => {
-    this.setState({
-      showOther: !this.state.showOther
-    })
+    Animated.timing(
+      this.state.showExpression,
+      {
+        toValue: 0,
+        duration: 200,
+      }
+    ).start();
+    Animated.timing(
+      this.state.showOther,
+      {
+        toValue: this.state.showOther._value === 100 ? 0 : 100,
+        duration: 200,
+      }
+    ).start();
+  }
+
+  handleShowExp = () => {
+    Animated.timing(
+      this.state.showOther,
+      {
+        toValue: 0,
+        duration: 200,
+      }
+    ).start();
+    Animated.timing(
+      this.state.showExpression,
+      {
+        toValue: this.state.showExpression._value === 150 ? 0 : 150,
+        duration: 200,
+      }
+    ).start();
+  }
+
+  handleFocus = () => {
+    // Animated.timing(
+    //   this.state.showOther,
+    //   {
+    //     toValue: 0,
+    //     duration: 0,
+    //   }
+    // ).start();
   }
 
   handleChangeText = (e) => {
@@ -165,12 +206,14 @@ export default class Chat extends Component {
   render() {
     const state = this.state;
 
+    const expData = emoji.map(d => ({text: d}))
+
     const gridData = [{
-      img: <Image source={require('../../../asset/img.png')} style={{width: 30, height: 30}} />
+      img: <Image source={require('../../../asset/img.png')} style={{width: 35, height: 35}} />
     }, {
-      img: <Image source={require('../../../asset/photo.png')} style={{width: 30, height: 30}} />
+      img: <Image source={require('../../../asset/photo.png')} style={{width: 35, height: 35}} />
     }, {
-      img: <Image source={require('../../../asset/cooperation.png')} style={{width: 30, height: 30}} />
+      img: <Image source={require('../../../asset/cooperation.png')} style={{width: 35, height: 35}} />
     }];
 
     return (
@@ -199,6 +242,7 @@ export default class Chat extends Component {
           }}>
             <TextInput
               blurOnSubmit
+              onFocus={this.handleFocus}
               onSubmitEditing={this.handleSubmitText}
               onChangeText={this.handleChangeText}
               multiline={true}
@@ -211,10 +255,16 @@ export default class Chat extends Component {
             justifyContent: 'center',
             alignItems:'center',
           }}>
-            <Image
-              source={require('../../../asset/expression.png')}
-              style={{width: 25, height: 25}}
-            />
+            <TouchableHighlight
+              style={{borderRadius: 12.5}}
+              underlayColor="#fff"
+              onPress={this.handleShowExp}
+            >
+              <Image
+                source={require('../../../asset/expression.png')}
+                style={{width: 25, height: 25}}
+              />
+            </TouchableHighlight>
           </View>
           <View style={{
             width: 30,
@@ -233,20 +283,55 @@ export default class Chat extends Component {
             </TouchableHighlight>
           </View>
         </View>
-        {state.showOther ? <View style={{backgroundColor: '#f5f5f9'}}>
-          <Grid
-            hasLine={false}
-            data={gridData}
-            columnNum={3}
-            renderItem={d => (
-              <View style={{justifyContent:'center', alignItems:'center', height:'100%'}}>
-                {d.img}
-              </View>
-            )}
-            activeStyle={true}
-            onClick={(d, i) => { Toast.info(i, 1) }}
-          />
-        </View> : null}
+        <Animated.View
+          style={{
+            ...this.props.style,
+            overflow: 'hidden',
+            height: state.showExpression,
+          }}
+        >
+          <View style={{backgroundColor: '#f5f5f9'}}>
+            <Grid
+              isCarousel
+              carouselMaxRow={3}
+              itemStyle={{height: 50}}
+              hasLine={false}
+              data={expData}
+              columnNum={6}
+              renderItem={d => (
+                <View style={{ justifyContent:'center', alignItems:'center', height:50 }}>
+                  <Text>{d.text}</Text>
+                </View>
+              )}
+              onClick={(d, i) => {
+                this.setState({
+                  textValue: state.textValue + d.text
+                })
+              }}
+            />
+          </View>
+        </Animated.View>
+        <Animated.View
+          style={{
+            ...this.props.style,
+            overflow: 'hidden',
+            height: state.showOther,
+          }}
+        >
+          <View style={{backgroundColor: '#f5f5f9'}}>
+            <Grid
+              hasLine={false}
+              data={gridData}
+              columnNum={3}
+              renderItem={d => (
+                <View style={{justifyContent:'center', alignItems:'center', height:'100%'}}>
+                  {d.img}
+                </View>
+              )}
+              onClick={(d, i) => { Toast.info(i, 1) }}
+            />
+          </View>
+        </Animated.View>
         <KeyboardSpacer/>
       </View>
     );
