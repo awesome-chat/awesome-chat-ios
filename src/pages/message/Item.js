@@ -26,7 +26,6 @@ export default class MessageItem extends Component {
             return d.roomId !== this.props.roomId
           })
           newRooms.unshift(topItem)
-          console.log('newRooms', newRooms)
           storage.save({
             key: 'rooms',
             data: newRooms
@@ -40,7 +39,6 @@ export default class MessageItem extends Component {
           key: 'rooms'
         }).then(ret => {
           const newRooms = ret.filter(d =>d.roomId !== this.props.roomId)
-          console.log('newRooms', newRooms)
           storage.save({
             key: 'rooms',
             data: newRooms

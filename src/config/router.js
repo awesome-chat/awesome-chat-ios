@@ -13,6 +13,8 @@ import ServiceList from '../pages/friend/service/List';
 import UserInfo from '../pages/UserInfo';
 import SearchList from '../pages/search/List';
 import ResetPwd from '../pages/personal/password/Edit'
+import FeedBack from '../pages/personal/feedback/Edit'
+import SignIn from '../pages/personal/signin/Index'
 
 const tab = TabNavigator({
   MessageList: {
@@ -34,5 +36,7 @@ export default StackNavigator({
   Service: {screen: ServiceList},
   Search: {screen: SearchList},
   GroupCreate: {screen: GroupCreate},
-  ResetPwd: {screen: ResetPwd}
+  ResetPwd: {screen: ResetPwd},
+  FeedBack: {screen: FeedBack},
+  SignIn: {screen: SignIn},
 }, {initialRouteName: 'Login'});

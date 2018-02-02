@@ -30,7 +30,6 @@ storage.load({
 }).then(ret => {
   io.defaults.headers.common.authorization_user = ret.token;
 }).catch(err => {
-  console.log(err.message);
   io.defaults.headers.common.authorization_user = '';
 })
 
@@ -85,6 +84,9 @@ const api = {
     return io.post('/user/password/', data).then(handleValidate);
   },
 
+  sendFeedback(data = {}) {
+    return io.post('/user/feedback/', data).then(handleValidate);
+  },
   // socket相关
   createGroup(data = {}) {
     socket.emit('createGroup', data)

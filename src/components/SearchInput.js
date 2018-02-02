@@ -13,7 +13,6 @@ export default (props) => (
     underlayColor='#eee'
     style={styles.con}
     onPress={()=>{
-      console.log('on press')
       props.navigation.navigate('Search')
     }}
   >

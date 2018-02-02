@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { List, InputItem, ActivityIndicator, Button, Icon, Toast } from 'antd-mobile';
 import _ from 'lodash'
+import ep from '../../../store/index'
 import api from '../../../model/api'
 
 export default class GroupCreate extends Component {
@@ -102,21 +103,63 @@ export default class GroupCreate extends Component {
 
   handleSubmit = () => {
     const { userInfo, memberList } = this.state;
-    api.createRoom({
+    const roomId = [userInfo.userId].concat(memberList.map(d => d.userId)).join('-')
+    const content = '新房间已创建'
+    api.createGroup({
       userId: userInfo.userId,
-      otherIds: memberList.map(d => d.userId)
-    }).then(({data}) => {
-      if(data.code === 0){
+      otherIds: memberList.map(d => d.userId),
+      content,
+      time: Date.parse(new Date())
+    })
+    storage.load({
+      key: 'rooms'
+    }).then(ret => {
+      let hasExist = false
+      ret.forEach((d) => {
+        if(d.roomId === roomId) {
+          hasExist = true
+        }
+      })
+      if(hasExist) {
         this.props.navigation.navigate(
           'Chat',
           {
             isGroup: true,
-            roomId: data.roomId,
+            sysMessage: true,
+            roomId,
             otherSideName: `群聊(${this.state.memberList.length + 1})`
           }
         )
+      } else {
+        const newRooms = _.cloneDeep(ret)
+        newRooms.unshift({
+          roomId,
+          isGroup: true,
+          otherSideName: `群聊(${this.state.memberList.length + 1})`,
+          messages: [{
+            sysMessage: true,
+            createTime: Date.parse(new Date()),
+            content
+          }]
+        })
+        storage.save({
+          key: 'rooms',
+          data: newRooms
+        }).then(d => {
+          this.props.navigation.navigate(
+            'Chat',
+            {
+              isGroup: true,
+              sysMessage: true,
+              roomId,
+              otherSideName: `群聊(${this.state.memberList.length + 1})`
+            }
+          )
+          ep.emit('update')
+        })
       }
     })
+
   }
 
   handleDelete = (data) => {

@@ -103,6 +103,7 @@ export default class MessageList extends Component {
             newMessageNum: 1,
             messages: [
               {
+                sysMessage: data.sysMessage,                
                 createTime: data.createTime,
                 content: data.content
               }

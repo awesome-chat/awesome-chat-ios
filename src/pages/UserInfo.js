@@ -87,13 +87,13 @@ export default class UserInfo extends Component {
       // {name:'我的工牌',id:2},
     ]
     const group2 = [
-      {name:'我的请假',id:1},
-      {name:'一键打卡',id:2},
+      {name:'我的请假', id: 1},
+      {name:'一键打卡', id: 2, link: 'SignIn'},
     ]
     const group3 = [
       {name:'修改密码', id: 1, link: 'ResetPwd'},
-      {name:'意见反馈',id:2},
-      {name:'设置',id:3},
+      {name:'意见反馈', id: 2, link: 'FeedBack'},
+      {name:'设置', id: 3, link: 'Setting'},
     ]
 
     const renderItem = (d) => (
@@ -101,7 +101,6 @@ export default class UserInfo extends Component {
         key={d.name}
         underlayColor='#eee'
         onPress={()=>{
-          console.log('on press')
           this.props.navigation.navigate(d.link, d.params || {})
         }}
       >
