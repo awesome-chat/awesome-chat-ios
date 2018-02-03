@@ -24,6 +24,15 @@ const io = axios.create({
   },
 })
 
+const formIo = axios.create({
+  baseURL: config.url,
+  timeout: 10000,
+  withCredentials: true,
+  responseType: 'json',
+  headers: {
+    'Content-Type':'multipart/form-data',
+  },
+})
 // 获取authorization_user默认值
 storage.load({
   key: 'authorization',
@@ -86,6 +95,11 @@ const api = {
 
   sendFeedback(data = {}) {
     return io.post('/user/feedback/', data).then(handleValidate);
+  },
+
+  // 上传图片
+  uploadImg(data) {
+    return formIo.post('/img/upload/', data).then(handleValidate);
   },
   // socket相关
   createGroup(data = {}) {

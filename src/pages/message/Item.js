@@ -83,11 +83,19 @@ export default class MessageItem extends Component {
                 color:'#666'
               }}>{moment(Number(message.createTime)).format('HH:mm:ss')}</Text>
             </View>
-            <View style={styles.itemRightPart}>
-              <Text style={{
-                flex:1,
-                color:'#666'
-              }}>{message.content}</Text>
+            <View style={styles.itemRightBottom}>
+              <View style={{
+                width: '90%',
+                maxHeight: 35,
+                flexDirection: 'row',
+                marginRight: 10,
+              }}>
+                <Text style={{
+                  flex:1,
+                  color:'#666',
+                  width: '80%'
+                }}>{message.isPic ? '[图片]' : message.content}</Text>
+              </View>
               <Badge text={newMessageNum || ''} style={{marginTop: 10, marginRight: 10}}/>
             </View>
           </View>
@@ -120,6 +128,11 @@ const styles = StyleSheet.create({
   },
   itemRightPart: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 12,
+  },
+  itemRightBottom: {
+    maxHeight: 35,
+    flexDirection: 'row',
+    marginTop: 4,
   }
 })

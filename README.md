@@ -71,6 +71,8 @@ $ npm run dev
       // 信息
       messages: [
         {
+          // 是否是图片
+          isPic: true,
           // 是否是系统通知
           sysMessage: true,
           // 是否是当前用户发出的信息

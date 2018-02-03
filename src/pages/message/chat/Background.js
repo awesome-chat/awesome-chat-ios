@@ -5,7 +5,8 @@ import {
   Text,
   Image,
   ScrollView,
-  Dimensions
+  Dimensions,
+  TouchableHighlight
 } from 'react-native';
 import KeyboardSpacer from '../../../components/KeyboardSpacer';
 
@@ -30,6 +31,27 @@ export default class ChatBg extends Component {
                 </View>
               </View>
             )
+          }
+          if (d.isPic && d.isMine) {
+          // if(true) {
+            return (
+              <View style={styles.messageRight} key={i}>
+                <View style={styles.inMessageRight}>
+                  <TouchableHighlight
+                    onPress={()=>{}}
+                    underlayColor='#fff'
+                  >
+                    <Image
+                      style={styles.pic}
+                      source={require('../../../asset/bg.jpg')}
+                    />
+                  </TouchableHighlight>
+                </View>
+              </View>
+            )
+          }
+          if (d.isPic) {
+            
           }
           if (d.isMine) {
             return (
@@ -70,13 +92,19 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     alignItems: 'flex-start',
-    height: 40
+    // height: 40
+    marginBottom: 5,
   },
   messageRight: {
     flex: 1,
     marginRight: 10,
     alignItems: 'flex-end',
-    height: 40,
+    // height: 40,
+    marginBottom: 5,
+  },
+  pic: {
+    maxHeight: 300,
+    maxWidth: '80%',
   },
   inMessageRight: {
     backgroundColor: '#2189f7',
@@ -87,7 +115,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 10,
-    height: 30,
+    // height: 30,
     maxWidth: '80%'
   },
   inMessageLeft: {
@@ -98,7 +126,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingTop: 10,
     paddingBottom: 10,
-    height: 30,
+    // height: 30,
     borderRadius: 10,
     maxWidth: '80%'
   },

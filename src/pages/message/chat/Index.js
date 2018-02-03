@@ -17,6 +17,7 @@ import Background from './Background'
 import api from '../../../model/api'
 import ep from '../../../store'
 import emoji from '../../../constants/emoji'
+import ImagePicker from 'react-native-image-picker'
 
 export default class Chat extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -203,15 +204,74 @@ export default class Chat extends Component {
     }
   }
 
+  handleSubmitImg = (res) => {
+    console.log(res)
+    const { userInfo, user, roomId, messageList, rooms, otherSideName, isGroup } = this.state;
+    console.log(res)
+
+    let formData = new FormData();
+    let file = {uri: res.uri, type: 'multipart/form-data', name: res.fileName};
+    
+    formData.append("images",file);
+
+    api.uploadImg(formData).then(res => {
+      console.log(res)
+    })
+    
+    // fetch(url,{  
+    //   method:'POST',  
+    //   headers:{  
+    //       'Content-Type':'multipart/form-data',  
+    //   },  
+    //   body:formData,  
+    // })  
+    // .then((response) => response.text() )  
+    // .then((responseData)=>{  
+    
+    //   console.log('responseData',responseData);  
+    // })  
+    // .catch((error)=>{console.error('error',error)});
+
+
+
+
+    // const content = 'url'
+    // const newMessageList =  _.cloneDeep(messageList)
+    // const messageItem = {
+    //   isPic: true,
+    //   isMine: true,
+    //   createTime: Date.parse(new Date()),
+    //   content,
+    // }
+    // // 本地持久化
+    // this.saveToLocal(messageItem)
+    // newMessageList.push(messageItem)
+    // this.setState({
+    //   messageList: newMessageList,
+    //   textValue: ''
+    // })
+  }
+
   render() {
     const state = this.state;
 
     const expData = emoji.map(d => ({text: d}))
 
     const gridData = [{
-      img: <Image source={require('../../../asset/img.png')} style={{width: 35, height: 35}} />
+      img: <Image source={require('../../../asset/img.png')} style={{width: 35, height: 35}} />,
+      func: () => {
+        ImagePicker.launchImageLibrary({}, (response)  => {
+          this.handleSubmitImg(response)
+          // Same code as in above section!
+        });
+      }
     }, {
-      img: <Image source={require('../../../asset/photo.png')} style={{width: 35, height: 35}} />
+      img: <Image source={require('../../../asset/photo.png')} style={{width: 35, height: 35}} />,
+      func: () => {
+        ImagePicker.launchCamera({}, (response)  => {
+          // Same code as in above section!
+        });
+      }
     }, {
       img: <Image source={require('../../../asset/cooperation.png')} style={{width: 35, height: 35}} />
     }];
@@ -328,7 +388,9 @@ export default class Chat extends Component {
                   {d.img}
                 </View>
               )}
-              onClick={(d, i) => { Toast.info(i, 1) }}
+              onClick={(d, i) => {
+                d.func()
+              }}
             />
           </View>
         </Animated.View>
