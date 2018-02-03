@@ -12,7 +12,8 @@ createStorage()
 initStorage()
 
 // 建立socket连接
-const socket = socketIo(config.url);
+let socket;
+// const socket = socketIo(config.url);
 
 const io = axios.create({
   baseURL: config.url,
@@ -104,6 +105,14 @@ const api = {
   // socket相关
   createGroup(data = {}) {
     socket.emit('createGroup', data)
+  },
+  // 
+  connect() {
+    socket = socketIo(config.url);
+  },
+  // 离线
+  disconnect() {
+    socket.disconnect()
   },
 
   userOnline(data = {}) {

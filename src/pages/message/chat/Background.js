@@ -43,7 +43,7 @@ export default class ChatBg extends Component {
                   >
                     <Image
                       style={styles.pic}
-                      source={require('../../../asset/bg.jpg')}
+                      source={{uri: d.content}}
                     />
                   </TouchableHighlight>
                 </View>
@@ -51,7 +51,21 @@ export default class ChatBg extends Component {
             )
           }
           if (d.isPic) {
-            
+            return (
+              <View style={styles.messageLeft} key={i}>
+                <View style={styles.inMessageLeft}>
+                  <TouchableHighlight
+                    onPress={()=>{}}
+                    underlayColor='#fff'
+                  >
+                    <Image
+                      style={styles.pic}
+                      source={{uri: d.content}}
+                    />
+                  </TouchableHighlight>
+                </View>
+              </View>
+            )
           }
           if (d.isMine) {
             return (
@@ -103,7 +117,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   pic: {
-    maxHeight: 300,
+    height: 300,
+    width: 300,
     maxWidth: '80%',
   },
   inMessageRight: {

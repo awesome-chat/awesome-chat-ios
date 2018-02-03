@@ -52,7 +52,6 @@ export default class SignIn extends Component {
   }
 
   handleChangeState = (type, e) => {
-    console.log(type, this.state[type])
     this.setState({
       [type]: !this.state[type]
     })

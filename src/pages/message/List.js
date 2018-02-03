@@ -70,6 +70,7 @@ export default class MessageList extends Component {
       list: [],
       rooms: []
     }
+    api.connect()
   }
 
   componentWillMount() {
@@ -91,6 +92,7 @@ export default class MessageList extends Component {
             createRoom = false
             d.newMessageNum = (d.newMessageNum || 0) + 1
             d.messages.push({
+              isPic: data.isPic,
               createTime: data.createTime,
               content: data.content
             })
@@ -103,6 +105,7 @@ export default class MessageList extends Component {
             newMessageNum: 1,
             messages: [
               {
+                isPic: data.isPic,
                 sysMessage: data.sysMessage,                
                 createTime: data.createTime,
                 content: data.content
@@ -153,11 +156,16 @@ export default class MessageList extends Component {
       userId
     })
     // 拉取消息
+    console.log({
+      userId,
+      lastUpdateTime
+    })
     api.getMessage({
       userId,
       lastUpdateTime
     })
     .then(({data}) => {
+      console.log(data)
       if (data && data.code === 0) {
         this.updateList(userId, data)
       } else {
@@ -179,6 +187,7 @@ export default class MessageList extends Component {
           createRoom = false;
           e.newMessageNum = (e.newMessageNum || 0) + 1;
           e.messages.push({
+            isPic: d.isPic,
             content: d.messageContent,
             createTime: d.createTime
           })
@@ -190,6 +199,7 @@ export default class MessageList extends Component {
           otherSideName: d.user.userName,
           newMessageNum: 1,
           messages: [{
+            isPic: d.isPic,
             content: d.messageContent,
             createTime: d.createTime
           }]

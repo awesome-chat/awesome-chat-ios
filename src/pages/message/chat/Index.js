@@ -205,17 +205,53 @@ export default class Chat extends Component {
   }
 
   handleSubmitImg = (res) => {
-    console.log(res)
     const { userInfo, user, roomId, messageList, rooms, otherSideName, isGroup } = this.state;
-    console.log(res)
 
     let formData = new FormData();
     let file = {uri: res.uri, type: 'multipart/form-data', name: res.fileName};
     
     formData.append("images",file);
 
-    api.uploadImg(formData).then(res => {
-      console.log(res)
+    api.uploadImg(formData)
+    .then(res => res && res.data)
+    .then(data => {
+      if(data.code === 0) {
+        const newMessageList =  _.cloneDeep(messageList)
+        const messageItem = {
+          isPic: true,
+          isMine: true,
+          createTime: Date.parse(new Date()),
+          content: `http://localhost:3000/static/img/${data.fileName}`,
+        }
+        // 本地持久化
+        this.saveToLocal(messageItem)
+        newMessageList.push(messageItem)
+        this.setState({
+          messageList: newMessageList,
+          textValue: ''
+        })
+        if(isGroup) {
+          // 群聊
+          api.sendMessage({
+            isGroup: true,
+            roomId: roomId,
+            userId: userInfo.userId,
+            userName: userInfo.userName,
+            otherSideName: otherSideName,
+            ...messageItem
+          })
+        } else {
+          // 单聊
+          api.sendMessage({
+            roomId: roomId,
+            userId: userInfo.userId,
+            userName: userInfo.userName,
+            ...messageItem
+          })
+        }
+      } else {
+        Toast.info('图片上传失败')
+      }
     })
     
     // fetch(url,{  

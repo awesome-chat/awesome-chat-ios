@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker'
 import { Button } from 'antd-mobile';
+import api from '../model/api'
 
 export default class UserInfo extends Component {
   static navigationOptions = {
@@ -56,7 +57,6 @@ export default class UserInfo extends Component {
     };
     
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
     
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -78,6 +78,17 @@ export default class UserInfo extends Component {
         });
       }
     });
+  }
+
+  handleLogout = () => {
+    storage.remove({
+      key: 'authorization'
+    });
+    storage.remove({
+      key: 'rooms'
+    });
+    api.disconnect()
+    this.props.navigation.navigate('Login')
   }
 
   render() {
@@ -147,12 +158,7 @@ export default class UserInfo extends Component {
               marginTop: 20,
               width: '90%'
             }}
-            onClick={() => {
-              storage.remove({
-                key: 'authorization'
-              });
-              this.props.navigation.navigate('Login')
-            }}
+            onClick={this.handleLogout}
             type="warning"
           >退出登录</Button>
         </View>

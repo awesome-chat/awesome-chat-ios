@@ -109,7 +109,7 @@ export default class GroupCreate extends Component {
       userId: userInfo.userId,
       otherIds: memberList.map(d => d.userId),
       content,
-      time: Date.parse(new Date())
+      createTime: Date.parse(new Date())
     })
     storage.load({
       key: 'rooms'
