@@ -8,7 +8,7 @@ import {
   TextInput,
   ScrollView,
   TouchableHighlight,
-  Animated
+  Animated,
 } from 'react-native';
 import { Toast, Grid } from 'antd-mobile';
 import _ from 'lodash';
@@ -23,6 +23,17 @@ export default class Chat extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
     title: navigation.state.params.otherSideName || '',
     headerBackTitle: '返回',
+    headerRight: (
+      <TouchableHighlight
+        underlayColor='#eee'
+        style={styles.con}
+        onPress={()=>{
+          // need to re design
+        }}
+      >
+        <Image style={{width: 25, height: 25, marginRight: 10}} source={require('../../../asset/people_fill.png')} />
+      </TouchableHighlight>
+    ),
   });
 
   constructor(props){

@@ -16,11 +16,41 @@ export default class GroupList extends Component {
     headerBackTitle: '返回',
   };
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      rooms: []
+    }
+  }
+
+  componentWillMount() {
+    this.getList()
+  }
+
+  getList() {
+    storage.load({
+      key: 'rooms',
+    }).then(ret => {
+      console.log('ret', ret, ret.filter(d => d.isGroup))
+      
+      this.setState({
+        rooms: ret.filter(d => d.isGroup),
+      })
+    }).catch(err => {
+      console.log(err.message);
+    })
+  }
+
   render() {
+    const {rooms} = this.state
+    console.log('rooms', rooms)
     return (
       <View style={styles.container}>
-        <Item navigation={this.props.navigation}/>
-        <Item navigation={this.props.navigation}/>
+        {
+          rooms.map(d => (
+            <Item name={d.otherSideName} key={d.roomId} link='Chat' params={{roomId: d.roomId, otherSideName: d.otherSideName}} navigation={this.props.navigation}/>
+          ))
+        }
       </View>
     );
   }
