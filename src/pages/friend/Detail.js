@@ -74,6 +74,7 @@ export default class FriendDetail extends Component {
         this.props.navigation.navigate(
           'Chat',
           {
+            userId: userInfo.userId,
             roomId: data.roomId,
             otherSideName: user.userName
           }

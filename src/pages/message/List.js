@@ -67,6 +67,7 @@ export default class MessageList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userInfo: {},
       list: [],
       rooms: []
     }
@@ -144,6 +145,9 @@ export default class MessageList extends Component {
       { key: 'userInfo' },
       { key: 'lastUpdateTime' }
     ]).then(results => {
+      this.setState({
+        userInfo: results[0]
+      })
       cb(results[0].userId, results[1])
     }).catch(err => {
       console.log(err.message);
@@ -156,16 +160,11 @@ export default class MessageList extends Component {
       userId
     })
     // 拉取消息
-    console.log({
-      userId,
-      lastUpdateTime
-    })
     api.getMessage({
       userId,
       lastUpdateTime
     })
     .then(({data}) => {
-      console.log(data)
       if (data && data.code === 0) {
         this.updateList(userId, data)
       } else {
@@ -218,15 +217,17 @@ export default class MessageList extends Component {
   }
 
   render() {
-    const { rooms } = this.state
+    const { rooms, userInfo } = this.state
     return (
       <View style={styles.container}>
         <ScrollView>
           <SearchInput navigation={this.props.navigation}/>
           {rooms.map((d,i) => (
             <MessageItem
+              userId={userInfo.userId}
               key={d.roomId || i}
               roomId={d.roomId}
+              isGroup={d.isGroup}
               newMessageNum={d.newMessageNum}
               otherSideName={d.otherSideName}
               message={d.messages ? d.messages[d.messages.length - 1] : []}

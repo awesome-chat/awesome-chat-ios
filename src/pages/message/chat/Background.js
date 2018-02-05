@@ -27,13 +27,12 @@ export default class ChatBg extends Component {
             return (
               <View style={styles.sysCon} key={i}>
                 <View style={styles.sysMessage}>
-                  <Text style={{textAlign: 'center', color: '#666', fontSize: 12}}>{d.content}</Text>
+                  <Text style={{textAlign: 'center', color: '#fff', fontSize: 12}}>{d.content}</Text>
                 </View>
               </View>
             )
           }
           if (d.isPic && d.isMine) {
-          // if(true) {
             return (
               <View style={styles.messageRight} key={i}>
                 <View style={styles.inMessageRight}>
@@ -98,9 +97,11 @@ const styles = StyleSheet.create({
   },
   sysMessage: {
     borderRadius: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    backgroundColor: 'rgba(200, 200, 200, 0.2)'
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 8,
+    paddingRight: 8,
+    backgroundColor: 'rgba(200, 200, 200, 1)'
   },
   messageLeft: {
     flex: 1,

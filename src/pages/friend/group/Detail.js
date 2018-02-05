@@ -9,30 +9,37 @@ import {
 
 import Item from '../component/Item';
 
-export default class GroupList extends Component {
+export default class GroupDetail extends Component {
   static navigationOptions = {
-    title: '群组',
-    tabBarLabel: '群组',
+    title: '群详情',
+    tabBarLabel: '群详情',
     headerBackTitle: '返回',
   };
 
   constructor(props) {
     super(props)
+    const {params = {}} = this.props.navigation.state;
     this.state = {
-      rooms: []
+      rooms: [],
+      roomId: params.roomId,
+      messageList: [],
+      isGroup: params.isGroup,
+      otherSideName: params.otherSideName,
     }
   }
 
   componentWillMount() {
-    this.getList()
+    this.getLocalStorage()
   }
 
-  getList() {
-    storage.load({
-      key: 'rooms',
-    }).then(ret => {
+  getLocalStorage = () => {
+    storage.getBatchData([
+      { key: 'userInfo' },
+      { key: 'rooms' }
+    ]).then(results => {
       this.setState({
-        rooms: ret.filter(d => d.isGroup),
+        userInfo: results[0],
+        rooms: results[1],
       })
     }).catch(err => {
       console.log(err.message);
@@ -41,13 +48,10 @@ export default class GroupList extends Component {
 
   render() {
     const {rooms} = this.state
+    console.log('rooms', rooms)
     return (
       <View style={styles.container}>
-        {
-          rooms.map(d => (
-            <Item name={d.otherSideName} key={d.roomId} link='Chat' params={{roomId: d.roomId, otherSideName: d.otherSideName}} navigation={this.props.navigation}/>
-          ))
-        }
+
       </View>
     );
   }
@@ -56,10 +60,5 @@ export default class GroupList extends Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
   },
 })

@@ -9,6 +9,7 @@ import FriendDetail from '../pages/friend/Detail';
 import DepartmentList from '../pages/friend/dep/List';
 import GroupList from '../pages/friend/group/List';
 import GroupCreate from '../pages/friend/group/Create';
+import GroupDetail from '../pages/friend/group/Detail';
 import ServiceList from '../pages/friend/service/List';
 import UserInfo from '../pages/UserInfo';
 import SearchList from '../pages/search/List';
@@ -39,4 +40,5 @@ export default StackNavigator({
   ResetPwd: {screen: ResetPwd},
   FeedBack: {screen: FeedBack},
   SignIn: {screen: SignIn},
+  GroupDetail: {screen: GroupDetail},
 }, {initialRouteName: 'Login'});

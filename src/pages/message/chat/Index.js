@@ -26,12 +26,31 @@ export default class Chat extends Component {
     headerRight: (
       <TouchableHighlight
         underlayColor='#eee'
-        style={styles.con}
+        style={{marginRight: 10}}
         onPress={()=>{
-          // need to re design
+          const {
+            roomId,
+            otherSideName,
+            isGroup,
+            userId
+          } = navigation.state.params;
+          const url = navigation.state.params.isGroup ? 'GroupDetail' : 'FriendDetail';
+          const params = navigation.state.params.isGroup ? {
+            roomId,
+            otherSideName,
+            isGroup,
+            userId
+          } : {
+            userId: roomId.split('-').filter(d => d!==String(userId))[0]
+          }
+          navigation.navigate(url, params)
         }}
       >
-        <Image style={{width: 25, height: 25, marginRight: 10}} source={require('../../../asset/people_fill.png')} />
+        {
+          navigation.state.params.isGroup ?
+          <Image style={{width: 25, height: 25}} source={require('../../../asset/friend_fill.png')} /> :
+          <Image style={{width: 25, height: 25}} source={require('../../../asset/people_fill.png')} />
+        }
       </TouchableHighlight>
     ),
   });
@@ -141,35 +160,38 @@ export default class Chat extends Component {
   }
 
   saveToLocal = (messageItem) => {
-    const { roomId, rooms, otherSideName } = this.state;
-    const newRooms = _.cloneDeep(rooms)
-    // 存到本地
-    let isCreate = true;
-    let room = {};
-    let i;
-    newRooms.forEach((d, index) => {
-      if(d.roomId === roomId) {
-        i = index
-        isCreate = false;
-        room = d;
-        room.messages.push(messageItem)
-      }
-    })
-
-    if (isCreate) {
-      newRooms.unshift({
-        roomId,
-        otherSideName,      
-        messages: [messageItem]
+    const { roomId, otherSideName } = this.state;
+    storage.load({
+      key: 'rooms'
+    }).then(rooms => {
+      const newRooms = _.cloneDeep(rooms)
+      // 存到本地
+      let isCreate = true;
+      let room = {};
+      let i;
+      newRooms.forEach((d, index) => {
+        if(d.roomId === roomId) {
+          i = index
+          isCreate = false;
+          room = d;
+          room.messages.push(messageItem)
+        }
       })
-    } else {
-      newRooms.splice(i, 1);
-      newRooms.unshift(room);
-    }
-    storage.save({
-      key: 'rooms',
-      data: newRooms
-    });
+      if (isCreate) {
+        newRooms.unshift({
+          roomId,
+          otherSideName,      
+          messages: [messageItem]
+        })
+      } else {
+        newRooms.splice(i, 1);
+        newRooms.unshift(room);
+      }
+      storage.save({
+        key: 'rooms',
+        data: newRooms
+      });
+    })
   }
 
   handleSubmitText = (e) => {

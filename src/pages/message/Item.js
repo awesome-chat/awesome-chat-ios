@@ -50,13 +50,15 @@ export default class MessageItem extends Component {
     ])
   }
   render() {
-    const { roomId, otherSideName, message, newMessageNum = '' } = this.props;
+    const { roomId, otherSideName, message, newMessageNum = '', isGroup, userId } = this.props;
     return (
       <TouchableHighlight
         onLongPress={this.handleDelete}
         onPress={()=>{this.props.navigation.navigate('Chat',{
-          roomId: roomId,
-          otherSideName: otherSideName
+          roomId,
+          otherSideName,
+          isGroup,
+          userId
         })}}
         underlayColor='#fff'
       >
@@ -94,7 +96,11 @@ export default class MessageItem extends Component {
                   flex:1,
                   color:'#666',
                   width: '80%'
-                }}>{message.isPic ? '[图片]' : message.content}</Text>
+                }}>{
+                  message.sysMessage ? `[系统] ${message.content}` : (
+                    message.isPic ? '[图片]' : message.content
+                  )
+                }</Text>
               </View>
               <Badge text={newMessageNum || ''} style={{marginTop: 10, marginRight: 10}}/>
             </View>
