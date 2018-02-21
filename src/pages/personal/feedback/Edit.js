@@ -44,11 +44,15 @@ export default class FeedBack extends Component {
       return
     }
     api.sendFeedback({
-      value
+      fbUserId: this.state.userInfo.userId,
+      fbUserName: this.state.userInfo.userName,
+      fbContent: value,
+      fbTime: Date.parse(new Date()),
     })
     .then(({data}) => {
       if (data && data.code === 0) {
         Toast.info('反馈成功', 1);
+        this.setState({value: ''})
       } else {
         Toast.info(data.msg || '反馈失败', 1);
       }
@@ -70,6 +74,7 @@ export default class FeedBack extends Component {
           style={{width: '100%'}}
         >
           <TextareaItem
+            value={value}
             onChange={(e) => {this.handleChangeState('value', e)}}
             title="高度自适应"
             rows={5}

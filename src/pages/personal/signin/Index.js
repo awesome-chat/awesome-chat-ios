@@ -6,11 +6,13 @@ import {
   Text,
   View,
   Alert,
-  Image
+  Image,
+  NetInfo
 } from 'react-native';
 import api from '../../../model/api';
 import { Button, Modal, Toast,  List, InputItem, Switch} from 'antd-mobile';
 import { NavigationActions } from 'react-navigation'
+import Geolocation from 'Geolocation';
 
 export default class SignIn extends Component {
   static navigationOptions = {
@@ -41,7 +43,7 @@ export default class SignIn extends Component {
 
   handleSubmit = () => {
     const { userInfo } = this.state;
-    api.signin()
+    api.signIn({})
     .then(({data}) => {
       if (data && data.code === 0) {
         Toast.info('密码修改成功', 1);
@@ -51,10 +53,53 @@ export default class SignIn extends Component {
     })
   }
 
-  handleChangeState = (type, e) => {
-    this.setState({
-      [type]: !this.state[type]
-    })
+  handleGetLoc = () => {
+    if (!this.state.place) {
+      Geolocation.getCurrentPosition(
+        location => {
+          // 请求服务端判断经纬度是否符合
+          // var result = "速度：" + location.coords.speed +
+          //             "\n经度：" + location.coords.longitude +
+          //             "\n纬度：" + location.coords.latitude +
+          //             "\n准确度：" + location.coords.accuracy +
+          //             "\n行进方向：" + location.coords.heading +
+          //             "\n海拔：" + location.coords.altitude +
+          //             "\n海拔准确度：" + location.coords.altitudeAccuracy +
+          //             "\n时间戳：" + location.timestamp;
+          Alert.alert('提示', '获取地理位置成功');
+          this.setState({
+            place: !this.state.place,
+            location: location.coords
+          })
+        },
+        error => {
+          Alert.alert('提示', "获取位置失败："+ error)
+        }
+      );
+    } else {
+      this.setState({
+        place: !this.state.place,
+        location: {}
+      })
+    }
+  }
+
+  handleGetWifi = () => {
+    if (!this.state.wifi) {
+      NetInfo.getConnectionInfo().then((connectionInfo) => {
+        console.log(connectionInfo)
+        Alert.alert('提示', '获取wifi信息成功');
+        this.setState({
+          wifi: !this.state.wifi,
+          connectionInfo
+        })
+      });
+    } else {
+      this.setState({
+        wifi: !this.state.wifi,
+        connectionInfo: {}
+      })
+    }
   }
 
   render() {
@@ -65,13 +110,13 @@ export default class SignIn extends Component {
           <List.Item
             extra={<Switch
               checked={wifi}
-              onChange={(e) => {this.handleChangeState('wifi', e)}}
+              onChange={this.handleGetWifi}
             />}
           >请获取WIFI</List.Item>
           <List.Item
             extra={<Switch
               checked={place}
-              onChange={(e) => {this.handleChangeState('place', e)}}
+              onChange={this.handleGetLoc}
             />}
           >请获取位置</List.Item>
         </List>
