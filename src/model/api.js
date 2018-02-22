@@ -133,10 +133,20 @@ const api = {
   sendFeedback(data = {}) {
     return io.post('/user/feedback/', data).then(handleValidate);
   },
+  
+  // 修改签名
+  modifyPaganname(data = {}) {
+    return io.post('/user/paganname/', data).then(handleValidate);
+  },
 
   // 签到打卡
   signIn(data = {}) {
     return io.post('/user/signin/', data).then(handleValidate);
+  },
+
+  // 请假
+  cottage(data = {}) {
+    return io.post('/user/cottage/', data).then(handleValidate);
   },
 
   // 上传图片

@@ -98,7 +98,7 @@ export default class UserInfo extends Component {
       // {name:'我的工牌',id:2},
     ]
     const group2 = [
-      {name:'我的请假', id: 1},
+      {name:'我的请假', id: 1, link: 'Cottage'},
       {name:'一键打卡', id: 2, link: 'SignIn'},
     ]
     const group3 = [

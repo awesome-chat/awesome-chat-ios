@@ -15,6 +15,9 @@ import UserInfo from '../pages/UserInfo';
 import SearchList from '../pages/search/List';
 import ResetPwd from '../pages/personal/password/Edit'
 import FeedBack from '../pages/personal/feedback/Edit'
+import Cottage from '../pages/personal/cottage/Edit'
+import Setting from '../pages/personal/settings/List'
+import Paganname from '../pages/personal/settings/paganname/Edit'
 import SignIn from '../pages/personal/signin/Index'
 
 const tab = TabNavigator({
@@ -39,6 +42,9 @@ export default StackNavigator({
   GroupCreate: {screen: GroupCreate},
   ResetPwd: {screen: ResetPwd},
   FeedBack: {screen: FeedBack},
+  Cottage: {screen: Cottage},
+  Setting: {screen: Setting},
+  Paganname: {screen: Paganname},
   SignIn: {screen: SignIn},
   GroupDetail: {screen: GroupDetail},
 }, {initialRouteName: 'Login'});
