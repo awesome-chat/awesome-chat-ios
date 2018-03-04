@@ -48,7 +48,6 @@ export default class GroupDetail extends Component {
 
   render() {
     const {rooms} = this.state
-    console.log('rooms', rooms)
     return (
       <View style={styles.container}>
 

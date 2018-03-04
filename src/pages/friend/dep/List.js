@@ -56,6 +56,7 @@ export default class DepartmentList extends Component {
               type="owner"
               navigation={this.props.navigation}
               name={owner.user.userName}
+              userAvatar={owner.user.userAvatar}
               link={'FriendDetail'}
               params={{
                 userId: owner.user.userId,
@@ -63,7 +64,17 @@ export default class DepartmentList extends Component {
           ) : null
         }
         {child.map(d => <Item navigation={this.props.navigation} key={d.depId} name={d.depName} link={'Department'} params={{depId: d.depId}}/>)}
-        {user.map(d => <Item type="user" navigation={this.props.navigation} key={d.userId} name={d.userName} link={'FriendDetail'} params={{userId: d.userId}}/>)}
+        {user.map(d => (
+          <Item
+            type="user"
+            navigation={this.props.navigation}
+            key={d.userId}
+            name={d.userName}
+            userAvatar={d.userAvatar}
+            link={'FriendDetail'}
+            params={{userId: d.userId}}
+          />
+        ))}
       </View>
     );
   }

@@ -68,6 +68,7 @@ export default class Chat extends Component {
       rooms: [],
       isGroup: params.isGroup,
       otherSideName: params.otherSideName,
+      otherSideAvatar: params.otherSideAvatar
     }
   }
 
@@ -159,7 +160,7 @@ export default class Chat extends Component {
     })
   }
 
-  saveToLocal = (messageItem) => {
+  saveToLocal = (messageItem, otherSideAvatar = '') => {
     const { roomId, otherSideName } = this.state;
     storage.load({
       key: 'rooms'
@@ -173,14 +174,18 @@ export default class Chat extends Component {
         if(d.roomId === roomId) {
           i = index
           isCreate = false;
-          room = d;
+          room = {
+            ...d,
+            otherSideAvatar
+          };
           room.messages.push(messageItem)
         }
       })
       if (isCreate) {
         newRooms.unshift({
           roomId,
-          otherSideName,      
+          otherSideName,
+          otherSideAvatar,
           messages: [messageItem]
         })
       } else {
@@ -190,12 +195,15 @@ export default class Chat extends Component {
       storage.save({
         key: 'rooms',
         data: newRooms
+      }).then(d => {
+        // 告诉首页需要更新
+        ep.emit('update')
       });
     })
   }
 
   handleSubmitText = (e) => {
-    const { userInfo, textValue, user, roomId, messageList, rooms, otherSideName, isGroup } = this.state;
+    const { userInfo, textValue, otherSideAvatar, roomId, messageList, rooms, otherSideName, isGroup } = this.state;
     const newMessageList =  _.cloneDeep(messageList)
     const messageItem = {
       isMine: true,
@@ -203,7 +211,7 @@ export default class Chat extends Component {
       content: textValue,
     }
     // 本地持久化
-    this.saveToLocal(messageItem)
+    this.saveToLocal(messageItem, otherSideAvatar)
 
     // 更新视图
     newMessageList.push(messageItem)
@@ -211,9 +219,6 @@ export default class Chat extends Component {
       messageList: newMessageList,
       textValue: ''
     })
-
-    // 告诉首页需要更新
-    ep.emit('update')
     
     // 同步到服务器
     if(isGroup) {

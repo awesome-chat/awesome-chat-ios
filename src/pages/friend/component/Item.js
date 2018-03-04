@@ -37,6 +37,7 @@ export default class Item extends Component {
       >
         <View style={styles.container}>
           <View style={{
+            overflow: 'hidden',
             justifyContent: 'center',
             alignItems: 'center',
             width: 40,
@@ -45,7 +46,11 @@ export default class Item extends Component {
             backgroundColor: this.switchColor(),
             ...props.style
           }}>
-            <Image style={{width: 20, height: 20}} source={typeMapping[props.type]} />
+            {props.userAvatar ? (
+              <Image style={{width: '100%', height: '100%'}} source={{uri: `http://localhost:3000/static/img/${props.userAvatar}`}} />
+            ) : (
+              <Image style={{width: 20, height: 20}} source={typeMapping[props.type]} />
+            )}
           </View>
           <View style={styles.body}>
             <Text style={styles.word}>{props.name}</Text>

@@ -76,7 +76,8 @@ export default class FriendDetail extends Component {
           {
             userId: userInfo.userId,
             roomId: data.roomId,
-            otherSideName: user.userName
+            otherSideName: user.userName,
+            otherSideAvatar: user.userAvatar
           }
         )
       }
@@ -111,7 +112,15 @@ export default class FriendDetail extends Component {
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.header}>
-            <View style={{width: 80,height: 80, backgroundColor:'#999', marginTop: 30, borderRadius: 10}}></View>
+            <View style={{overflow: 'hidden', width: 80,height: 80, backgroundColor:'#999', marginTop: 30, borderRadius: 10}}>
+            <Image
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+              source={{uri: `http://localhost:3000/static/img/${user.userAvatar}`}}
+            />
+            </View>
             <View style={{marginTop: 15, flexDirection: 'row',}}>
               <Text style={{
                 color: '#999',

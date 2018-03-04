@@ -42,7 +42,6 @@ export default class EditPassword extends Component {
 
   handleSubmit = () => {
     const { startTime, endTime, cottageReason, userInfo } = this.state;
-    console.log(this.state)
     api.cottage({
       userId: userInfo.userId,
     })
@@ -79,7 +78,6 @@ export default class EditPassword extends Component {
             mode="date"
             minDate={new Date()}
             onChange={(time) => {
-              console.log(Date.parse(time))
               this.setState({
                 startTime: Date.parse(time)
               })
@@ -92,7 +90,6 @@ export default class EditPassword extends Component {
             value={endTime ? new Date(endTime) : ''}
             minDate={new Date()}
             onOk={(time) => {
-              console.log(Date.parse(time))
               this.setState({
                 endTime: Date.parse(time)
               })

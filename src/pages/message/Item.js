@@ -50,7 +50,7 @@ export default class MessageItem extends Component {
     ])
   }
   render() {
-    const { roomId, otherSideName, message, newMessageNum = '', isGroup, userId } = this.props;
+    const { roomId, otherSideName, otherSideAvatar, message, newMessageNum = '', isGroup, userId } = this.props;
     return (
       <TouchableHighlight
         onLongPress={this.handleDelete}
@@ -70,8 +70,19 @@ export default class MessageItem extends Component {
                 height:60,
                 backgroundColor:'#eee',
                 borderRadius:30,
+                overflow: 'hidden'
               }}
-            />
+            >
+            {otherSideAvatar ? (
+              <Image
+                style={{
+                  width: '100%',
+                  height: '100%'
+                }}
+                source={{uri: `http://localhost:3000/static/img/${otherSideAvatar}`}}
+              />
+            ) : null}
+            </View>
           </View>
           <View style={styles.itemRight}>
             <View style={styles.itemRightPart}>

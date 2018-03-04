@@ -225,6 +225,7 @@ export default class MessageList extends Component {
           {rooms.map((d,i) => (
             <MessageItem
               userId={userInfo.userId}
+              otherSideAvatar={d.otherSideAvatar}
               key={d.roomId || i}
               roomId={d.roomId}
               isGroup={d.isGroup}

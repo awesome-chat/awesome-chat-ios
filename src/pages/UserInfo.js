@@ -31,6 +31,7 @@ export default class UserInfo extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      avatarSource: '',
       user: {}
     }
   }
@@ -40,7 +41,8 @@ export default class UserInfo extends Component {
       key: 'userInfo',
     }).then(ret => {
       this.setState({
-        user: ret
+        user: ret,
+        avatarSource: ret.userAvatar
       })
     }).catch(err => {
       console.log(err.message);
@@ -48,7 +50,8 @@ export default class UserInfo extends Component {
   }
 
   changeImage = () => {
-    var options = {
+    const { user } = this.state
+    const options = {
       title: 'Select Avatar',
       storageOptions: {
         skipBackup: true,
@@ -56,26 +59,42 @@ export default class UserInfo extends Component {
       }
     };
     
-    ImagePicker.showImagePicker(options, (response) => {
+    ImagePicker.showImagePicker(options, (res) => {
     
-      if (response.didCancel) {
+      if (res.didCancel) {
         console.log('User cancelled image picker');
       }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+      else if (res.error) {
+        console.log('ImagePicker Error: ', res.error);
       }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+      else if (res.customButton) {
+        console.log('User tapped custom button: ', res.customButton);
       }
       else {
-        let source = { uri: response.uri };
+        let formData = new FormData();
+        let file = {uri: res.uri, type: 'multipart/form-data', name: res.fileName};
+        
+        formData.append("images",file);
+        formData.append("userId", user.userId);
+
+        api.uploadAvatar(formData)
+        .then(res => res && res.data)
+        .then(data => {
+          if (data.code === 0) {
+            user.userAvatar = data.fileName
+            storage.save({
+              key: 'userInfo',
+              data: user
+            });
+            this.setState({
+              avatarSource: data.fileName
+            })
+          }
+        })
     
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-    
-        this.setState({
-          avatarSource: source
-        });
+        // this.setState({
+        //   avatarSource: source
+        // });
       }
     });
   }
@@ -92,7 +111,7 @@ export default class UserInfo extends Component {
   }
 
   render() {
-    const { user } = this.state
+    const { user, avatarSource } = this.state
     const group1 = [
       {name:'我的资料', id:1, link:'FriendDetail', params: {userId: user.userId}},
       // {name:'我的工牌',id:2},
@@ -130,7 +149,14 @@ export default class UserInfo extends Component {
               this.changeImage()
             }}
           >
-            <View style={{width: 80,height: 80, backgroundColor:'#fff', marginTop: 30, borderRadius: 10}}></View>
+            <View style={{width: 80,height: 80, backgroundColor:'#fff', marginTop: 30, borderRadius: 10, overflow: 'hidden'}}>
+              {avatarSource ? (
+                <Image
+                  style={styles.pic}
+                  source={{uri: `http://localhost:3000/static/img/${avatarSource}`}}
+                />
+              ) : null}
+            </View>
           </TouchableWithoutFeedback>
           <View style={{marginTop: 10, flexDirection: 'row',}}>
             <Text style={{
@@ -172,6 +198,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 160,
     backgroundColor: '#1D3548',
+  },
+  pic: {
+    width: '100%',
+    height: '100%'
   },
   item: {
     padding: 10,

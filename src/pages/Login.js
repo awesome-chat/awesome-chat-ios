@@ -62,6 +62,7 @@ export default class Login extends Component {
       })
       .then(({data}) => {
         if (data && data.code === 0) {
+          Toast.info('登陆成功', 1);
           storage.save({
             key: 'userInfo',
             data: data.data,

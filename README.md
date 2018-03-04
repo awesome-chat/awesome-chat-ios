@@ -66,6 +66,8 @@ $ npm run dev
       roomName: '',
       // 对方名称
       otherSideName: '',
+      // 对方头像
+      otherSideAvatar: '',
       // 新消息数量
       newMessageNum: '',
       // 信息

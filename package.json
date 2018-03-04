@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"dev": "NODE_ENV=development react-native run-ios --simulator 'iPhone 8'",
+		"dev": "NODE_ENV=development react-native run-ios --simulator 'iPhone 7'",
 		"test": "jest",
 		"build": "NODE_ENV=production react-native bundle --entry-file ./index.js --bundle-output ./bundle/index.ios.jsbundle --platform ios --assets-dest ./bundle --dev false"
 	},

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {PushNotificationIOS} from 'react-native'
+// import {PushNotificationIOS} from 'react-native'
 import { Toast } from 'antd-mobile';
 import { initStorage, createStorage } from './storage';
 import socketIo from 'socket.io-client'
@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'development') {
   config = require('../config/pord.config')
 }
 
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
 
 // PushNotification.configure({
 //   // (optional) Called when Token is generated (iOS and Android)
@@ -153,6 +153,10 @@ const api = {
   uploadImg(data) {
     return formIo.post('/img/upload/', data).then(handleValidate);
   },
+  // 上传头像
+  uploadAvatar(data) {
+    return formIo.post('/img/avatar/', data).then(handleValidate);
+  },
   // socket相关
   createGroup(data = {}) {
     socket.emit('createGroup', data)
@@ -173,9 +177,9 @@ const api = {
   listernMessage(cb) {
     socket.on('sys', (data) => {
       console.log('get message', data)
-      PushNotificationIOS.presentLocalNotification({
-        alertBody: data.content
-      })
+      // PushNotificationIOS.presentLocalNotification({
+      //   alertBody: data.content
+      // })
       // PushNotification.localNotification({
       //   /* iOS and Android properties */
       //   // title: "My Notification Title", // (optional, for iOS this is only used in apple watch, the title will be the app name on other iOS devices)
