@@ -55,6 +55,7 @@ export default class MessageItem extends Component {
       <TouchableHighlight
         onLongPress={this.handleDelete}
         onPress={()=>{this.props.navigation.navigate('Chat',{
+          otherSideAvatar,
           roomId,
           otherSideName,
           isGroup,

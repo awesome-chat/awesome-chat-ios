@@ -13,6 +13,7 @@ import api from '../../../model/api';
 import { Button, Modal, Toast,  List, InputItem, Switch} from 'antd-mobile';
 import { NavigationActions } from 'react-navigation'
 import Geolocation from 'Geolocation';
+import { NetworkInfo } from 'react-native-network-info';
 
 export default class SignIn extends Component {
   static navigationOptions = {
@@ -42,13 +43,17 @@ export default class SignIn extends Component {
   }
 
   handleSubmit = () => {
-    const { userInfo } = this.state;
-    api.signIn({})
+    const { location, connectionInfo, userInfo } = this.state;
+    api.signIn({
+      location,
+      connectionInfo,
+      userId: userInfo.userId
+    })
     .then(({data}) => {
       if (data && data.code === 0) {
-        Toast.info('密码修改成功', 1);
+        Toast.info('打卡成功', 1);
       } else {
-        Toast.info(data.msg || '密码修改失败', 1);
+        Toast.info(data.msg || '打卡失败', 1);
       }
     })
   }
@@ -87,13 +92,13 @@ export default class SignIn extends Component {
   handleGetWifi = () => {
     if (!this.state.wifi) {
       NetInfo.getConnectionInfo().then((connectionInfo) => {
-        console.log(connectionInfo)
+        console.log('connectionInfo', connectionInfo)
         Alert.alert('提示', '获取wifi信息成功');
         this.setState({
           wifi: !this.state.wifi,
           connectionInfo
         })
-      });
+      }).catch((error) => { console.error(error); })
     } else {
       this.setState({
         wifi: !this.state.wifi,

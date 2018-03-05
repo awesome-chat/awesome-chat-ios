@@ -139,14 +139,14 @@ const api = {
     return io.post('/user/paganname/', data).then(handleValidate);
   },
 
-  // 签到打卡
-  signIn(data = {}) {
-    return io.post('/user/signin/', data).then(handleValidate);
-  },
-
   // 请假
   cottage(data = {}) {
-    return io.post('/user/cottage/', data).then(handleValidate);
+    return io.post('/attendance/cottage/', data).then(handleValidate);
+  },
+
+  // 签到打卡
+  signIn(data = {}) {
+    return io.post('/attendance/signin/', data).then(handleValidate);
   },
 
   // 上传图片

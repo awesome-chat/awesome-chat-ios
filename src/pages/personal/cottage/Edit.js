@@ -8,6 +8,7 @@ import {
   Alert,
   Image
 } from 'react-native';
+import moment from 'moment';
 import api from '../../../model/api';
 import { Button, Modal, Toast,  List, InputItem, DatePicker, TextareaItem } from 'antd-mobile';
 import { NavigationActions } from 'react-navigation'
@@ -42,12 +43,42 @@ export default class EditPassword extends Component {
 
   handleSubmit = () => {
     const { startTime, endTime, cottageReason, userInfo } = this.state;
+    if (!startTime || !endTime) {
+      Toast.info('请选择请假时间', 1)
+      return
+    }
+    if (!cottageReason) {
+      Toast.info('请输入请假理由', 1)
+      return
+    }
+    const interval = ((endTime - startTime)/(1000 * 60 * 60 * 24)).toFixed(0)
+    const days = []
+    const start = new Date(startTime)
+    const end = new Date(endTime)
+    while((end.getTime()-start.getTime())>=0){
+      var year = start.getFullYear();
+      var month = start.getMonth() + 1;
+      var date = start.getDate();
+      days.push({
+        userId: userInfo.userId,
+        attendanceYear: year,
+        attendanceMonth: month,
+        attendanceDate: date
+      })
+      start.setDate(start.getDate()+1);
+    }
     api.cottage({
-      userId: userInfo.userId,
+      days,
+      cottageReason,
     })
     .then(({data}) => {
       if (data && data.code === 0) {
         Toast.info('申请成功', 1);
+        this.setState({
+          cottageReason: '',
+          startTime: '',
+          endTime: '',
+        })
       } else {
         Toast.info(data.msg || '申请失败', 1);
       }
@@ -79,7 +110,8 @@ export default class EditPassword extends Component {
             minDate={new Date()}
             onChange={(time) => {
               this.setState({
-                startTime: Date.parse(time)
+                startTime: Date.parse(time),
+                endTime: ''
               })
             }}
           >
@@ -90,6 +122,20 @@ export default class EditPassword extends Component {
             value={endTime ? new Date(endTime) : ''}
             minDate={new Date()}
             onOk={(time) => {
+              console.log(new Date(startTime), new Date(time))
+              if (!startTime) {
+                Toast.info('请先选择开始时间', 1)
+                return
+              }
+              if (startTime > Date.parse(time)) {
+                Toast.info('开始时间需小于结束时间', 1)
+                return
+              }
+              const interval = ((time - startTime)/(1000 * 60 * 60 * 24)).toFixed(0)
+              if (interval >= 5) {
+                Toast.info('单次数请假时间最长5天', 1)
+                return
+              }
               this.setState({
                 endTime: Date.parse(time)
               })
