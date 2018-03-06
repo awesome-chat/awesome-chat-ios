@@ -7,7 +7,9 @@ import {
   ScrollView,
   TouchableOpacity
 } from 'react-native';
+import { Toast } from 'antd-mobile';
 import api from '../../model/api';
+import Communications from 'react-native-communications';
 
 export default class FriendDetail extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -60,7 +62,12 @@ export default class FriendDetail extends Component {
   }
 
   handleCall = () => {
-    //do sth
+    const { user } = this.state;
+    if (user.userTel) {
+      Communications.phonecall(user.userTel, true)
+      return
+    }
+    Toast.info('对方暂无联系电话', 1)
   }
 
   handleChat =() => {
