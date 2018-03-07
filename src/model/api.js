@@ -115,6 +115,14 @@ const api = {
   createRoom(data = {}) {
     return io.post(`/room/create`, data).then(handleValidate);
   },
+  // 获取单个群（用于创建群时判断群是否存在）
+  getGroup(data = {}) {
+    return io.get('/room/group/detail', data).then(handleValidate);
+  },
+  // 获取群列表
+  getGroupList({ userId }) {
+    return io.get(`/room/group/list/${userId}`).then(handleValidate);
+  },
 
   getMessage(data = {}) {
     const { userId, lastUpdateTime } = data;

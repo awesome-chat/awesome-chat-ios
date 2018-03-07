@@ -6,7 +6,7 @@ import {
   Image,
   FlatList
 } from 'react-native';
-
+import api from '../../../model/api';
 import Item from '../component/Item';
 
 export default class GroupList extends Component {
@@ -23,8 +23,30 @@ export default class GroupList extends Component {
     }
   }
 
-  componentWillMount() {
-    this.getList()
+  componentDidMount() {
+    // this.getList()
+    this.getCurrentUser(this.fetchlist)
+  }
+
+  getCurrentUser = (cb) => {
+    storage.load({
+      key: 'userInfo',
+    }).then(ret => {
+      cb(ret.userId)
+    }).catch(err => {
+      console.log(err.message);
+    })
+  }
+
+  fetchlist = (userId) => {
+    api.getGroupList({ userId }).then(({data}) => {
+      console.log('list:', data)
+      if (data.code === 0) {
+        this.setState({
+          rooms: data.data
+        })
+      }
+    })
   }
 
   getList() {
@@ -45,7 +67,13 @@ export default class GroupList extends Component {
       <View style={styles.container}>
         {
           rooms.map(d => (
-            <Item name={d.otherSideName} key={d.roomId} link='Chat' params={{roomId: d.roomId, otherSideName: d.otherSideName}} navigation={this.props.navigation}/>
+            <Item
+              name={d.room.roomName}
+              key={d.roomId}
+              link='Chat'
+              params={{roomId: d.roomId, otherSideName: d.room.roomName}}
+              navigation={this.props.navigation}
+            />
           ))
         }
       </View>

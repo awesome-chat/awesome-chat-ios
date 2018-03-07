@@ -14,9 +14,9 @@ export default class Item extends Component {
       case 'user':
         return '#71b5ca'
       case 'owner':
-        return '#875646'
+        return '#415D87'
       default:
-        return '#efd4cf'
+        return '#F3BD80'
     }
   }
 

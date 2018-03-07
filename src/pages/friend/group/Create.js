@@ -103,63 +103,77 @@ export default class GroupCreate extends Component {
 
   handleSubmit = () => {
     const { userInfo, memberList } = this.state;
-    const roomId = [userInfo.userId].concat(memberList.map(d => d.userId)).join('-')
+    // const roomId = [userInfo.userId].concat(memberList.map(d => d.userId)).join('-')
+    const otherIds = memberList.map(d => d.userId)
+    const memberNum = otherIds.length + 1
     const content = '新房间已创建'
-    api.createGroup({
+    // 判断room是否存在
+    api.createRoom({
       userId: userInfo.userId,
-      otherIds: memberList.map(d => d.userId),
-      content,
-      createTime: Date.parse(new Date())
-    })
-    storage.load({
-      key: 'rooms'
-    }).then(ret => {
-      let hasExist = false
-      ret.forEach((d) => {
-        if(d.roomId === roomId) {
-          hasExist = true
-        }
-      })
-      if(hasExist) {
-        this.props.navigation.navigate(
-          'Chat',
-          {
+      otherIds
+    }).then(({ data }) => {
+      console.log(data)
+      // 创建新的房间
+      if (data.type === 'create') {
+        storage.load({
+          key: 'rooms'
+        }).then(ret => {
+          const newRooms = _.cloneDeep(ret)
+          newRooms.unshift({
+            roomId: data.roomId,
             isGroup: true,
-            sysMessage: true,
-            roomId,
-            otherSideName: `群聊(${this.state.memberList.length + 1})`
-          }
-        )
-      } else {
-        const newRooms = _.cloneDeep(ret)
-        newRooms.unshift({
-          roomId,
-          isGroup: true,
-          otherSideName: `群聊(${this.state.memberList.length + 1})`,
-          messages: [{
-            sysMessage: true,
-            createTime: Date.parse(new Date()),
-            content
-          }]
-        })
-        storage.save({
-          key: 'rooms',
-          data: newRooms
-        }).then(d => {
-          this.props.navigation.navigate(
-            'Chat',
-            {
-              isGroup: true,
+            otherSideName: `群聊(${memberNum})`,
+            messages: [{
               sysMessage: true,
-              roomId,
-              otherSideName: `群聊(${this.state.memberList.length + 1})`
-            }
-          )
-          ep.emit('update')
+              createTime: Date.parse(new Date()),
+              content: '新房间已创建'
+            }]
+          })
+          storage.save({
+            key: 'rooms',
+            data: newRooms
+          }).then(d => {
+            // 跳转并刷新
+            this.handleJump({
+              roomId: data.roomId,
+              roomName: data.roomName,
+              memberNum
+            })
+            ep.emit('update')
+          })
         })
+        return
       }
+      // 房间已存在直接跳转
+      this.handleJump({
+        roomId: data.roomId,
+        roomName: data.roomName,
+        memberNum
+      })
     })
+    // api.createGroup({
+    //   userId: userInfo.userId,
+    //   otherIds: memberList.map(d => d.userId),
+    //   content,
+    //   createTime: Date.parse(new Date()),
+    //   otherSideName: `群聊(${memberList.length + 1})`
+    // })
+  }
 
+  handleJump = ({
+    roomId,
+    roomName,
+    memberNum
+  }) => {
+    this.props.navigation.navigate(
+      'Chat',
+      {
+        isGroup: true,
+        sysMessage: true,
+        roomId,
+        otherSideName: roomName || `群聊(${memberNum})`
+      }
+    )
   }
 
   handleDelete = (data) => {
@@ -207,13 +221,25 @@ export default class GroupCreate extends Component {
                   marginBottom: 10,
                   marginLeft: 10,
                   marginRight: 10,
-                  padding: 4,
+                  paddingBottom: 10,
                   width: 100,
                   flexDirection: 'row',
                 }}
               >
-                {`${d.userName}   `}
-                <Icon type="cross-circle-o" size={14} color="#666"/>
+                <Text
+                  style={{
+                    color: '#999'
+                  }}
+                >{d.userName}</Text>
+                <Image
+                  style={{
+                    width: 20,
+                    height: 20,
+                    marginTop: 6,
+                    marginLeft: 10
+                  }}
+                  source={require('../../../asset/minus.png')}
+                />
               </Button>
             ))}
           </View>

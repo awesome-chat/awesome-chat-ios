@@ -222,10 +222,10 @@ export default class MessageList extends Component {
       <View style={styles.container}>
         <ScrollView>
           <SearchInput navigation={this.props.navigation}/>
-          <View style={styles.block}>
+          {rooms.length === 0 ? <View style={styles.block}>
             <Image style={styles.block_img} source={require('../../asset/message_block.png')} />
             <Text style={styles.block_text}>暂无消息</Text>
-          </View>
+          </View> : null}
           {rooms.map((d,i) => (
             <MessageItem
               userId={userInfo.userId}
@@ -263,8 +263,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   block_text: {
-    fontWeight: '900',
-    fontSize: 18,
-    color: '#999',
+    fontWeight: '600',
+    fontSize: 16,
+    color: '#bbb',
   }
 })

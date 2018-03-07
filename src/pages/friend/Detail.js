@@ -76,13 +76,14 @@ export default class FriendDetail extends Component {
     api.createRoom({
       userId: userInfo.userId,
       otherIds: [user.userId]
-    }).then(({data}) => {
+    }).then(({ data }) => {
+      console.log('data', data)
       if(data.code === 0){
         this.props.navigation.navigate(
           'Chat',
           {
             userId: userInfo.userId,
-            roomId: data.roomId,
+            roomId: data.data.roomId,
             otherSideName: user.userName,
             otherSideAvatar: user.userAvatar
           }
@@ -120,13 +121,13 @@ export default class FriendDetail extends Component {
         <ScrollView>
           <View style={styles.header}>
             <View style={{overflow: 'hidden', width: 80,height: 80, backgroundColor:'#999', marginTop: 30, borderRadius: 10}}>
-            <Image
-              style={{
-                width: '100%',
-                height: '100%',
-              }}
-              source={{uri: `http://localhost:3000/static/img/${user.userAvatar}`}}
-            />
+              <Image
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+                source={{uri: `http://localhost:3000/static/img/${user.userAvatar}`}}
+              />
             </View>
             <View style={{marginTop: 15, flexDirection: 'row',}}>
               <Text style={{
