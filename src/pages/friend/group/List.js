@@ -68,10 +68,15 @@ export default class GroupList extends Component {
         {
           rooms.map(d => (
             <Item
-              name={d.room.roomName}
+              name={d.room.roomName || `群聊(${d.room.roomMemberId.split('-').length})`}
               key={d.roomId}
               link='Chat'
-              params={{roomId: d.roomId, otherSideName: d.room.roomName}}
+              params={{
+                roomId: d.roomId,
+                isGroup: true,
+                roomMemberId: d.roomMemberId,
+                otherSideName: d.room.roomName || `群聊(${d.room.roomMemberId.split('-').length})`
+              }}
               navigation={this.props.navigation}
             />
           ))

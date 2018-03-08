@@ -84,6 +84,7 @@ export default class FriendDetail extends Component {
           {
             userId: userInfo.userId,
             roomId: data.data.roomId,
+            roomMemberId: data.data.roomMemberId,
             otherSideName: user.userName,
             otherSideAvatar: user.userAvatar
           }

@@ -106,7 +106,6 @@ export default class GroupCreate extends Component {
     // const roomId = [userInfo.userId].concat(memberList.map(d => d.userId)).join('-')
     const otherIds = memberList.map(d => d.userId)
     const memberNum = otherIds.length + 1
-    const content = '新房间已创建'
     // 判断room是否存在
     api.createRoom({
       userId: userInfo.userId,
@@ -115,12 +114,22 @@ export default class GroupCreate extends Component {
       console.log(data)
       // 创建新的房间
       if (data.type === 'create') {
+        // 通知服务端
+        api.sendMessage({
+          userId: userInfo.userId,
+          roomId: data.data.roomId,
+          roomMemberId: data.data.roomMemberId,
+          content: '新房间已创建',
+          userName: userInfo.userName,
+          isGroup: true,
+        })
+        // 本地存储
         storage.load({
           key: 'rooms'
         }).then(ret => {
           const newRooms = _.cloneDeep(ret)
           newRooms.unshift({
-            roomId: data.roomId,
+            roomId: data.data.roomId,
             isGroup: true,
             otherSideName: `群聊(${memberNum})`,
             messages: [{
@@ -135,8 +144,8 @@ export default class GroupCreate extends Component {
           }).then(d => {
             // 跳转并刷新
             this.handleJump({
-              roomId: data.roomId,
-              roomName: data.roomName,
+              roomId: data.data.roomId,
+              roomName: data.data.roomName,
               memberNum
             })
             ep.emit('update')
@@ -146,18 +155,11 @@ export default class GroupCreate extends Component {
       }
       // 房间已存在直接跳转
       this.handleJump({
-        roomId: data.roomId,
-        roomName: data.roomName,
+        roomId: data.data.roomId,
+        roomName: data.data.roomName,
         memberNum
       })
     })
-    // api.createGroup({
-    //   userId: userInfo.userId,
-    //   otherIds: memberList.map(d => d.userId),
-    //   content,
-    //   createTime: Date.parse(new Date()),
-    //   otherSideName: `群聊(${memberList.length + 1})`
-    // })
   }
 
   handleJump = ({

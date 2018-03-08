@@ -32,7 +32,8 @@ export default class Chat extends Component {
             roomId,
             otherSideName,
             isGroup,
-            userId
+            userId,
+            roomMemberId
           } = navigation.state.params;
           const url = navigation.state.params.isGroup ? 'GroupDetail' : 'FriendDetail';
           const params = navigation.state.params.isGroup ? {
@@ -41,7 +42,7 @@ export default class Chat extends Component {
             isGroup,
             userId
           } : {
-            userId: roomId.split('-').filter(d => d!==String(userId))[0]
+            userId: roomMemberId.split('-').filter(d => d!==String(userId))[0]
           }
           navigation.navigate(url, params)
         }}
@@ -64,6 +65,7 @@ export default class Chat extends Component {
       textValue: '',
       user: {},
       roomId: params.roomId,
+      roomMemberId: params.roomMemberId,
       messageList: [],
       rooms: [],
       isGroup: params.isGroup,
@@ -184,6 +186,7 @@ export default class Chat extends Component {
       if (isCreate) {
         newRooms.unshift({
           roomId,
+          roomMemberId,
           otherSideName,
           otherSideAvatar,
           messages: [messageItem]
@@ -203,7 +206,17 @@ export default class Chat extends Component {
   }
 
   handleSubmitText = (e) => {
-    const { userInfo, textValue, otherSideAvatar, roomId, messageList, rooms, otherSideName, isGroup } = this.state;
+    const {
+      userInfo,
+      textValue,
+      otherSideAvatar,
+      roomId,
+      roomMemberId,
+      messageList,
+      rooms,
+      otherSideName,
+      isGroup
+    } = this.state;
     const newMessageList =  _.cloneDeep(messageList)
     const messageItem = {
       isMine: true,
@@ -226,6 +239,7 @@ export default class Chat extends Component {
       api.sendMessage({
         isGroup: true,
         roomId: roomId,
+        roomMemberId: roomMemberId,
         userId: userInfo.userId,
         userName: userInfo.userName,
         otherSideName: otherSideName,
@@ -235,6 +249,7 @@ export default class Chat extends Component {
       // 单聊
       api.sendMessage({
         roomId: roomId,
+        roomMemberId: roomMemberId,
         userId: userInfo.userId,
         userName: userInfo.userName,
         ...messageItem
@@ -243,7 +258,7 @@ export default class Chat extends Component {
   }
 
   handleSubmitImg = (res) => {
-    const { userInfo, user, roomId, messageList, rooms, otherSideName, isGroup } = this.state;
+    const { userInfo, user, roomId, roomMemberId, messageList, rooms, otherSideName, isGroup } = this.state;
 
     let formData = new FormData();
     let file = {uri: res.uri, type: 'multipart/form-data', name: res.fileName};
@@ -273,6 +288,7 @@ export default class Chat extends Component {
           api.sendMessage({
             isGroup: true,
             roomId: roomId,
+            roomMemberId: roomMemberId,
             userId: userInfo.userId,
             userName: userInfo.userName,
             otherSideName: otherSideName,
@@ -282,6 +298,7 @@ export default class Chat extends Component {
           // 单聊
           api.sendMessage({
             roomId: roomId,
+            roomMemberId: roomMemberId,
             userId: userInfo.userId,
             userName: userInfo.userName,
             ...messageItem

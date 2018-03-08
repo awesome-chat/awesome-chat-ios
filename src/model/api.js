@@ -124,6 +124,11 @@ const api = {
     return io.get(`/room/group/list/${userId}`).then(handleValidate);
   },
 
+  // 群详情
+  getRoomDetail({ roomId }) {
+    return io.get(`/room/group/detail/${roomId}`).then(handleValidate);
+  },
+
   getMessage(data = {}) {
     const { userId, lastUpdateTime } = data;
     return io.get(`/message/${userId}/after/${lastUpdateTime}`).then(handleValidate);
