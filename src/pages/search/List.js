@@ -124,7 +124,6 @@ export default class SearchList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#eee',
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',

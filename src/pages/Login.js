@@ -41,9 +41,6 @@ export default class Login extends Component {
           ]
         })
         this.props.navigation.dispatch(resetAction)
-        
-        
-        // this.props.navigation.navigate('MessageList')
       }
     }).catch(err => {
       this.setState({

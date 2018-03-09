@@ -109,7 +109,8 @@ export default class GroupCreate extends Component {
     // 判断room是否存在
     api.createRoom({
       userId: userInfo.userId,
-      otherIds
+      otherIds,
+      isGroup: 1
     }).then(({ data }) => {
       console.log(data)
       // 创建新的房间
@@ -131,6 +132,7 @@ export default class GroupCreate extends Component {
           newRooms.unshift({
             roomId: data.data.roomId,
             isGroup: true,
+            roomMemberId: data.data.roomMemberId,
             otherSideName: `群聊(${memberNum})`,
             messages: [{
               sysMessage: true,
@@ -146,6 +148,7 @@ export default class GroupCreate extends Component {
             this.handleJump({
               roomId: data.data.roomId,
               roomName: data.data.roomName,
+              roomMemberId: data.data.roomMemberId,
               memberNum
             })
             ep.emit('update')
@@ -157,6 +160,8 @@ export default class GroupCreate extends Component {
       this.handleJump({
         roomId: data.data.roomId,
         roomName: data.data.roomName,
+        roomMemberId: data.data.roomMemberId,
+        isGroup: true,
         memberNum
       })
     })
@@ -165,7 +170,8 @@ export default class GroupCreate extends Component {
   handleJump = ({
     roomId,
     roomName,
-    memberNum
+    memberNum,
+    roomMemberId
   }) => {
     this.props.navigation.navigate(
       'Chat',
@@ -173,6 +179,7 @@ export default class GroupCreate extends Component {
         isGroup: true,
         sysMessage: true,
         roomId,
+        roomMemberId,
         otherSideName: roomName || `群聊(${memberNum})`
       }
     )
@@ -289,7 +296,6 @@ export default class GroupCreate extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#eee',
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',

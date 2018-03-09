@@ -38,10 +38,12 @@ export default class Chat extends Component {
           const url = navigation.state.params.isGroup ? 'GroupDetail' : 'FriendDetail';
           const params = navigation.state.params.isGroup ? {
             roomId,
+            roomMemberId,
             otherSideName,
             isGroup,
             userId
           } : {
+            roomMemberId,
             userId: roomMemberId.split('-').filter(d => d!==String(userId))[0]
           }
           navigation.navigate(url, params)
@@ -59,6 +61,7 @@ export default class Chat extends Component {
   constructor(props){
     super(props);
     const {params = {}} = this.props.navigation.state;
+    console.log('params', params)
     this.state = {
       showExpression: new Animated.Value(0),
       showOther: new Animated.Value(0),
@@ -162,8 +165,9 @@ export default class Chat extends Component {
     })
   }
 
-  saveToLocal = (messageItem, otherSideAvatar = '') => {
-    const { roomId, otherSideName } = this.state;
+  saveToLocal = (messageItem, otherSideAvatar = '', roomMemberId) => {
+    const { roomId, otherSideName, isGroup } = this.state;
+    console.log('in saveToLocal')
     storage.load({
       key: 'rooms'
     }).then(rooms => {
@@ -189,12 +193,14 @@ export default class Chat extends Component {
           roomMemberId,
           otherSideName,
           otherSideAvatar,
+          isGroup,
           messages: [messageItem]
         })
       } else {
         newRooms.splice(i, 1);
         newRooms.unshift(room);
       }
+      console.log('newRooms', newRooms)
       storage.save({
         key: 'rooms',
         data: newRooms
@@ -224,7 +230,7 @@ export default class Chat extends Component {
       content: textValue,
     }
     // 本地持久化
-    this.saveToLocal(messageItem, otherSideAvatar)
+    this.saveToLocal(messageItem, otherSideAvatar, roomMemberId)
 
     // 更新视图
     newMessageList.push(messageItem)
@@ -308,39 +314,6 @@ export default class Chat extends Component {
         Toast.info('图片上传失败')
       }
     })
-    
-    // fetch(url,{  
-    //   method:'POST',  
-    //   headers:{  
-    //       'Content-Type':'multipart/form-data',  
-    //   },  
-    //   body:formData,  
-    // })  
-    // .then((response) => response.text() )  
-    // .then((responseData)=>{  
-    
-    //   console.log('responseData',responseData);  
-    // })  
-    // .catch((error)=>{console.error('error',error)});
-
-
-
-
-    // const content = 'url'
-    // const newMessageList =  _.cloneDeep(messageList)
-    // const messageItem = {
-    //   isPic: true,
-    //   isMine: true,
-    //   createTime: Date.parse(new Date()),
-    //   content,
-    // }
-    // // 本地持久化
-    // this.saveToLocal(messageItem)
-    // newMessageList.push(messageItem)
-    // this.setState({
-    //   messageList: newMessageList,
-    //   textValue: ''
-    // })
   }
 
   render() {

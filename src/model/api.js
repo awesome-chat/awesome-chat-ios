@@ -119,6 +119,9 @@ const api = {
   getGroup(data = {}) {
     return io.get('/room/group/detail', data).then(handleValidate);
   },
+  leaveGroup(data = {}) {
+    return io.post('/room/group/leave', data).then(handleValidate);
+  },
   // 获取群列表
   getGroupList({ userId }) {
     return io.get(`/room/group/list/${userId}`).then(handleValidate);

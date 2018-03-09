@@ -24,7 +24,6 @@ export default class GroupList extends Component {
   }
 
   componentDidMount() {
-    // this.getList()
     this.getCurrentUser(this.fetchlist)
   }
 
@@ -49,18 +48,6 @@ export default class GroupList extends Component {
     })
   }
 
-  getList() {
-    storage.load({
-      key: 'rooms',
-    }).then(ret => {
-      this.setState({
-        rooms: ret.filter(d => d.isGroup),
-      })
-    }).catch(err => {
-      console.log(err.message);
-    })
-  }
-
   render() {
     const {rooms} = this.state
     return (
@@ -74,7 +61,7 @@ export default class GroupList extends Component {
               params={{
                 roomId: d.roomId,
                 isGroup: true,
-                roomMemberId: d.roomMemberId,
+                roomMemberId: d.room.roomMemberId,
                 otherSideName: d.room.roomName || `群聊(${d.room.roomMemberId.split('-').length})`
               }}
               navigation={this.props.navigation}

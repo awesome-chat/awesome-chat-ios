@@ -5,9 +5,10 @@ import {
   Text,
   Image,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
 } from 'react-native';
 import { Toast, Badge, Popover, Icon } from 'antd-mobile';
+import PullRefreshScrollView from 'react-native-pullrefresh-scrollview';
 import _ from 'lodash';
 import MessageItem from './Item';
 import SearchInput from '../../components/SearchInput';
@@ -216,11 +217,41 @@ export default class MessageList extends Component {
     }).then(d => {ep.emit('update')});
   }
 
+  refreshData = (PullRefresh) => {
+    storage.getBatchData([
+      { key: 'userInfo' },
+      { key: 'lastUpdateTime' }
+    ]).then(results => {
+      const userId = results[0].userId
+      api.getMessage({
+        userId,
+        lastUpdateTime: results[1]
+      })
+      .then(({data}) => {
+        console.log('data:', data)
+        if (data && data.code === 0) {
+          this.updateList(userId, data)
+          Toast.info('拉取消息成功', 0.5);
+        } else {
+          Toast.info('拉取信息失败', 0.5);
+        }
+        PullRefresh.onRefreshEnd();
+      })
+    }).catch(err => {
+      console.log(err.message);
+    })
+  }
+
+  handleRefresh = (PullRefresh) => {
+    this.refreshData(PullRefresh)
+  }
+
   render() {
     const { rooms, userInfo } = this.state
+    console.log('rooms', rooms)
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <PullRefreshScrollView ref="PullRefresh" onRefresh={this.handleRefresh}>
           <SearchInput navigation={this.props.navigation}/>
           {rooms.length === 0 ? <View style={styles.block}>
             <Image style={styles.block_img} source={require('../../asset/message_block.png')} />
@@ -233,12 +264,13 @@ export default class MessageList extends Component {
               key={d.roomId || i}
               roomId={d.roomId}
               isGroup={d.isGroup}
+              roomMemberId={d.roomMemberId}
               newMessageNum={d.newMessageNum}
               otherSideName={d.otherSideName}
               message={d.messages ? d.messages[d.messages.length - 1] : []}
               navigation={this.props.navigation}/>
           ))}
-        </ScrollView>
+        </PullRefreshScrollView>
       </View>
     );
   }

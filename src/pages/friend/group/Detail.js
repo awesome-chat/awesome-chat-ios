@@ -8,8 +8,9 @@ import {
   ScrollView,
 } from 'react-native';
 import api from '../../../model/api'
+import ep from '../../../store/index'
 import Item from '../component/Item';
-import { Button, Grid } from 'antd-mobile';
+import { Button, Grid, Toast } from 'antd-mobile';
 
 export default class GroupDetail extends Component {
   static navigationOptions = {
@@ -24,7 +25,9 @@ export default class GroupDetail extends Component {
     this.state = {
       members: [],
       rooms: [],
+      userInfo: {},
       roomId: params.roomId,
+      roomMemberId: params.roomMemberId,
       messageList: [],
       isGroup: params.isGroup,
       otherSideName: params.otherSideName,
@@ -60,7 +63,32 @@ export default class GroupDetail extends Component {
   }
 
   handleLeave = () => {
-    
+    const { userInfo, roomId, roomMemberId } = this.state
+    console.log(roomMemberId)
+    api.leaveGroup({
+      userId: userInfo.userId,
+      roomId,
+      roomMemberId
+    }).then(({ data }) => {
+      if (data.code === 0) {
+        Toast.info('退出群成功', 1)
+        this.props.navigation.navigate('MessageList')
+
+        storage.load({
+          key: 'rooms'
+        }).then(ret => {
+          const newRooms = ret.filter(d => {
+            return d.roomId !== roomId
+          })
+          storage.save({
+            key: 'rooms',
+            data: newRooms
+          }).then(d => {
+            ep.emit('update')        
+          })
+        })
+      }
+    })
   }
 
   render() {

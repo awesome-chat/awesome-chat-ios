@@ -50,7 +50,7 @@ export default class MessageItem extends Component {
     ])
   }
   render() {
-    const { roomId, otherSideName, otherSideAvatar, message, newMessageNum = '', isGroup, userId } = this.props;
+    const { roomId, otherSideName, roomMemberId, otherSideAvatar, message, newMessageNum = '', isGroup, userId } = this.props;
     return (
       <TouchableHighlight
         onLongPress={this.handleDelete}
@@ -59,7 +59,8 @@ export default class MessageItem extends Component {
           roomId,
           otherSideName,
           isGroup,
-          userId
+          userId,
+          roomMemberId
         })}}
         underlayColor='#fff'
       >
