@@ -24,9 +24,5 @@ export function initStorage() {
       key: 'rooms',
       data: [],
     });
-    storage.save({
-      key: 'lastUpdateTime',
-      data: Date.parse(new Date())
-    });
   })
 }

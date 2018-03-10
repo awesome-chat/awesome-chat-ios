@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableHighlight,
   Animated,
+  Modal
 } from 'react-native';
 import { Toast, Grid } from 'antd-mobile';
 import _ from 'lodash';
@@ -18,6 +19,7 @@ import api from '../../../model/api'
 import ep from '../../../store'
 import emoji from '../../../constants/emoji'
 import ImagePicker from 'react-native-image-picker'
+import Recommend from './Recommend'
 
 export default class Chat extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -73,7 +75,8 @@ export default class Chat extends Component {
       rooms: [],
       isGroup: params.isGroup,
       otherSideName: params.otherSideName,
-      otherSideAvatar: params.otherSideAvatar
+      otherSideAvatar: params.otherSideAvatar,
+      showSearch: false
     }
   }
 
@@ -211,8 +214,17 @@ export default class Chat extends Component {
     })
   }
 
-  handleSubmitText = (e) => {
-    const {
+  handleSubmitText = ({
+    recommendId,
+    recommendName,
+    recommendAvatar
+  }) => {
+    console.log('d', {
+      recommendId,
+      recommendName,
+      recommendAvatar
+    })    
+    let {
       userInfo,
       textValue,
       otherSideAvatar,
@@ -223,8 +235,16 @@ export default class Chat extends Component {
       otherSideName,
       isGroup
     } = this.state;
+    if (recommendId && recommendName) {
+      textValue = JSON.stringify({
+        userId: recommendId,
+        userName: recommendName,
+        userAvatar: recommendAvatar
+      })
+    }
     const newMessageList =  _.cloneDeep(messageList)
     const messageItem = {
+      isRecommend: recommendId ? true : false,
       isMine: true,
       createTime: Date.parse(new Date()),
       content: textValue,
@@ -243,6 +263,7 @@ export default class Chat extends Component {
     if(isGroup) {
       // 群聊
       api.sendMessage({
+        isRecommend: recommendId ? true : false,
         isGroup: true,
         roomId: roomId,
         roomMemberId: roomMemberId,
@@ -254,9 +275,11 @@ export default class Chat extends Component {
     } else {
       // 单聊
       api.sendMessage({
+        isRecommend: recommendId ? true : false,
         roomId: roomId,
         roomMemberId: roomMemberId,
         userId: userInfo.userId,
+        userAvatar: userInfo.userAvatar,
         userName: userInfo.userName,
         ...messageItem
       })
@@ -306,6 +329,7 @@ export default class Chat extends Component {
             roomId: roomId,
             roomMemberId: roomMemberId,
             userId: userInfo.userId,
+            userAvatar: userInfo.userAvatar,
             userName: userInfo.userName,
             ...messageItem
           })
@@ -313,6 +337,24 @@ export default class Chat extends Component {
       } else {
         Toast.info('图片上传失败')
       }
+    })
+  }
+
+  handleHide = () => {
+    this.setState({
+      showSearch: false
+    })
+  }
+
+  handleSelect = (d) => {
+    console.log('d', d)
+    this.handleSubmitText({
+      recommendId: d.userId,
+      recommendName: d.userName,
+      recommendAvatar: d.userAvatar
+    })
+    this.setState({
+      showSearch: false
     })
   }
 
@@ -337,12 +379,24 @@ export default class Chat extends Component {
         });
       }
     }, {
-      img: <Image source={require('../../../asset/cooperation.png')} style={{width: 35, height: 35}} />
+      img: <Image source={require('../../../asset/cooperation.png')} style={{width: 35, height: 35}} />,
+      func: () => {
+        this.setState({
+          showSearch: true
+        })
+      }
     }];
 
     return (
       <View style={[{flex: 1}]}>
-        <Background messageList={state.messageList}/>
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.showSearch}
+        >
+          <Recommend handleHide={this.handleHide} handleSelect={this.handleSelect}/>
+        </Modal>
+        <Background messageList={state.messageList} navigation={this.props.navigation}/>
         <View style={{
           flexDirection:'row',
           backgroundColor: '#fff',

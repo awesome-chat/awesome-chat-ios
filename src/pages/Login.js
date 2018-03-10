@@ -64,6 +64,10 @@ export default class Login extends Component {
             key: 'userInfo',
             data: data.data,
           });
+          storage.save({
+            key: 'lastUpdateTime',
+            data:  data.lastUpdateTime || data.userRegisterTime
+          });
           const resetAction = NavigationActions.reset({
             index: 0,
             actions: [

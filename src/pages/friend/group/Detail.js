@@ -31,6 +31,7 @@ export default class GroupDetail extends Component {
       messageList: [],
       isGroup: params.isGroup,
       otherSideName: params.otherSideName,
+      otherSideAvatar: params.otherSideAvatar,
     }
   }
 
@@ -92,7 +93,7 @@ export default class GroupDetail extends Component {
   }
 
   render() {
-    const {rooms, otherSideName, members} = this.state
+    const {rooms, otherSideName, otherSideAvatar,  members} = this.state
 
     return (
       <View style={styles.container}>
@@ -100,21 +101,20 @@ export default class GroupDetail extends Component {
           <View style={styles.header}>
             <View
               style={{
-                overflow: 'hidden',
                 width: 80,
                 height: 80,
-                backgroundColor:'#999',
+                backgroundColor:'#eee',
                 marginTop: 30,
-                borderRadius: 10
+                borderRadius: 10,
+                overflow: 'hidden'
               }}
             >
-              <Image
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-                source={{uri: `http://localhost:3000/static/img/${1}`}}
-              />
+              {otherSideAvatar ? (
+                <Image
+                  style={styles.pic}
+                  source={{uri: `http://localhost:3000/static/img/${otherSideAvatar}`}}
+                />
+              ) : null}
             </View>
             <View style={{marginTop: 15, flexDirection: 'row',}}>
               <Text style={{
@@ -183,18 +183,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column'
-   },
-   img: {
-     marginLeft: 5,
-     width: 18,
-     height: 18,
+  },
+  pic: {
+    width: '100%',
+    height: '100%'
+  },
+  img: {
+    marginLeft: 5,
+    width: 18,
+    height: 18,
    },
    header: {
-     height: 180,
-     backgroundColor:'#fff',
-     flexDirection:'column',
-     alignItems:'center',
-     marginBottom: 5,
-     marginTop: 5,
+    height: 180,
+    backgroundColor:'#fff',
+    flexDirection:'column',
+    alignItems:'center',
+    marginBottom: 5,
+    marginTop: 5,
    },
 })
+

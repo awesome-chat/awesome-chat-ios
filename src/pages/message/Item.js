@@ -111,7 +111,9 @@ export default class MessageItem extends Component {
                   width: '80%'
                 }}>{
                   message.sysMessage ? `[系统] ${message.content}` : (
-                    message.isPic ? '[图片]' : message.content
+                    message.isPic ? '[图片]' : (
+                      message.isRecommend ? '[推荐]'
+                      : message.content)
                   )
                 }</Text>
               </View>

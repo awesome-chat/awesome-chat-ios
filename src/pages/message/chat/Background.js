@@ -6,12 +6,28 @@ import {
   Image,
   ScrollView,
   Dimensions,
-  TouchableHighlight
+  TouchableHighlight,
+  Modal
 } from 'react-native';
 import KeyboardSpacer from '../../../components/KeyboardSpacer';
 
 export default class ChatBg extends Component {
-
+  constructor(props) {
+    super(props)
+    this.state = {
+      modalVisible: false,
+      currentImage: ''
+    }
+  }
+  handleShowDetail = (d) => {
+    this.setState({
+      modalVisible: true,
+      currentImage: d.content
+    })
+  }
+  handleLink = (d) => {
+    this.props.navigation.navigate('FriendDetail',{userId: d.userId})
+  }
   render() {
     const {messageList = []} = this.props;
     return (
@@ -37,7 +53,7 @@ export default class ChatBg extends Component {
               <View style={styles.messageRight} key={i}>
                 <View style={styles.inMessageRight}>
                   <TouchableHighlight
-                    onPress={()=>{}}
+                    onPress={this.handleShowDetail.bind(this, d)}
                     underlayColor='#fff'
                   >
                     <Image
@@ -54,13 +70,72 @@ export default class ChatBg extends Component {
               <View style={styles.messageLeft} key={i}>
                 <View style={styles.inMessageLeft}>
                   <TouchableHighlight
-                    onPress={()=>{}}
+                    onPress={this.handleShowDetail.bind(this, d)}
                     underlayColor='#fff'
                   >
                     <Image
                       style={styles.pic}
                       source={{uri: d.content}}
                     />
+                  </TouchableHighlight>
+                </View>
+              </View>
+            )
+          }
+          if (d.isMine && d.isRecommend) {
+            const data = JSON.parse(d.content)
+            return (
+              <View style={styles.messageRight} key={i}>
+                <View style={styles.inMessageRightRecommend}>
+                  <TouchableHighlight
+                    onPress={this.handleLink.bind(this, data)}
+                    underlayColor='#fff'
+                  >
+                    <View style={styles.avatarCon}>
+                      <View style={styles.avatar}>
+                        <Image style={styles.pic} source={{uri: `http://localhost:3000/static/img/${data.userAvatar}`}} />
+                      </View>
+                      <View style={{
+                        width: '100%',
+                        borderTopColor: '#eee',
+                        borderTopWidth: 1,
+                        paddingTop: 10,
+                        paddingBottom: 5,
+                      }}>
+                        <Text style={styles.avatarTextRight}>{`名片：${data.userName}`}</Text>
+                      </View>
+                    </View>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            )
+          }
+          if (d.isRecommend) {
+            const data = JSON.parse(d.content)
+            return (
+              <View style={styles.messageLeft} key={i}>
+                <View style={styles.inMessageLeft}>
+                  <TouchableHighlight
+                    style={{
+                      paddingTop: 10,
+                    }}
+                    onPress={this.handleLink.bind(this, data)}
+                    underlayColor='#fff'
+                  >
+                    <View style={styles.avatarCon}>
+                      <View style={styles.avatar}>
+                        <Image style={styles.pic} source={{uri: `http://localhost:3000/static/img/${data.userAvatar}`}} />
+                      </View>
+                      <View style={{
+                        width: '100%',
+                        borderTopColor: '#eee',
+                        borderTopWidth: 1,
+                        paddingTop: 10,
+                        paddingBottom: 5,
+                      }}>
+                        <Text style={styles.avatarTextLeft}>{`名片：${data.userName}`}</Text>
+                      </View>
+                    </View>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -117,6 +192,28 @@ const styles = StyleSheet.create({
     // height: 40,
     marginBottom: 5,
   },
+  avatarCon: {
+    width: 100,
+    alignItems: 'center'
+  },
+  avatar: {
+    borderRadius: 35,
+    backgroundColor: '#eee',
+    height: 70,
+    width: 70,
+    marginBottom: 10,
+    overflow: 'hidden'
+  },
+  avatarTextRight: {
+    color: '#999',
+    fontSize: 10,
+    textAlign: 'center'
+  },
+  avatarTextLeft: {
+    color: '#999',
+    fontSize: 10,
+    textAlign: 'center'
+  },
   pic: {
     height: 300,
     width: 300,
@@ -124,6 +221,18 @@ const styles = StyleSheet.create({
   },
   inMessageRight: {
     backgroundColor: '#2189f7',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius: 10,
+    // height: 30,
+    maxWidth: '80%'
+  },
+  inMessageRightRecommend: {
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     paddingLeft: 10,

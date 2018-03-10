@@ -93,6 +93,7 @@ export default class MessageList extends Component {
           if(d.roomId === data.roomId) {
             createRoom = false
             d.newMessageNum = (d.newMessageNum || 0) + 1
+            d.otherSideAvatar = data.otherSideAvatar
             d.messages.push({
               isPic: data.isPic,
               createTime: data.createTime,
@@ -103,7 +104,9 @@ export default class MessageList extends Component {
         if (createRoom) {
           newRooms.unshift({
             roomId: data.roomId,
+            roomMemberId: data.roomMemberId,
             otherSideName: data.otherSideName,
+            otherSideAvatar: data.otherSideAvatar,
             newMessageNum: 1,
             messages: [
               {
@@ -166,6 +169,7 @@ export default class MessageList extends Component {
       lastUpdateTime
     })
     .then(({data}) => {
+      console.log('data:', data)      
       if (data && data.code === 0) {
         this.updateList(userId, data)
       } else {
@@ -186,7 +190,9 @@ export default class MessageList extends Component {
         if (d.messageToId === e.roomId) {
           createRoom = false;
           e.newMessageNum = (e.newMessageNum || 0) + 1;
+          e.otherSideAvatar = d.otherSideAvatar
           e.messages.push({
+            isRecommend: d.isRecommend,
             isPic: d.isPic,
             content: d.messageContent,
             createTime: d.createTime
@@ -197,19 +203,17 @@ export default class MessageList extends Component {
         newRooms.push({
           roomId: d.messageToId,
           otherSideName: d.user.userName,
+          otherSideAvatar: d.otherSideAvatar,
+          roomMemberId: d.room.roomMemberId,
           newMessageNum: 1,
           messages: [{
+            isRecommend: d.isRecommend,
             isPic: d.isPic,
             content: d.messageContent,
             createTime: d.createTime
           }]
         })
       }
-    })
-    // 存储更新时间
-    storage.save({
-      key: 'lastUpdateTime',
-      data: Date.parse(new Date())
     })
     storage.save({
       key: 'rooms',
@@ -228,7 +232,6 @@ export default class MessageList extends Component {
         lastUpdateTime: results[1]
       })
       .then(({data}) => {
-        console.log('data:', data)
         if (data && data.code === 0) {
           this.updateList(userId, data)
           Toast.info('拉取消息成功', 0.5);
