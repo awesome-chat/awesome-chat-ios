@@ -169,9 +169,12 @@ export default class MessageList extends Component {
       lastUpdateTime
     })
     .then(({data}) => {
-      console.log('data:', data)      
       if (data && data.code === 0) {
         this.updateList(userId, data)
+        storage.save({
+          key: 'lastUpdateTime',
+          data:  Date.parse(new Date())
+        });
       } else {
         Toast.info('拉取信息失败', 1);
       }
@@ -251,7 +254,6 @@ export default class MessageList extends Component {
 
   render() {
     const { rooms, userInfo } = this.state
-    console.log('rooms', rooms)
     return (
       <View style={styles.container}>
         <PullRefreshScrollView ref="PullRefresh" onRefresh={this.handleRefresh}>

@@ -63,7 +63,6 @@ export default class Chat extends Component {
   constructor(props){
     super(props);
     const {params = {}} = this.props.navigation.state;
-    console.log('params', params)
     this.state = {
       showExpression: new Animated.Value(0),
       showOther: new Animated.Value(0),
@@ -170,7 +169,6 @@ export default class Chat extends Component {
 
   saveToLocal = (messageItem, otherSideAvatar = '', roomMemberId) => {
     const { roomId, otherSideName, isGroup } = this.state;
-    console.log('in saveToLocal')
     storage.load({
       key: 'rooms'
     }).then(rooms => {
@@ -203,7 +201,6 @@ export default class Chat extends Component {
         newRooms.splice(i, 1);
         newRooms.unshift(room);
       }
-      console.log('newRooms', newRooms)
       storage.save({
         key: 'rooms',
         data: newRooms
@@ -219,11 +216,6 @@ export default class Chat extends Component {
     recommendName,
     recommendAvatar
   }) => {
-    console.log('d', {
-      recommendId,
-      recommendName,
-      recommendAvatar
-    })    
     let {
       userInfo,
       textValue,

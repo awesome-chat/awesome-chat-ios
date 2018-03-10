@@ -39,7 +39,6 @@ export default class GroupList extends Component {
 
   fetchlist = (userId) => {
     api.getGroupList({ userId }).then(({data}) => {
-      console.log('list:', data)
       if (data.code === 0) {
         this.setState({
           rooms: data.data

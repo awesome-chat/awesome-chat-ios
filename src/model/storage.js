@@ -18,7 +18,6 @@ export function initStorage() {
   storage.load({
     key: 'rooms',
   }).then(ret => {
-    // console.log(ret)
   }).catch(err => {
     storage.save({
       key: 'rooms',

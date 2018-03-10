@@ -87,6 +87,7 @@ export default class SearchList extends Component {
             />
             <Button
               style={{
+                height: 30,
                 marginTop: 10,
                 width: '95%'
               }}

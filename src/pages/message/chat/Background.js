@@ -38,6 +38,40 @@ export default class ChatBg extends Component {
         ref={component => this._scrollView = component}
         style={{flexDirection:'column', paddingTop: 5}}
       >
+        <Modal
+          animationType={"slide"}
+          transparent={true}
+          visible={this.state.modalVisible}
+        >
+          <TouchableHighlight
+            onPress={() => {
+              this.setState({
+                modalVisible: false
+              })
+            }}
+            underlayColor='#fff'
+          >
+            <View
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                width: '100%',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Image
+                resizeMode="center"
+                style={{
+                  width: 500,
+                  height: 800,
+                  maxWidth: '90%'
+                }}
+                source={{uri: this.state.currentImage}}
+              />
+            </View>
+          </TouchableHighlight>
+        </Modal>
         {messageList.map((d, i) => {
           if (d.sysMessage) {
             return (
@@ -93,7 +127,7 @@ export default class ChatBg extends Component {
                   >
                     <View style={styles.avatarCon}>
                       <View style={styles.avatar}>
-                        <Image style={styles.pic} source={{uri: `http://localhost:3000/static/img/${data.userAvatar}`}} />
+                        <Image style={styles.avatarPic} source={{uri: `http://localhost:3000/static/img/${data.userAvatar}`}} />
                       </View>
                       <View style={{
                         width: '100%',
@@ -124,7 +158,7 @@ export default class ChatBg extends Component {
                   >
                     <View style={styles.avatarCon}>
                       <View style={styles.avatar}>
-                        <Image style={styles.pic} source={{uri: `http://localhost:3000/static/img/${data.userAvatar}`}} />
+                        <Image style={styles.avatarPic} source={{uri: `http://localhost:3000/static/img/${data.userAvatar}`}} />
                       </View>
                       <View style={{
                         width: '100%',
@@ -213,6 +247,10 @@ const styles = StyleSheet.create({
     color: '#999',
     fontSize: 10,
     textAlign: 'center'
+  },
+  avatarPic: {
+    width: '100%',
+    height: '100%'
   },
   pic: {
     height: 300,

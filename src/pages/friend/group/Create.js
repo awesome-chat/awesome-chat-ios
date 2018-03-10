@@ -112,7 +112,6 @@ export default class GroupCreate extends Component {
       otherIds,
       isGroup: 1
     }).then(({ data }) => {
-      console.log(data)
       // 创建新的房间
       if (data.type === 'create') {
         // 通知服务端

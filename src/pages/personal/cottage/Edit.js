@@ -122,7 +122,6 @@ export default class EditPassword extends Component {
             value={endTime ? new Date(endTime) : ''}
             minDate={new Date()}
             onOk={(time) => {
-              console.log(new Date(startTime), new Date(time))
               if (!startTime) {
                 Toast.info('请先选择开始时间', 1)
                 return

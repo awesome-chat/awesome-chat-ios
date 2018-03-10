@@ -158,7 +158,6 @@ const api = {
 
   listernMessage(cb) {
     socket.on('sys', (data) => {
-      console.log('get message', data)
       cb(data)
     })
   },

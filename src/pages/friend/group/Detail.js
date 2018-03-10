@@ -47,7 +47,6 @@ export default class GroupDetail extends Component {
       this.setState({
         members: data.data.map(d => d.user)
       })
-      console.log(data)
     })
   }
 
@@ -65,7 +64,6 @@ export default class GroupDetail extends Component {
 
   handleLeave = () => {
     const { userInfo, roomId, roomMemberId } = this.state
-    console.log(roomMemberId)
     api.leaveGroup({
       userId: userInfo.userId,
       roomId,
