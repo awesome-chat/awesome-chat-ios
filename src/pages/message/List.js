@@ -182,6 +182,7 @@ export default class MessageList extends Component {
   }
 
   updateList = (userId, data) => {
+    console.log('gggggggget', data)
     const newRooms = _.cloneDeep(this.state.rooms)
     
     const newData = data.data.filter(d => d.messageFromId !== userId)
@@ -194,6 +195,7 @@ export default class MessageList extends Component {
           createRoom = false;
           e.newMessageNum = (e.newMessageNum || 0) + 1;
           e.otherSideAvatar = d.otherSideAvatar
+          e.isGroup = d.isGroup
           e.messages.push({
             isRecommend: d.isRecommend,
             isPic: d.isPic,
@@ -204,10 +206,11 @@ export default class MessageList extends Component {
       })
       if(createRoom) {
         newRooms.push({
-          roomId: d.messageToId,
-          otherSideName: d.user.userName,
+          roomId: d.roomId,
+          otherSideName: d.isGroup ? (d.room.roomName || `群聊(${d.room.roomMemberId.split('-').length})`) : d.user.userName,
           otherSideAvatar: d.otherSideAvatar,
           roomMemberId: d.room.roomMemberId,
+          isGroup: d.isGroup,
           newMessageNum: 1,
           messages: [{
             isRecommend: d.isRecommend,

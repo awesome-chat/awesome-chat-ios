@@ -22,6 +22,7 @@ export default class GroupDetail extends Component {
   constructor(props) {
     super(props)
     const {params = {}} = this.props.navigation.state;
+    console.log('params:', params)
     this.state = {
       members: [],
       rooms: [],
