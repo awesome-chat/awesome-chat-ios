@@ -394,7 +394,7 @@ export default class Chat extends Component {
           backgroundColor: '#fff',
           height: 40,
         }}>
-          <View style={{
+          {/*<View style={{
             width: 30,
             justifyContent: 'center',
             alignItems:'center',
@@ -403,7 +403,7 @@ export default class Chat extends Component {
               source={require('../../../asset/voice.png')}
               style={{width: 25, height: 25}}
             />
-          </View>
+        </View>*/}
           <View style={{
             flex: 1,
             justifyContent: 'center',
