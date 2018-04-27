@@ -158,7 +158,7 @@ export default class ChatBg extends Component {
                   >
                     <View style={styles.avatarCon}>
                       <View style={styles.avatar}>
-                        <Image style={styles.avatarPic} source={{uri: `http://localhost:3000/static/img/${data.userAvatar}`}} />
+                        <Image style={styles.avatarPic} source={{uri: `http://47.95.234.220/static/img/${data.userAvatar}`}} />
                       </View>
                       <View style={{
                         width: '100%',
