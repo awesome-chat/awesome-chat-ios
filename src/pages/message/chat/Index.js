@@ -196,6 +196,7 @@ export default class Chat extends Component {
           otherSideName,
           otherSideAvatar,
           isGroup,
+          isRecommend,
           messages: [messageItem]
         })
       } else {

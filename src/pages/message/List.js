@@ -95,6 +95,7 @@ export default class MessageList extends Component {
             d.newMessageNum = (d.newMessageNum || 0) + 1
             d.otherSideAvatar = data.otherSideAvatar
             d.messages.push({
+              isRecommend: data.isRecommend,
               isPic: data.isPic,
               createTime: data.createTime,
               content: data.content
@@ -111,6 +112,7 @@ export default class MessageList extends Component {
             messages: [
               {
                 isPic: data.isPic,
+                isRecommend: data.isRecommend,
                 sysMessage: data.sysMessage,                
                 createTime: data.createTime,
                 content: data.content
