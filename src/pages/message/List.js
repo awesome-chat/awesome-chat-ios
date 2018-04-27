@@ -123,6 +123,8 @@ export default class MessageList extends Component {
           data: newRooms
         }).then(d => {
           ep.emit('update')
+          console.log('updatePage')
+          ep.emit('updatePage')
         })
       })
     })

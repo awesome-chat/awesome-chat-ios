@@ -81,8 +81,9 @@ export default class Chat extends Component {
 
   componentWillMount() {
     this.getLocalStorage()
+    ep.on('updatePage', this.getLocalStorage)
   }
-
+  
   getLocalStorage = () => {
     storage.getBatchData([
       { key: 'userInfo' },
