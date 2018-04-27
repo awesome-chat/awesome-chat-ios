@@ -47,7 +47,7 @@ export default class Item extends Component {
             ...props.style
           }}>
             {props.userAvatar ? (
-              <Image style={{width: '100%', height: '100%'}} source={{uri: `http://localhost:3000/static/img/${props.userAvatar}`}} />
+              <Image style={{width: '100%', height: '100%'}} source={{uri: `http://47.95.234.220/static/img/${props.userAvatar}`}} />
             ) : (
               <Image style={{width: 20, height: 20}} source={typeMapping[props.type]} />
             )}

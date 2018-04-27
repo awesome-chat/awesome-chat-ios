@@ -81,7 +81,7 @@ export default class MessageItem extends Component {
                   width: '100%',
                   height: '100%'
                 }}
-                source={{uri: `http://localhost:3000/static/img/${otherSideAvatar}`}}
+                source={{uri: `http://47.95.234.220/static/img/${otherSideAvatar}`}}
               />
             ) : null}
             </View>

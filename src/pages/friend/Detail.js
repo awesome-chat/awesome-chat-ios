@@ -127,7 +127,7 @@ export default class FriendDetail extends Component {
                   width: '100%',
                   height: '100%',
                 }}
-                source={{uri: `http://localhost:3000/static/img/${user.userAvatar}`}}
+                source={{uri: `http://47.95.234.220/static/img/${user.userAvatar}`}}
               />
             </View>
             <View style={{marginTop: 15, flexDirection: 'row',}}>

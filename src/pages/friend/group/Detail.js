@@ -111,7 +111,7 @@ export default class GroupDetail extends Component {
               {otherSideAvatar ? (
                 <Image
                   style={styles.pic}
-                  source={{uri: `http://localhost:3000/static/img/${otherSideAvatar}`}}
+                  source={{uri: `http://47.95.234.220/static/img/${otherSideAvatar}`}}
                 />
               ) : null}
             </View>
@@ -149,7 +149,7 @@ export default class GroupDetail extends Component {
                       }}
                     >
                       <Image
-                        source={{uri: `http://localhost:3000/static/img/${d.userAvatar}`}}
+                        source={{uri: `http://47.95.234.220/static/img/${d.userAvatar}`}}
                         style={{width: 60, height: 60}}
                       />
                     </View>

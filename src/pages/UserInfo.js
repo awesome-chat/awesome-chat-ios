@@ -153,7 +153,7 @@ export default class UserInfo extends Component {
               {avatarSource ? (
                 <Image
                   style={styles.pic}
-                  source={{uri: `http://localhost:3000/static/img/${avatarSource}`}}
+                  source={{uri: `http://47.95.234.220/static/img/${avatarSource}`}}
                 />
               ) : null}
             </View>

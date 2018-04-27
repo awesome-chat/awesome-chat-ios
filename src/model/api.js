@@ -3,11 +3,8 @@ import axios from 'axios';
 import { Toast } from 'antd-mobile';
 import { initStorage, createStorage } from './storage';
 import socketIo from 'socket.io-client'
-let config = {}
-if (process.env.NODE_ENV === 'development') {
-  config = require('../config/dev.config')
-} else {
-  config = require('../config/pord.config')
+let config = {
+  url: 'http://47.95.234.220/'
 }
 
 createStorage()

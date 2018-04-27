@@ -295,7 +295,7 @@ export default class Chat extends Component {
           isPic: true,
           isMine: true,
           createTime: Date.parse(new Date()),
-          content: `http://localhost:3000/static/img/${data.fileName}`,
+          content: `http://47.95.234.220/static/img/${data.fileName}`,
         }
         // 本地持久化
         this.saveToLocal(messageItem)
